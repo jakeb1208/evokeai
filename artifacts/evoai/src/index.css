@@ -197,3 +197,160 @@
   .reveal, .float-slow, .float-slower { animation: none; }
   .portal-button, .portal-outline { transition: none; }
 }
+
+/* Evoke AI's notebook-style home screen */
+.evoke-home {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  overflow: hidden;
+  padding: 2rem 1.25rem;
+  background:
+    radial-gradient(circle at 76% 26%, rgba(178, 134, 225, 0.52), transparent 31%),
+    radial-gradient(circle at 18% 80%, rgba(150, 224, 103, 0.44), transparent 36%),
+    linear-gradient(135deg, #d8f0b3 0%, #edf4cc 42%, #e8dcf4 100%);
+}
+
+.evoke-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(100%, 760px);
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2.4rem, 7vw, 4.6rem);
+  padding: clamp(2rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.evoke-wordmark {
+  margin: 0;
+  color: #173f2b;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(4rem, 15vw, 9rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 0.82;
+  text-transform: lowercase;
+  transform: scaleX(0.84);
+  transform-origin: center;
+  white-space: nowrap;
+}
+
+.evoke-actions {
+  display: flex;
+  width: min(100%, 430px);
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.evoke-button {
+  min-height: 4.25rem;
+  border: 1px solid rgba(36, 103, 69, 0.22);
+  border-radius: 999px;
+  background: rgba(247, 250, 222, 0.84);
+  box-shadow:
+    0 7px 0 rgba(36, 103, 69, 0.17),
+    0 16px 28px rgba(36, 103, 69, 0.12);
+  color: #1e5337;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.18rem);
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  padding: 1rem 1.6rem;
+  transition:
+    transform 0.22s cubic-bezier(.2, .8, .2, 1),
+    box-shadow 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.evoke-button:first-child {
+  background: #246745;
+  color: #f5f7df;
+}
+
+.evoke-button:hover,
+.evoke-button:focus-visible {
+  outline: none;
+  background: rgba(255, 255, 255, 0.96);
+  transform: translateY(-5px) scale(1.045);
+  box-shadow:
+    0 11px 0 rgba(36, 103, 69, 0.16),
+    0 22px 34px rgba(36, 103, 69, 0.17);
+}
+
+.evoke-button:first-child:hover,
+.evoke-button:first-child:focus-visible {
+  background: #2c7951;
+}
+
+.evoke-button:active {
+  transform: translateY(2px) scale(0.99);
+  box-shadow: 0 3px 0 rgba(36, 103, 69, 0.16);
+}
+
+.evoke-glow {
+  position: absolute;
+  z-index: -1;
+  border-radius: 999px;
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+.evoke-glow-green {
+  bottom: -16rem;
+  left: -12rem;
+  height: 35rem;
+  width: 35rem;
+  background: rgba(116, 195, 91, 0.32);
+}
+
+.evoke-glow-purple {
+  right: -11rem;
+  top: -10rem;
+  height: 32rem;
+  width: 32rem;
+  background: rgba(170, 125, 218, 0.28);
+}
+
+.evoke-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.24;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(45, 102, 72, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 102, 72, 0.1) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 84%, transparent);
+}
+
+@media (max-width: 520px) {
+  .evoke-home {
+    padding: 1.5rem 1rem;
+  }
+
+  .evoke-card {
+    gap: 3rem;
+    padding: 1.5rem 0.5rem;
+  }
+
+  .evoke-wordmark {
+    font-size: clamp(3.3rem, 17vw, 6rem);
+    letter-spacing: 0.08em;
+  }
+
+  .evoke-button {
+    min-height: 3.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .evoke-button {
+    transition: none;
+  }
+}
