@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "EvoAI"
+description = "A polished web experience for creating, editing, and immersing in AI-generated worlds and memories."
+version = "1.0.0"
+id = "artifacts/evoai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21005
+
+[services.development]
+run = "pnpm --filter @workspace/evoai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/evoai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/evoai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21005"
+BASE_PATH = "/"
