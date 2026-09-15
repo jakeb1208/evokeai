@@ -1,0 +1,1 @@
+- [Railway pnpm lockfiles](railway-pnpm-lockfile.md) — regenerate with pnpm 9.15.9; pnpm 10 can produce a lockfile Railway rejects.
