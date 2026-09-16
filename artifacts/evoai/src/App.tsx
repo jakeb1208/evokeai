@@ -8,27 +8,6 @@ import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
 const queryClient = new QueryClient();
 
-const worlds = [
-  {
-    id: 'mosslight',
-    title: 'Mosslight Station',
-    note: 'A train station that only appears when you miss someone.',
-    color: 'green',
-  },
-  {
-    id: 'hidden-garden',
-    title: 'The Hidden Garden',
-    note: 'A quiet place where old memories grow new leaves.',
-    color: 'purple',
-  },
-  {
-    id: 'after-rain',
-    title: 'After the Rain',
-    note: 'A small town waiting for the next story to begin.',
-    color: 'gold',
-  },
-];
-
 function Wordmark() {
   return <span className="page-wordmark">evoke ai</span>;
 }
@@ -40,7 +19,7 @@ function BackHome() {
     <button
       className="page-back"
       type="button"
-      onClick={() => setLocation('/')}
+      onClick={() => setLocation('/home')}
       aria-label="Back to home"
     >
       <span aria-hidden="true">←</span> home
@@ -56,7 +35,7 @@ function PageFrame({
 }: {
   eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   children: ReactNode;
 }) {
   return (
@@ -70,10 +49,45 @@ function PageFrame({
           <Wordmark />
           <p className="evoke-eyebrow">{eyebrow}</p>
           <h1 className="evoke-page-title">{title}</h1>
-          <p className="evoke-page-description">{description}</p>
+          {description ? <p className="evoke-page-description">{description}</p> : null}
         </header>
         {children}
       </div>
+    </main>
+  );
+}
+
+function Login() {
+  const [, setLocation] = useLocation();
+
+  return (
+    <main className="evoke-home evoke-login">
+      <div className="evoke-glow evoke-glow-green" />
+      <div className="evoke-glow evoke-glow-purple" />
+      <div className="evoke-grid" />
+
+      <section className="login-card" aria-label="Log in to Evoke AI">
+        <Wordmark />
+        <div className="login-heading">
+          <p className="evoke-eyebrow">welcome back</p>
+          <h1>Step into your worlds.</h1>
+        </div>
+        <form
+          className="login-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            setLocation('/home');
+          }}
+        >
+          <label htmlFor="login-email">Email</label>
+          <input id="login-email" name="email" type="email" autoComplete="email" />
+          <label htmlFor="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autoComplete="current-password" />
+          <button className="evoke-button login-button" type="submit">
+            Log in <span aria-hidden="true">→</span>
+          </button>
+        </form>
+      </section>
     </main>
   );
 }
@@ -120,47 +134,33 @@ function Home() {
 function HowItWorks() {
   const [, setLocation] = useLocation();
   const steps = [
-    {
-      number: '01',
-      title: 'Describe',
-      copy: 'Start with a product, place, goal, memory, or feeling. There is no perfect prompt.',
-    },
-    {
-      number: '02',
-      title: 'Shape',
-      copy: 'Add text, images, or video. EvoAI asks questions that help the idea become more itself.',
-    },
-    {
-      number: '03',
-      title: 'Reinforce',
-      copy: 'Keep returning to the world. Each detail gives it more meaning and gives you more to remember.',
-    },
+    { number: '01', title: 'Describe' },
+    { number: '02', title: 'Shape' },
+    { number: '03', title: 'Reinforce' },
   ];
 
   return (
     <PageFrame
       eyebrow="how it works"
-      title="Turn a thought into a world."
-      description="EvoAI helps you describe an idea, shape it with AI, and step inside when it is ready."
+      title="Start with a thought."
     >
       <section className="step-list" aria-label="How EvoAI works">
         {steps.map((step) => (
           <article className="step-row" key={step.number}>
             <span className="step-number">{step.number}</span>
-            <div>
-              <h2>{step.title}</h2>
-              <p>{step.copy}</p>
-            </div>
+            <h2>{step.title}</h2>
           </article>
         ))}
       </section>
-      <button
-        className="evoke-button evoke-button-small page-action"
-        type="button"
-        onClick={() => setLocation('/edit-create')}
-      >
-        Try Edit / Create <span aria-hidden="true">→</span>
-      </button>
+      <section className="how-input-card" aria-label="Describe an idea">
+        <label className="panel-label" htmlFor="world-thought">
+          your thought
+        </label>
+        <textarea id="world-thought" placeholder="Type anything you want to become a world…" />
+        <button className="evoke-button evoke-button-small" type="button" onClick={() => setLocation('/edit-create')}>
+          Start shaping <span aria-hidden="true">→</span>
+        </button>
+      </section>
     </PageFrame>
   );
 }
@@ -168,8 +168,7 @@ function HowItWorks() {
 function EditCreate() {
   const [, setLocation] = useLocation();
   const [mode, setMode] = useState<'edit' | 'create'>('edit');
-  const [uploaded, setUploaded] = useState(false);
-  const [asked, setAsked] = useState(false);
+  const [created, setCreated] = useState(false);
 
   return (
     <PageFrame
@@ -200,56 +199,50 @@ function EditCreate() {
         </div>
 
         {mode === 'edit' ? (
-          <div className="studio-content">
+          <div className="studio-content edit-world-content">
             <div className="studio-copy">
               <span className="panel-label">edit an existing world</span>
-              <h2>Upload something to change what is already there.</h2>
-              <p>
-                Add text, an image, or a video. EvoAI uses it to make thoughtful
-                changes without losing the original feeling.
-              </p>
-              <button
-                className="evoke-button evoke-button-small"
-                type="button"
-                onClick={() => setUploaded(true)}
-              >
-                {uploaded ? 'Ready to edit' : 'Upload text / image / video'}
+              <h2>Choose a world.</h2>
+              <p>No worlds yet. Create one first, then it will appear here.</p>
+              <button className="evoke-button evoke-button-small" type="button" onClick={() => setMode('create')}>
+                Create a world <span aria-hidden="true">→</span>
               </button>
             </div>
-            <div className="upload-placeholder" aria-label="Upload preview">
-              <span className="upload-plus" aria-hidden="true">
-                +
-              </span>
-              <span>{uploaded ? 'Your idea is ready' : 'Upload here'}</span>
-              <small>{uploaded ? 'EvoAI can start shaping it.' : 'Drop a file or choose one.'}</small>
+            <div className="choose-world-box" aria-label="Choose a world">
+              <span className="upload-plus" aria-hidden="true">+</span>
+              <label htmlFor="edit-world">choose world</label>
+              <select id="edit-world" disabled defaultValue="">
+                <option value="" disabled>
+                  No worlds available
+                </option>
+              </select>
             </div>
           </div>
         ) : (
           <div className="studio-content">
             <div className="studio-copy">
               <span className="panel-label">create a new world</span>
-              <h2>Let AI ask questions about what you imagine.</h2>
-              <p>
-                Begin with a sentence or a feeling. The questions help EvoAI
-                understand the world you want to make.
-              </p>
+              <h2>Upload text and files.</h2>
+              <p>Give EvoAI the pieces of your idea and shape something new.</p>
               <button
                 className="evoke-button evoke-button-small"
                 type="button"
-                onClick={() => setAsked(true)}
+                onClick={() => setCreated(true)}
               >
-                {asked ? 'Questions are ready' : 'Ask EvoAI'}
+                {created ? 'World draft ready' : 'Create world'}
               </button>
             </div>
-            <div className="question-placeholder" aria-label="Create prompt preview">
-              <span className="panel-label">your first question</span>
-              <p>
-                {asked
-                  ? 'What should someone feel when they first arrive?'
-                  : 'What would you like to make?'}
-              </p>
-              <span className="question-line" />
-              <span className="question-line short" />
+            <div className="create-input-box" aria-label="Upload text and files">
+              <label className="panel-label" htmlFor="create-text">
+                upload text
+              </label>
+              <textarea id="create-text" placeholder="Paste a thought, story, or set of notes…" />
+              <label className="file-input-label" htmlFor="create-files">
+                <span className="upload-plus" aria-hidden="true">+</span>
+                <span>add files</span>
+                <small>Images, video, or documents</small>
+              </label>
+              <input id="create-files" type="file" multiple />
             </div>
           </div>
         )}
@@ -272,68 +265,17 @@ function EditCreate() {
 }
 
 function Immerse() {
-  const [selectedWorld, setSelectedWorld] = useState<string | null>(null);
-  const selected = worlds.find((world) => world.id === selectedWorld);
-
-  if (selected) {
-    return (
-      <PageFrame
-        eyebrow="immerse / view world"
-        title={selected.title}
-        description={selected.note}
-      >
-        <section className={`world-viewer ${selected.color}`} aria-label={`${selected.title} preview`}>
-          <span className="panel-label">immersive preview</span>
-          <div className="world-viewer-art">
-            <span className="world-sun" />
-            <span className="world-hill one" />
-            <span className="world-hill two" />
-            <span className="world-path" />
-          </div>
-          <div className="viewer-footer">
-            <button
-              className="text-action"
-              type="button"
-              onClick={() => setSelectedWorld(null)}
-            >
-              ← back to worlds
-            </button>
-            <button
-              className="evoke-button evoke-button-small"
-              type="button"
-              onClick={() => setSelectedWorld(null)}
-            >
-              Leave world
-            </button>
-          </div>
-        </section>
-      </PageFrame>
-    );
-  }
-
   return (
     <PageFrame
       eyebrow="immerse"
-      title="Choose somewhere to go."
-      description="View the worlds you have created and decide when you are ready to step inside."
+      title="Choose a world."
     >
-      <section className="world-list" aria-label="Created worlds">
-        {worlds.map((world, index) => (
-          <article className={`world-card ${world.color}`} key={world.id}>
-            <div className="world-card-number">0{index + 1}</div>
-            <div className="world-card-copy">
-              <h2>{world.title}</h2>
-              <p>{world.note}</p>
-            </div>
-            <button
-              className="text-action"
-              type="button"
-              onClick={() => setSelectedWorld(world.id)}
-            >
-              View world <span aria-hidden="true">→</span>
-            </button>
-          </article>
-        ))}
+      <section className="world-list empty-world-list" aria-label="World slots">
+        <div className="empty-world-grid">
+          <div className="empty-world-slot" />
+          <div className="empty-world-slot" />
+          <div className="empty-world-slot" />
+        </div>
       </section>
     </PageFrame>
   );
@@ -343,7 +285,9 @@ function Router() {
   return (
     <RoutedErrorBoundary>
       <Switch>
-        <Route path="/" component={Home} />
+        <Route path="/" component={Login} />
+        <Route path="/login" component={Login} />
+        <Route path="/home" component={Home} />
         <Route path="/how-it-works" component={HowItWorks} />
         <Route path="/edit-create" component={EditCreate} />
         <Route path="/immerse" component={Immerse} />
