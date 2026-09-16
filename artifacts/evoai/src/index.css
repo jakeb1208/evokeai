@@ -226,6 +226,81 @@
   transform: translateY(-7vh);
 }
 
+.login-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(100%, 720px);
+  flex-direction: column;
+  gap: 2.4rem;
+  transform: translateY(-7vh);
+}
+
+.login-card .page-wordmark {
+  text-align: center;
+  font-size: clamp(3.5rem, 10vw, 6rem);
+}
+
+.login-heading {
+  text-align: center;
+}
+
+.login-heading .evoke-eyebrow {
+  margin: 0 0 0.8rem;
+}
+
+.login-heading h1 {
+  margin: 0;
+  color: #173f2b;
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: -0.065em;
+  line-height: 0.95;
+}
+
+.login-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  align-items: end;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.login-field label {
+  color: #285b3d;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.login-field input {
+  width: 100%;
+  border: 1px solid rgba(36, 103, 69, 0.22);
+  border-radius: 1rem;
+  outline: none;
+  background: rgba(247, 250, 222, 0.8);
+  color: #24573a;
+  font: inherit;
+  padding: 1rem 1.1rem;
+}
+
+.login-field input:focus {
+  border-color: #588463;
+  box-shadow: 0 0 0 3px rgba(88, 132, 99, 0.14);
+}
+
+.login-button {
+  grid-column: 1 / -1;
+  justify-self: center;
+  min-width: 200px;
+}
+
 .evoke-wordmark {
   margin: 0;
   color: #173f2b;
@@ -339,6 +414,20 @@
     gap: 3rem;
     padding: 1.5rem 0.5rem;
     transform: translateY(-5vh);
+  }
+
+  .login-card {
+    gap: 2rem;
+    transform: translateY(-4vh);
+  }
+
+  .login-form {
+    grid-template-columns: 1fr;
+  }
+
+  .login-button {
+    grid-column: auto;
+    width: 100%;
   }
 
   .evoke-wordmark {

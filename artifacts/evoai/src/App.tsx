@@ -79,10 +79,14 @@ function Login() {
             setLocation('/home');
           }}
         >
-          <label htmlFor="login-email">Email</label>
-          <input id="login-email" name="email" type="email" autoComplete="email" />
-          <label htmlFor="login-password">Password</label>
-          <input id="login-password" name="password" type="password" autoComplete="current-password" />
+          <div className="login-field">
+            <label htmlFor="login-email">Email</label>
+            <input id="login-email" name="email" type="email" autoComplete="email" />
+          </div>
+          <div className="login-field">
+            <label htmlFor="login-password">Password</label>
+            <input id="login-password" name="password" type="password" autoComplete="current-password" />
+          </div>
           <button className="evoke-button login-button" type="submit">
             Log in <span aria-hidden="true">→</span>
           </button>
