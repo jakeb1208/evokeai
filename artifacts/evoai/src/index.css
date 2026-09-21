@@ -208,9 +208,9 @@
   overflow: hidden;
   padding: 2rem 1.25rem;
   background:
-    radial-gradient(circle at 76% 26%, rgba(178, 134, 225, 0.52), transparent 31%),
-    radial-gradient(circle at 18% 80%, rgba(150, 224, 103, 0.44), transparent 36%),
-    linear-gradient(135deg, #d8f0b3 0%, #edf4cc 42%, #e8dcf4 100%);
+    radial-gradient(circle at 76% 26%, rgba(178, 134, 225, 0.24), transparent 31%),
+    radial-gradient(circle at 18% 80%, rgba(125, 207, 101, 0.56), transparent 36%),
+    linear-gradient(135deg, #cfeeb3 0%, #e7f3c9 45%, #e2eed2 72%, #e7e0ee 100%);
 }
 
 .evoke-card {
@@ -302,17 +302,29 @@
 }
 
 .evoke-wordmark {
+  border: 0;
+  background: transparent;
   margin: 0;
   color: #173f2b;
   font-family: 'Outfit', sans-serif;
   font-size: clamp(4rem, 15vw, 9rem);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.025em;
   line-height: 0.82;
   text-transform: lowercase;
   transform: scaleX(0.84);
   transform-origin: center;
   white-space: nowrap;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.22s ease, filter 0.22s ease;
+}
+
+.evoke-wordmark:hover,
+.evoke-wordmark:focus-visible {
+  outline: none;
+  filter: brightness(0.92);
+  transform: scaleX(0.84) translateY(-3px);
 }
 
 .evoke-actions {
@@ -381,7 +393,7 @@
   left: -12rem;
   height: 35rem;
   width: 35rem;
-  background: rgba(116, 195, 91, 0.32);
+  background: rgba(103, 196, 88, 0.42);
 }
 
 .evoke-glow-purple {
@@ -389,7 +401,7 @@
   top: -10rem;
   height: 32rem;
   width: 32rem;
-  background: rgba(170, 125, 218, 0.28);
+  background: rgba(170, 125, 218, 0.16);
 }
 
 .evoke-grid {
@@ -453,9 +465,9 @@
   overflow: hidden;
   padding: 1.5rem 1.25rem 4rem;
   background:
-    radial-gradient(circle at 76% 26%, rgba(178, 134, 225, 0.5), transparent 31%),
-    radial-gradient(circle at 18% 80%, rgba(150, 224, 103, 0.42), transparent 36%),
-    linear-gradient(135deg, #d8f0b3 0%, #edf4cc 42%, #e8dcf4 100%);
+    radial-gradient(circle at 76% 26%, rgba(178, 134, 225, 0.22), transparent 31%),
+    radial-gradient(circle at 18% 80%, rgba(125, 207, 101, 0.54), transparent 36%),
+    linear-gradient(135deg, #cfeeb3 0%, #e7f3c9 45%, #e2eed2 72%, #e7e0ee 100%);
 }
 
 .evoke-page-inner {
@@ -500,7 +512,7 @@
   color: #173f2b;
   font-family: 'Outfit', sans-serif;
   font-size: clamp(2rem, 5vw, 3.1rem);
-  font-weight: 500;
+  font-weight: 650;
   letter-spacing: 0.025em;
   line-height: 0.86;
   transform: scaleX(0.86);
@@ -713,7 +725,8 @@
 .upload-placeholder,
 .question-placeholder,
 .choose-world-box,
-.create-input-box {
+.create-input-box,
+.world-input-box {
   display: flex;
   min-height: 260px;
   flex-direction: column;
@@ -723,7 +736,7 @@
   border: 1px dashed rgba(36, 103, 69, 0.35);
   border-radius: 1.5rem;
   background:
-    radial-gradient(circle at 82% 15%, rgba(178, 134, 225, 0.4), transparent 31%),
+    radial-gradient(circle at 82% 15%, rgba(178, 134, 225, 0.18), transparent 31%),
     rgba(205, 228, 187, 0.78);
   color: #4d7659;
   text-align: center;
@@ -732,6 +745,31 @@
 .choose-world-box {
   gap: 0.75rem;
   padding: 1.5rem;
+}
+
+.world-input-box {
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 300px;
+  padding: 1.5rem;
+}
+
+.world-input-box textarea {
+  min-height: 6.5rem;
+  resize: vertical;
+  border: 1px solid rgba(36, 103, 69, 0.2);
+  border-radius: 1rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.58);
+  color: #24573a;
+  font: inherit;
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+.world-input-box textarea:focus {
+  border-color: #588463;
+  box-shadow: 0 0 0 3px rgba(88, 132, 99, 0.14);
 }
 
 .choose-world-box label {
@@ -790,7 +828,8 @@
   text-align: left;
 }
 
-.create-input-box input[type='file'] {
+.create-input-box input[type='file'],
+.world-input-box input[type='file'] {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -860,6 +899,10 @@
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.studio-footer {
+  justify-content: flex-start;
 }
 
 .status-dot {
@@ -1066,5 +1109,118 @@
   .mode-button,
   .text-action {
     transition: none;
+  }
+}
+
+.admin-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.editor-section {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1.15rem;
+  margin: 0;
+  border: 1px solid rgba(36, 103, 69, 0.17);
+  border-radius: 2rem;
+  background: rgba(247, 250, 222, 0.7);
+  box-shadow: 0 22px 48px rgba(36, 103, 69, 0.09);
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.editor-section legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 0.3rem;
+  color: #24573a;
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+}
+
+.editor-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.editor-field input,
+.editor-field textarea {
+  width: 100%;
+  border: 1px solid rgba(36, 103, 69, 0.2);
+  border-radius: 0.9rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.62);
+  color: #24573a;
+  font: inherit;
+  line-height: 1.45;
+  padding: 0.85rem 0.95rem;
+}
+
+.editor-field textarea {
+  min-height: 5.4rem;
+  resize: vertical;
+}
+
+.editor-field input:focus,
+.editor-field textarea:focus {
+  border-color: #588463;
+  box-shadow: 0 0 0 3px rgba(88, 132, 99, 0.14);
+}
+
+.editor-step-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.editor-step,
+.editor-panel {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.8rem;
+  border: 1px solid rgba(36, 103, 69, 0.12);
+  border-radius: 1.25rem;
+  background: rgba(232, 239, 209, 0.5);
+  padding: 1rem;
+}
+
+.editor-step > .step-number {
+  margin-bottom: 0.1rem;
+}
+
+.editor-two-column {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.admin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem 0 1rem;
+}
+
+.admin-actions .text-action {
+  color: #588463;
+}
+
+@media (max-width: 700px) {
+  .editor-step-grid,
+  .editor-two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-actions {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
