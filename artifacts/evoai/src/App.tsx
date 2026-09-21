@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -267,10 +267,118 @@ function HowItWorks() {
 }
 
 function EditCreate() {
-  const [, setLocation] = useLocation();
   const [mode, setMode] = useState<'edit' | 'create'>('edit');
-  const [created, setCreated] = useState(false);
+  const [prompt, setPrompt] = useState('');
+  const [worldId, setWorldId] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [files, setFiles] = useState<MarbleFile[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [operationId, setOperationId] = useState<string | null>(null);
+  const [operationState, setOperationState] = useState('ready');
+  const [resultMessage, setResultMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const content = readContent();
+
+  useEffect(() => {
+    if (!operationId) return;
+
+    let cancelled = false;
+    const checkOperation = async () => {
+      try {
+        const response = await fetch(`/api/marble/operations/${encodeURIComponent(operationId)}`);
+        const data = (await response.json()) as Record<string, unknown>;
+        if (!response.ok) throw new Error(getApiError(data, 'Marble could not check this generation.'));
+        if (cancelled) return;
+
+        const state = getOperationState(data);
+        setOperationState(state);
+        if (isFinishedOperation(data, state)) {
+          setOperationId(null);
+          setResultMessage(
+            state === 'succeeded'
+              ? 'Your Marble world is ready in the World Labs response.'
+              : `Marble finished with status: ${state}.`,
+          );
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setOperationId(null);
+          setErrorMessage(error instanceof Error ? error.message : 'Could not check Marble generation.');
+        }
+      }
+    };
+
+    void checkOperation();
+    const intervalId = window.setInterval(() => void checkOperation(), 5000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [operationId]);
+
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(event.target.files ?? []);
+    if (selectedFiles.length > 8) {
+      setErrorMessage('Choose no more than eight images.');
+      return;
+    }
+
+    try {
+      const encodedFiles = await Promise.all(selectedFiles.map(readMarbleFile));
+      setFiles(encodedFiles);
+      setErrorMessage('');
+    } catch (error) {
+      setFiles([]);
+      setErrorMessage(error instanceof Error ? error.message : 'Could not read the selected images.');
+    }
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorMessage('');
+    setResultMessage('');
+
+    if (mode === 'edit' && !worldId.trim()) {
+      setErrorMessage('Add the Marble world ID you want to revise.');
+      return;
+    }
+    if (!prompt.trim() && files.length === 0) {
+      setErrorMessage('Add a description or at least one image.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setOperationState('starting');
+    try {
+      const response = await fetch('/api/marble/worlds', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode,
+          prompt: prompt.trim(),
+          worldId: worldId.trim() || undefined,
+          displayName: displayName.trim() || undefined,
+          files,
+        }),
+      });
+      const data = (await response.json()) as Record<string, unknown>;
+      if (!response.ok) throw new Error(getApiError(data, 'Marble could not start generation.'));
+
+      const nextOperationId = typeof data.operationId === 'string' ? data.operationId : null;
+      setOperationId(nextOperationId);
+      setOperationState(nextOperationId ? 'queued' : 'submitted');
+      setResultMessage(
+        nextOperationId
+          ? 'Marble accepted the request. This page will check the operation every five seconds.'
+          : 'Marble accepted the request, but did not return an operation ID.',
+      );
+    } catch (error) {
+      setOperationState('error');
+      setErrorMessage(error instanceof Error ? error.message : 'Could not start Marble generation.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <PageFrame
@@ -278,14 +386,18 @@ function EditCreate() {
       title={content.studio.title}
       description={content.studio.description}
     >
-      <section className="studio-shell" aria-label="Edit and create workspace">
+      <form className="studio-shell studio-form" aria-label="Edit and create workspace" onSubmit={handleSubmit}>
         <div className="mode-switch" role="tablist" aria-label="Edit or create">
           <button
             className={mode === 'edit' ? 'mode-button active' : 'mode-button'}
             type="button"
             role="tab"
             aria-selected={mode === 'edit'}
-            onClick={() => setMode('edit')}
+            onClick={() => {
+              setMode('edit');
+              setErrorMessage('');
+              setResultMessage('');
+            }}
           >
             Edit
           </button>
@@ -294,7 +406,11 @@ function EditCreate() {
             type="button"
             role="tab"
             aria-selected={mode === 'create'}
-            onClick={() => setMode('create')}
+            onClick={() => {
+              setMode('create');
+              setErrorMessage('');
+              setResultMessage('');
+            }}
           >
             Create
           </button>
@@ -305,22 +421,37 @@ function EditCreate() {
             <div className="studio-copy">
               <span className="panel-label">{content.studio.editLabel}</span>
               <h2>{content.studio.editTitle}</h2>
-              <p>{content.studio.editDescription}</p>
-              <button className="evoke-button evoke-button-small" type="button" onClick={() => setMode('create')}>
-                Create a world <span aria-hidden="true">→</span>
+              <p>{content.studio.editDescription} Marble creates a new revision from the selected world.</p>
+              <button className="evoke-button evoke-button-small" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Starting…' : 'Generate revision'} <span aria-hidden="true">→</span>
               </button>
             </div>
             <div className="world-input-box" aria-label="Edit a world">
+              <label className="panel-label" htmlFor="edit-world-id">
+                marble world id
+              </label>
+              <input
+                id="edit-world-id"
+                className="studio-text-input"
+                value={worldId}
+                onChange={(event) => setWorldId(event.target.value)}
+                placeholder="world_…"
+              />
               <label className="panel-label" htmlFor="edit-text">
                 {content.studio.textLabel}
               </label>
-              <textarea id="edit-text" placeholder="Add a note about the world you want to change…" />
+              <textarea
+                id="edit-text"
+                value={prompt}
+                onChange={(event) => setPrompt(event.target.value)}
+                placeholder="Describe the changes you want to make…"
+              />
               <label className="file-input-label" htmlFor="edit-files">
                 <span className="upload-plus" aria-hidden="true">+</span>
                 <span>{content.studio.filesLabel}</span>
-                <small>{content.studio.filesHint}</small>
+                <small>Reference images · {files.length ? `${files.length} selected` : content.studio.filesHint}</small>
               </label>
-              <input id="edit-files" type="file" multiple />
+              <input id="edit-files" type="file" accept="image/*" multiple onChange={handleFileChange} />
             </div>
           </div>
         ) : (
@@ -329,37 +460,93 @@ function EditCreate() {
               <span className="panel-label">{content.studio.createLabel}</span>
               <h2>{content.studio.createTitle}</h2>
               <p>{content.studio.createDescription}</p>
-              <button
-                className="evoke-button evoke-button-small"
-                type="button"
-                onClick={() => setCreated(true)}
-              >
-                {created ? 'World draft ready' : 'Create world'}
+              <button className="evoke-button evoke-button-small" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Starting…' : 'Create world'} <span aria-hidden="true">→</span>
               </button>
             </div>
             <div className="create-input-box" aria-label="Upload text and files">
+              <label className="panel-label" htmlFor="create-name">
+                world name
+              </label>
+              <input
+                id="create-name"
+                className="studio-text-input"
+                value={displayName}
+                onChange={(event) => setDisplayName(event.target.value)}
+                placeholder="A name for this world"
+              />
               <label className="panel-label" htmlFor="create-text">
                 {content.studio.textLabel}
               </label>
-              <textarea id="create-text" placeholder={content.studio.textPlaceholder} />
+              <textarea
+                id="create-text"
+                value={prompt}
+                onChange={(event) => setPrompt(event.target.value)}
+                placeholder={content.studio.textPlaceholder}
+              />
               <label className="file-input-label" htmlFor="create-files">
                 <span className="upload-plus" aria-hidden="true">+</span>
                 <span>{content.studio.filesLabel}</span>
-                <small>{content.studio.filesHint}</small>
+                <small>Reference images · {files.length ? `${files.length} selected` : content.studio.filesHint}</small>
               </label>
-              <input id="create-files" type="file" multiple />
+              <input id="create-files" type="file" accept="image/*" multiple onChange={handleFileChange} />
             </div>
           </div>
         )}
 
         <div className="studio-footer">
-          <span>
-            <span className="status-dot" /> draft world
-          </span>
+          <span><span className="status-dot" /> Marble: {operationState}</span>
+          {errorMessage ? <span className="studio-error" role="alert">{errorMessage}</span> : null}
+          {resultMessage ? <span className="studio-result" role="status">{resultMessage}</span> : null}
         </div>
-      </section>
+      </form>
     </PageFrame>
   );
+}
+
+type MarbleFile = {
+  name: string;
+  type: string;
+  dataBase64: string;
+};
+
+const MAX_MARBLE_FILE_BYTES = 7_500_000;
+
+function readMarbleFile(file: File): Promise<MarbleFile> {
+  if (!file.type.startsWith('image/')) {
+    return Promise.reject(new Error(`${file.name} is not an image. Choose image files for Marble.`));
+  }
+  if (file.size > MAX_MARBLE_FILE_BYTES) {
+    return Promise.reject(new Error(`${file.name} is larger than 7.5 MB. Choose a smaller image.`));
+  }
+
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : '';
+      const dataBase64 = result.split(',', 2)[1];
+      if (!dataBase64) {
+        reject(new Error(`Could not encode ${file.name}.`));
+        return;
+      }
+      resolve({ name: file.name, type: file.type, dataBase64 });
+    };
+    reader.onerror = () => reject(new Error(`Could not read ${file.name}.`));
+    reader.readAsDataURL(file);
+  });
+}
+
+function getApiError(data: Record<string, unknown>, fallback: string) {
+  return typeof data.error === 'string' ? data.error : fallback;
+}
+
+function getOperationState(data: Record<string, unknown>) {
+  const rawState = data.status ?? data.state ?? (data.done === true ? 'succeeded' : 'processing');
+  return typeof rawState === 'string' ? rawState.toLowerCase() : 'processing';
+}
+
+function isFinishedOperation(data: Record<string, unknown>, state: string) {
+  return data.done === true || ['succeeded', 'completed', 'failed', 'error', 'cancelled'].includes(state);
 }
 
 function AdminEditor() {
