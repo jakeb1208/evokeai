@@ -238,7 +238,7 @@ function Login() {
     setSubmitting(false);
 
     if (result.error) {
-      setAuthMessage(result.error.message);
+      setAuthMessage(getAuthErrorMessage(result.error));
       return;
     }
 
@@ -265,7 +265,7 @@ function Login() {
 
     setAuthMessage(
       result.error
-        ? result.error.message
+        ? getAuthErrorMessage(result.error)
         : 'A new confirmation code was sent. Check your email.',
     );
   };
@@ -361,7 +361,7 @@ function Login() {
               setSubmitting(false);
 
               if (result.error) {
-                setAuthMessage(result.error.message);
+                setAuthMessage(getAuthErrorMessage(result.error));
                 return;
               }
 
@@ -815,6 +815,10 @@ function isFinishedOperation(data: Record<string, unknown>, state: string) {
 }
 
 function getAuthErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  if (/Invalid path specified in request URL/i.test(message)) {
+    return 'The Supabase URL is incorrect. In Railway, use only https://YOUR_PROJECT_REF.supabase.co — do not add /auth/v1, /rest/v1, or a dashboard path.';
+  }
   if (error instanceof TypeError && /fetch/i.test(error.message)) {
     return 'Cannot reach Supabase. Check the Railway VITE_SUPABASE_URL value, then rebuild and redeploy the app.';
   }
