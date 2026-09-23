@@ -301,6 +301,71 @@
   min-width: 200px;
 }
 
+.auth-message,
+.auth-setup-note {
+  max-width: 620px;
+  margin: -0.8rem auto 0;
+  color: #5c7b64;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.auth-setup-note {
+  margin-top: -1.4rem;
+  color: #8e69b4;
+}
+
+.auth-setup-note code {
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.48);
+  color: #5c7b64;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78em;
+  padding: 0.15rem 0.3rem;
+}
+
+.auth-mode-toggle,
+.auth-signout {
+  border: 0;
+  background: transparent;
+  color: #588463;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-mode-toggle {
+  align-self: center;
+  margin-top: -1rem;
+  padding: 0.5rem;
+}
+
+.auth-mode-toggle:hover,
+.auth-mode-toggle:focus-visible,
+.auth-signout:hover,
+.auth-signout:focus-visible {
+  outline: none;
+  color: #8e69b4;
+  transform: translateY(-2px);
+}
+
+.auth-signout {
+  position: absolute;
+  right: 0;
+  bottom: -2.5rem;
+}
+
+.auth-loading {
+  align-content: center;
+  justify-items: center;
+  color: #588463;
+  text-align: center;
+}
+
 .evoke-wordmark {
   border: 0;
   background: transparent;
@@ -440,6 +505,11 @@
   .login-button {
     grid-column: auto;
     width: 100%;
+  }
+
+  .auth-signout {
+    position: static;
+    margin-top: -1rem;
   }
 
   .evoke-wordmark {

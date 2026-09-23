@@ -1,12 +1,74 @@
-import { useRef, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { supabase } from '@/lib/supabase';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
 const queryClient = new QueryClient();
+
+type AuthContextValue = {
+  client: typeof supabase;
+  configured: boolean;
+  loading: boolean;
+  session: Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getSession']>>['data']['session'];
+};
+
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+function AuthProvider({ children }: { children: ReactNode }) {
+  const [session, setSession] = useState<AuthContextValue['session']>(null);
+  const [loading, setLoading] = useState(Boolean(supabase));
+
+  useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      setSession(data.session);
+      setLoading(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      if (!mounted) return;
+      setSession(nextSession);
+      setLoading(false);
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ client: supabase, configured: Boolean(supabase), loading, session }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+function useAuth() {
+  const value = useContext(AuthContext);
+  if (!value) throw new Error('useAuth must be used inside AuthProvider');
+  return value;
+}
 
 type StepContent = {
   title: string;
@@ -140,6 +202,10 @@ function PageFrame({
 
 function Login() {
   const [, setLocation] = useLocation();
+  const { client, configured, session } = useAuth();
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [authMessage, setAuthMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <main className="evoke-home evoke-login">
@@ -151,27 +217,88 @@ function Login() {
         <Wordmark />
         <div className="login-heading">
           <p className="evoke-eyebrow">welcome back</p>
-          <h1>Step into your worlds.</h1>
+          <h1>{authMode === 'login' ? 'Step into your worlds.' : 'Create your first world.'}</h1>
         </div>
         <form
           className="login-form"
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
             event.preventDefault();
+            if (!client) {
+              setAuthMessage('Supabase is not connected yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to Railway.');
+              return;
+            }
+
+            const formData = new FormData(event.currentTarget);
+            const email = String(formData.get('email') ?? '').trim();
+            const password = String(formData.get('password') ?? '');
+
+            setSubmitting(true);
+            setAuthMessage('');
+            const result =
+              authMode === 'login'
+                ? await client.auth.signInWithPassword({ email, password })
+                : await client.auth.signUp({
+                    email,
+                    password,
+                    options: { emailRedirectTo: `${window.location.origin}/home` },
+                  });
+            setSubmitting(false);
+
+            if (result.error) {
+              setAuthMessage(result.error.message);
+              return;
+            }
+
+            if (authMode === 'signup' && !result.data.session) {
+              setAuthMessage('Account created. Check your email to confirm your account, then log in.');
+              return;
+            }
+
             setLocation('/home');
           }}
         >
           <div className="login-field">
             <label htmlFor="login-email">Email</label>
-            <input id="login-email" name="email" type="email" autoComplete="email" />
+            <input id="login-email" name="email" type="email" autoComplete="email" required />
           </div>
           <div className="login-field">
             <label htmlFor="login-password">Password</label>
-            <input id="login-password" name="password" type="password" autoComplete="current-password" />
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              minLength={6}
+              autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
+              required
+            />
           </div>
           <button className="evoke-button login-button" type="submit">
-            Log in <span aria-hidden="true">→</span>
+            {submitting ? 'Working…' : authMode === 'login' ? 'Log in' : 'Create account'}{' '}
+            <span aria-hidden="true">→</span>
           </button>
         </form>
+        {authMessage ? <p className="auth-message">{authMessage}</p> : null}
+        {!configured ? (
+          <p className="auth-setup-note">
+            Railway setup needed: add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code>.
+          </p>
+        ) : null}
+        {session ? (
+          <button className="auth-mode-toggle" type="button" onClick={() => setLocation('/home')}>
+            Continue to Evoke AI
+          </button>
+        ) : (
+          <button
+            className="auth-mode-toggle"
+            type="button"
+            onClick={() => {
+              setAuthMode((current) => (current === 'login' ? 'signup' : 'login'));
+              setAuthMessage('');
+            }}
+          >
+            {authMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Log in'}
+          </button>
+        )}
       </section>
     </main>
   );
@@ -179,6 +306,7 @@ function Login() {
 
 function Home() {
   const [, setLocation] = useLocation();
+  const { client } = useAuth();
   const logoClicks = useRef<number[]>([]);
 
   const handleLogoClick = () => {
@@ -228,6 +356,11 @@ function Home() {
             Immerse
           </button>
         </div>
+        {client ? (
+          <button className="auth-signout" type="button" onClick={() => void client.auth.signOut()}>
+            Sign out
+          </button>
+        ) : null}
       </section>
     </main>
   );
@@ -521,6 +654,66 @@ function AdminEditor() {
   );
 }
 
+function AuthRequired({ children }: { children: ReactNode }) {
+  const { configured, loading, session } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!loading && (!configured || !session)) setLocation('/login');
+  }, [configured, loading, session, setLocation]);
+
+  if (loading) {
+    return (
+      <main className="evoke-home auth-loading">
+        <p className="evoke-eyebrow">checking your session…</p>
+      </main>
+    );
+  }
+
+  if (!configured || !session) return null;
+  return children;
+}
+
+function ProtectedHome() {
+  return (
+    <AuthRequired>
+      <Home />
+    </AuthRequired>
+  );
+}
+
+function ProtectedHowItWorks() {
+  return (
+    <AuthRequired>
+      <HowItWorks />
+    </AuthRequired>
+  );
+}
+
+function ProtectedEditCreate() {
+  return (
+    <AuthRequired>
+      <EditCreate />
+    </AuthRequired>
+  );
+}
+
+function ProtectedImmerse() {
+  return (
+    <AuthRequired>
+      <Immerse />
+    </AuthRequired>
+  );
+}
+
+function ProtectedAdminEditor() {
+  return (
+    <AuthRequired>
+      <AdminEditor />
+    </AuthRequired>
+  );
+}
+
 function Immerse() {
   return (
     <PageFrame
@@ -544,11 +737,11 @@ function Router() {
       <Switch>
         <Route path="/" component={Login} />
         <Route path="/login" component={Login} />
-        <Route path="/home" component={Home} />
-        <Route path="/how-it-works" component={HowItWorks} />
-        <Route path="/edit-create" component={EditCreate} />
-        <Route path="/immerse" component={Immerse} />
-        <Route path="/admin" component={AdminEditor} />
+        <Route path="/home" component={ProtectedHome} />
+        <Route path="/how-it-works" component={ProtectedHowItWorks} />
+        <Route path="/edit-create" component={ProtectedEditCreate} />
+        <Route path="/immerse" component={ProtectedImmerse} />
+        <Route path="/admin" component={ProtectedAdminEditor} />
         <Route component={NotFound} />
       </Switch>
     </RoutedErrorBoundary>
@@ -564,9 +757,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-          <Router />
-        </WouterRouter>
+        <AuthProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+            <Router />
+          </WouterRouter>
+        </AuthProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
