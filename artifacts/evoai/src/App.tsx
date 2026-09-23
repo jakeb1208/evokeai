@@ -223,11 +223,18 @@ function Login() {
 
     setSubmitting(true);
     setAuthMessage('');
-    const result = await client.auth.verifyOtp({
-      email: verificationEmail,
-      token: code,
-      type: 'signup',
-    });
+    let result;
+    try {
+      result = await client.auth.verifyOtp({
+        email: verificationEmail,
+        token: code,
+        type: 'signup',
+      });
+    } catch (error) {
+      setSubmitting(false);
+      setAuthMessage(getAuthErrorMessage(error));
+      return;
+    }
     setSubmitting(false);
 
     if (result.error) {
@@ -243,10 +250,17 @@ function Login() {
 
     setSubmitting(true);
     setAuthMessage('');
-    const result = await client.auth.resend({
-      type: 'signup',
-      email: verificationEmail,
-    });
+    let result;
+    try {
+      result = await client.auth.resend({
+        type: 'signup',
+        email: verificationEmail,
+      });
+    } catch (error) {
+      setSubmitting(false);
+      setAuthMessage(getAuthErrorMessage(error));
+      return;
+    }
     setSubmitting(false);
 
     setAuthMessage(
@@ -329,14 +343,21 @@ function Login() {
 
               setSubmitting(true);
               setAuthMessage('');
-              const result =
-                authMode === 'login'
-                  ? await client.auth.signInWithPassword({ email, password })
-                  : await client.auth.signUp({
-                      email,
-                      password,
-                      options: { emailRedirectTo: `${window.location.origin}/home` },
-                    });
+              let result;
+              try {
+                result =
+                  authMode === 'login'
+                    ? await client.auth.signInWithPassword({ email, password })
+                    : await client.auth.signUp({
+                        email,
+                        password,
+                        options: { emailRedirectTo: `${window.location.origin}/home` },
+                      });
+              } catch (error) {
+                setSubmitting(false);
+                setAuthMessage(getAuthErrorMessage(error));
+                return;
+              }
               setSubmitting(false);
 
               if (result.error) {
@@ -791,6 +812,14 @@ function getOperationState(data: Record<string, unknown>) {
 
 function isFinishedOperation(data: Record<string, unknown>, state: string) {
   return data.done === true || ['succeeded', 'completed', 'failed', 'error', 'cancelled'].includes(state);
+}
+
+function getAuthErrorMessage(error: unknown) {
+  if (error instanceof TypeError && /fetch/i.test(error.message)) {
+    return 'Cannot reach Supabase. Check the Railway VITE_SUPABASE_URL value, then rebuild and redeploy the app.';
+  }
+  if (error instanceof Error) return error.message;
+  return 'Supabase authentication failed. Check the Railway Supabase configuration and try again.';
 }
 
 function AdminEditor() {
