@@ -1,45 +1,56 @@
-# [Project name]
+# Evoke AI
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Evoke AI is a web experience for creating, revising, and eventually exploring AI-generated worlds.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/evoai run dev` — run the web preview
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm start` — serve the production web build and API from one process
+- Marble requires `MARBLE_API_KEY` as a server-only environment secret. The frontend calls `/api/marble/*`; it never receives the key.
+- Railway uses `railway.json`, builds the workspace, serves the web app through the API process, and health-checks `/api/healthz`.
+- Supabase is not connected yet. See `docs/supabase-railway-unity.md` before adding auth or GLB storage.
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
 - API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React + Vite
+- World generation: World Labs Marble World API
+- Build: Vite + esbuild
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/evoai/src/App.tsx` — web routes and the Edit / Create experience
+- `artifacts/evoai/src/index.css` — visual system and page layout
+- `artifacts/api-server/src/routes/marble.ts` — server-only Marble proxy
+- `artifacts/api-server/src/routes/health.ts` — health endpoint
+- `railway.json` — Railway build, start, and health-check configuration
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Marble API credentials stay in the API process; do not use a `VITE_` prefix for the key.
+- Marble generation is asynchronous, so the Edit / Create page submits an operation and polls its status.
+- Marble’s public API is generation-based. “Edit” creates a new revision using the prior prompt plus the requested changes; it does not mutate the original world.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Users can enter the Edit / Create workspace from the home screen.
+- Create accepts text and reference images.
+- Edit accepts a Marble world ID, revision instructions, and optional reference images.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Keep the existing monorepo structure and add service boundaries rather than migrating the stack.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Keep the Railway lockfile compatible with pnpm 9.15.9; see `.agents/memory/railway-pnpm-lockfile.md`.
+- Marble image payloads are sent inline and are limited to eight images at 7.5 MB each in the web UI.
 
 ## Pointers
 
 - See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- See `docs/supabase-railway-unity.md` for the planned Supabase auth, GLB storage, and Unity handoff.
