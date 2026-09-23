@@ -216,8 +216,8 @@ function Login() {
 
     const formData = new FormData(event.currentTarget);
     const code = String(formData.get('verification-code') ?? '').trim();
-    if (!/^\d{6}$/.test(code)) {
-      setAuthMessage('Enter the six-digit code from your email.');
+    if (!code) {
+      setAuthMessage('Enter the confirmation code from your email.');
       return;
     }
 
@@ -291,7 +291,7 @@ function Login() {
         {awaitingCode ? (
           <form className="login-form" onSubmit={handleVerification}>
             <p className="auth-instruction">
-              We sent a six-digit confirmation code to <strong>{verificationEmail}</strong>.
+              We sent a confirmation code to <strong>{verificationEmail}</strong>.
             </p>
             <div className="login-field">
               <label htmlFor="verification-code">Confirmation code</label>
@@ -299,11 +299,8 @@ function Login() {
                 id="verification-code"
                 name="verification-code"
                 type="text"
-                inputMode="numeric"
                 autoComplete="one-time-code"
-                pattern="[0-9]{6}"
-                maxLength={6}
-                placeholder="000000"
+                placeholder="Enter your code"
                 required
               />
             </div>
