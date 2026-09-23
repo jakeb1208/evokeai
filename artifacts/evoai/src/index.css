@@ -588,6 +588,20 @@
   transform: scaleX(0.86);
 }
 
+.page-wordmark-button {
+  width: fit-content;
+  margin-inline: auto;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.page-wordmark-button:hover,
+.page-wordmark-button:focus-visible {
+  outline: none;
+  color: #246745;
+}
+
 .evoke-eyebrow,
 .panel-label {
   color: #588463;
@@ -718,6 +732,24 @@
 .create-input-box textarea:focus {
   border-color: #588463;
   box-shadow: 0 0 0 3px rgba(88, 132, 99, 0.14);
+}
+
+.how-text-box {
+  display: block;
+  width: 100%;
+  min-height: clamp(24rem, 58dvh, 42rem);
+  resize: none;
+  overflow: auto;
+  border: 1px solid rgba(36, 103, 69, 0.17);
+  border-radius: 2rem;
+  outline: none;
+  background: rgba(247, 250, 222, 0.68);
+  box-shadow: 0 22px 48px rgba(36, 103, 69, 0.11);
+  color: #24573a;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.7;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
 }
 
 .evoke-button-small {

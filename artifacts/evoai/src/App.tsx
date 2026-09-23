@@ -180,7 +180,20 @@ function saveContent(content: EvokeContent) {
   window.localStorage.setItem(contentStorageKey, JSON.stringify(content));
 }
 
-function Wordmark() {
+function Wordmark({ onClick }: { onClick?: () => void }) {
+  if (onClick) {
+    return (
+      <button
+        className="page-wordmark page-wordmark-button"
+        type="button"
+        onClick={onClick}
+        aria-label="Evoke AI. Click five times quickly to open the admin editor."
+      >
+        evoke ai
+      </button>
+    );
+  }
+
   return <span className="page-wordmark">evoke ai</span>;
 }
 
@@ -203,13 +216,27 @@ function PageFrame({
   eyebrow,
   title,
   description,
+  adminShortcut = false,
   children,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
+  adminShortcut?: boolean;
   children: ReactNode;
 }) {
+  const [, setLocation] = useLocation();
+  const logoClicks = useRef<number[]>([]);
+
+  const handleLogoClick = () => {
+    const now = Date.now();
+    logoClicks.current = [...logoClicks.current.filter((timestamp) => now - timestamp < 900), now];
+    if (logoClicks.current.length >= 5) {
+      logoClicks.current = [];
+      setLocation('/admin');
+    }
+  };
+
   return (
     <main className="evoke-page">
       <div className="evoke-glow evoke-glow-green" />
@@ -218,7 +245,7 @@ function PageFrame({
       <div className="evoke-page-inner">
         <BackHome />
         <header className="evoke-page-header">
-          <Wordmark />
+          <Wordmark onClick={adminShortcut ? handleLogoClick : undefined} />
           <p className="evoke-eyebrow">{eyebrow}</p>
           <h1 className="evoke-page-title">{title}</h1>
           {description ? <p className="evoke-page-description">{description}</p> : null}
@@ -532,9 +559,16 @@ function Home() {
           <button
             className="evoke-button"
             type="button"
-            onClick={() => setLocation('/edit-create')}
+            onClick={() => setLocation('/edit')}
           >
-            Edit / Create
+            Edit
+          </button>
+          <button
+            className="evoke-button"
+            type="button"
+            onClick={() => setLocation('/create')}
+          >
+            Create
           </button>
           <button
             className="evoke-button"
@@ -555,40 +589,32 @@ function Home() {
 }
 
 function HowItWorks() {
-  const [, setLocation] = useLocation();
   const content = readContent();
+  const pageText = content.how.steps
+    .map(
+      (step, index) =>
+        `${String(index + 1).padStart(2, '0')}  ${step.title}\n${step.description}`,
+    )
+    .join('\n\n');
 
   return (
     <PageFrame
       eyebrow="how it works"
       title={content.how.title}
+      adminShortcut
     >
-      <section className="step-list" aria-label="How EvoAI works">
-        {content.how.steps.map((step, index) => (
-          <article className="step-row" key={step.title + index}>
-            <span className="step-number">{String(index + 1).padStart(2, '0')}</span>
-            <div>
-              <h2>{step.title}</h2>
-              <p>{step.description}</p>
-            </div>
-          </article>
-        ))}
-      </section>
-      <section className="how-input-card" aria-label="Describe an idea">
-        <label className="panel-label" htmlFor="world-thought">
-          {content.how.thoughtLabel}
-        </label>
-        <textarea id="world-thought" placeholder={content.how.thoughtPlaceholder} />
-        <button className="evoke-button evoke-button-small" type="button" onClick={() => setLocation('/edit-create')}>
-          {content.how.actionLabel} <span aria-hidden="true">→</span>
-        </button>
-      </section>
+      <textarea
+        className="how-text-box"
+        aria-label="How Evoke AI works"
+        value={pageText}
+        readOnly
+        spellCheck={false}
+      />
     </PageFrame>
   );
 }
 
-function EditCreate() {
-  const [mode, setMode] = useState<'edit' | 'create'>('edit');
+function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
   const [prompt, setPrompt] = useState('');
   const [worldId, setWorldId] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -703,40 +729,19 @@ function EditCreate() {
 
   return (
     <PageFrame
-      eyebrow="edit / create"
-      title={content.studio.title}
-      description={content.studio.description}
+      eyebrow={mode === 'edit' ? 'edit a world' : 'create a world'}
+      title={mode === 'edit' ? content.studio.editTitle : content.studio.createTitle}
+      description={
+        mode === 'edit'
+          ? `${content.studio.editDescription} Marble creates a new revision from the selected world.`
+          : content.studio.createDescription
+      }
     >
-      <form className="studio-shell studio-form" aria-label="Edit and create workspace" onSubmit={handleSubmit}>
-        <div className="mode-switch" role="tablist" aria-label="Edit or create">
-          <button
-            className={mode === 'edit' ? 'mode-button active' : 'mode-button'}
-            type="button"
-            role="tab"
-            aria-selected={mode === 'edit'}
-            onClick={() => {
-              setMode('edit');
-              setErrorMessage('');
-              setResultMessage('');
-            }}
-          >
-            Edit
-          </button>
-          <button
-            className={mode === 'create' ? 'mode-button active' : 'mode-button'}
-            type="button"
-            role="tab"
-            aria-selected={mode === 'create'}
-            onClick={() => {
-              setMode('create');
-              setErrorMessage('');
-              setResultMessage('');
-            }}
-          >
-            Create
-          </button>
-        </div>
-
+      <form
+        className="studio-shell studio-form"
+        aria-label={mode === 'edit' ? 'Edit a world' : 'Create a world'}
+        onSubmit={handleSubmit}
+      >
         {mode === 'edit' ? (
           <div className="studio-content edit-world-content">
             <div className="studio-copy">
@@ -1078,10 +1083,18 @@ function ProtectedHowItWorks() {
   );
 }
 
-function ProtectedEditCreate() {
+function ProtectedEdit() {
   return (
     <AuthRequired>
-      <EditCreate />
+      <EditCreate mode="edit" />
+    </AuthRequired>
+  );
+}
+
+function ProtectedCreate() {
+  return (
+    <AuthRequired>
+      <EditCreate mode="create" />
     </AuthRequired>
   );
 }
@@ -1127,7 +1140,9 @@ function Router() {
         <Route path="/login" component={Login} />
         <Route path="/home" component={ProtectedHome} />
         <Route path="/how-it-works" component={ProtectedHowItWorks} />
-        <Route path="/edit-create" component={ProtectedEditCreate} />
+        <Route path="/edit" component={ProtectedEdit} />
+        <Route path="/create" component={ProtectedCreate} />
+        <Route path="/edit-create" component={ProtectedEdit} />
         <Route path="/immerse" component={ProtectedImmerse} />
         <Route path="/admin" component={ProtectedAdminEditor} />
         <Route component={NotFound} />
