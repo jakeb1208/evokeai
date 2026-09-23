@@ -205,8 +205,56 @@ function Login() {
   const [, setLocation] = useLocation();
   const { client, configured, session } = useAuth();
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+  const [verificationEmail, setVerificationEmail] = useState('');
+  const [awaitingCode, setAwaitingCode] = useState(false);
   const [authMessage, setAuthMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
+
+  const handleVerification = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!client || !verificationEmail) return;
+
+    const formData = new FormData(event.currentTarget);
+    const code = String(formData.get('verification-code') ?? '').trim();
+    if (!/^\d{6}$/.test(code)) {
+      setAuthMessage('Enter the six-digit code from your email.');
+      return;
+    }
+
+    setSubmitting(true);
+    setAuthMessage('');
+    const result = await client.auth.verifyOtp({
+      email: verificationEmail,
+      token: code,
+      type: 'signup',
+    });
+    setSubmitting(false);
+
+    if (result.error) {
+      setAuthMessage(result.error.message);
+      return;
+    }
+
+    setLocation('/home');
+  };
+
+  const resendVerificationCode = async () => {
+    if (!client || !verificationEmail) return;
+
+    setSubmitting(true);
+    setAuthMessage('');
+    const result = await client.auth.resend({
+      type: 'signup',
+      email: verificationEmail,
+    });
+    setSubmitting(false);
+
+    setAuthMessage(
+      result.error
+        ? result.error.message
+        : 'A new confirmation code was sent. Check your email.',
+    );
+  };
 
   return (
     <main className="evoke-home evoke-login">
@@ -217,78 +265,140 @@ function Login() {
       <section className="login-card" aria-label="Log in to Evoke AI">
         <Wordmark />
         <div className="login-heading">
-          <p className="evoke-eyebrow">welcome back</p>
-          <h1>{authMode === 'login' ? 'Step into your worlds.' : 'Create your first world.'}</h1>
+          <p className="evoke-eyebrow">{awaitingCode ? 'check your email' : 'welcome back'}</p>
+          <h1>
+            {awaitingCode
+              ? 'Confirm your account.'
+              : authMode === 'login'
+                ? 'Step into your worlds.'
+                : 'Create your first world.'}
+          </h1>
         </div>
-        <form
-          className="login-form"
-          onSubmit={async (event) => {
-            event.preventDefault();
-            if (!client) {
-              setAuthMessage('Supabase is not connected yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to Railway.');
-              return;
-            }
+        {awaitingCode ? (
+          <form className="login-form" onSubmit={handleVerification}>
+            <p className="auth-instruction">
+              We sent a six-digit confirmation code to <strong>{verificationEmail}</strong>.
+            </p>
+            <div className="login-field">
+              <label htmlFor="verification-code">Confirmation code</label>
+              <input
+                id="verification-code"
+                name="verification-code"
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                pattern="[0-9]{6}"
+                maxLength={6}
+                placeholder="000000"
+                required
+              />
+            </div>
+            <button className="evoke-button login-button" type="submit" disabled={submitting}>
+              {submitting ? 'Checking…' : 'Confirm account'} <span aria-hidden="true">→</span>
+            </button>
+            <button
+              className="auth-mode-toggle"
+              type="button"
+              onClick={() => void resendVerificationCode()}
+              disabled={submitting}
+            >
+              {submitting ? 'Sending…' : 'Resend code'}
+            </button>
+          </form>
+        ) : (
+          <form
+            className="login-form"
+            onSubmit={async (event) => {
+              event.preventDefault();
+              if (!client) {
+                setAuthMessage(
+                  'Supabase is not connected yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to Railway.',
+                );
+                return;
+              }
 
-            const formData = new FormData(event.currentTarget);
-            const email = String(formData.get('email') ?? '').trim();
-            const password = String(formData.get('password') ?? '');
+              const formData = new FormData(event.currentTarget);
+              const email = String(formData.get('email') ?? '').trim();
+              const password = String(formData.get('password') ?? '');
+              const confirmPassword = String(formData.get('confirm-password') ?? '');
 
-            setSubmitting(true);
-            setAuthMessage('');
-            const result =
-              authMode === 'login'
-                ? await client.auth.signInWithPassword({ email, password })
-                : await client.auth.signUp({
-                    email,
-                    password,
-                    options: { emailRedirectTo: `${window.location.origin}/home` },
-                  });
-            setSubmitting(false);
+              if (authMode === 'signup' && password !== confirmPassword) {
+                setAuthMessage('Passwords do not match.');
+                return;
+              }
 
-            if (result.error) {
-              setAuthMessage(result.error.message);
-              return;
-            }
+              setSubmitting(true);
+              setAuthMessage('');
+              const result =
+                authMode === 'login'
+                  ? await client.auth.signInWithPassword({ email, password })
+                  : await client.auth.signUp({
+                      email,
+                      password,
+                      options: { emailRedirectTo: `${window.location.origin}/home` },
+                    });
+              setSubmitting(false);
 
-            if (authMode === 'signup' && !result.data.session) {
-              setAuthMessage('Account created. Check your email to confirm your account, then log in.');
-              return;
-            }
+              if (result.error) {
+                setAuthMessage(result.error.message);
+                return;
+              }
 
-            setLocation('/home');
-          }}
-        >
-          <div className="login-field">
-            <label htmlFor="login-email">Email</label>
-            <input id="login-email" name="email" type="email" autoComplete="email" required />
-          </div>
-          <div className="login-field">
-            <label htmlFor="login-password">Password</label>
-            <input
-              id="login-password"
-              name="password"
-              type="password"
-              minLength={6}
-              autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
-              required
-            />
-          </div>
-          <button className="evoke-button login-button" type="submit">
-            {submitting ? 'Working…' : authMode === 'login' ? 'Log in' : 'Create account'}{' '}
-            <span aria-hidden="true">→</span>
-          </button>
-        </form>
+              if (authMode === 'signup' && !result.data.session) {
+                setVerificationEmail(email);
+                setAwaitingCode(true);
+                setAuthMessage('Account created. Enter the confirmation code from your email.');
+                return;
+              }
+
+              setLocation('/home');
+            }}
+          >
+            <div className="login-field">
+              <label htmlFor="login-email">Email</label>
+              <input id="login-email" name="email" type="email" autoComplete="email" required />
+            </div>
+            <div className="login-field">
+              <label htmlFor="login-password">Password</label>
+              <input
+                id="login-password"
+                name="password"
+                type="password"
+                minLength={6}
+                autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
+                required
+              />
+            </div>
+            {authMode === 'signup' ? (
+              <div className="login-field">
+                <label htmlFor="login-confirm-password">Confirm password</label>
+                <input
+                  id="login-confirm-password"
+                  name="confirm-password"
+                  type="password"
+                  minLength={6}
+                  autoComplete="new-password"
+                  required
+                />
+              </div>
+            ) : null}
+            <button className="evoke-button login-button" type="submit" disabled={submitting}>
+              {submitting ? 'Working…' : authMode === 'login' ? 'Log in' : 'Create account'}{' '}
+              <span aria-hidden="true">→</span>
+            </button>
+          </form>
+        )}
         {authMessage ? <p className="auth-message">{authMessage}</p> : null}
         {!configured ? (
           <p className="auth-setup-note">
             Railway setup needed: add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code>.
           </p>
         ) : null}
-        {session ? (
+        {session && !awaitingCode ? (
           <button className="auth-mode-toggle" type="button" onClick={() => setLocation('/home')}>
             Continue to Evoke AI
           </button>
-        ) : (
+        ) : !awaitingCode ? (
           <button
             className="auth-mode-toggle"
             type="button"
@@ -299,7 +409,7 @@ function Login() {
           >
             {authMode === 'login' ? 'Need an account? Create one' : 'Already have an account? Log in'}
           </button>
-        )}
+        ) : null}
       </section>
     </main>
   );
