@@ -11,7 +11,7 @@ Evoke AI is a web experience for creating, revising, and eventually exploring AI
 - `pnpm start` — serve the production web build and API from one process
 - Marble requires `MARBLE_API_KEY` as a server-only environment secret. The frontend calls `/api/marble/*`; it never receives the key.
 - Railway uses `railway.json`, builds the workspace, serves the web app through the API process, and health-checks `/api/healthz`.
-- Supabase is not connected yet. See `docs/supabase-railway-unity.md` before adding auth or GLB storage.
+- Supabase Auth powers email/password accounts. Enable the Email provider with **Confirm email** required; the app does not allow an unverified signup session into the product.
 
 ## Stack
 

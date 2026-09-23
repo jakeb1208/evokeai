@@ -5,7 +5,7 @@ This project currently keeps its login screen as a visual demo. The steps below 
 ## 1. Create the Supabase project
 
 1. Create a Supabase project and choose a strong database password.
-2. In **Authentication → Providers**, enable the providers you want (Email is the simplest first provider).
+2. In **Authentication → Providers**, enable Email and keep **Confirm email** enabled. The app requires the emailed confirmation code before allowing a new account into the product.
 3. In **Authentication → URL Configuration**, add:
    - The Railway public URL as the **Site URL**.
    - The Railway URL plus `/auth/callback` as an allowed redirect URL if the app uses a server callback.

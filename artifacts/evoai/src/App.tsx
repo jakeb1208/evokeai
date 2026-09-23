@@ -17,6 +17,34 @@ import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
 const queryClient = new QueryClient();
+const MIN_PASSCODE_LENGTH = 6;
+const pendingSignupEmailStorageKey = 'evoke-pending-signup-email';
+
+function getPendingSignupEmail() {
+  if (typeof window === 'undefined') return '';
+
+  try {
+    return window.sessionStorage.getItem(pendingSignupEmailStorageKey) ?? '';
+  } catch {
+    return '';
+  }
+}
+
+function clearPendingSignupEmail() {
+  try {
+    window.sessionStorage.removeItem(pendingSignupEmailStorageKey);
+  } catch {
+    // Session storage may be unavailable in a restricted browser context.
+  }
+}
+
+function setPendingSignupEmail(email: string) {
+  try {
+    window.sessionStorage.setItem(pendingSignupEmailStorageKey, email);
+  } catch {
+    // Session storage may be unavailable in a restricted browser context.
+  }
+}
 
 type AuthContextValue = {
   client: typeof supabase;
@@ -205,8 +233,8 @@ function Login() {
   const [, setLocation] = useLocation();
   const { client, configured, session } = useAuth();
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
-  const [verificationEmail, setVerificationEmail] = useState('');
-  const [awaitingCode, setAwaitingCode] = useState(false);
+  const [verificationEmail, setVerificationEmail] = useState(getPendingSignupEmail);
+  const [awaitingCode, setAwaitingCode] = useState(Boolean(getPendingSignupEmail()));
   const [authMessage, setAuthMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -242,6 +270,12 @@ function Login() {
       return;
     }
 
+    if (!result.data.session || !result.data.user?.email_confirmed_at) {
+      setAuthMessage('That confirmation code was not accepted. Enter the code from your email and try again.');
+      return;
+    }
+
+    clearPendingSignupEmail();
     setLocation('/home');
   };
 
@@ -329,13 +363,19 @@ function Login() {
               }
 
               const formData = new FormData(event.currentTarget);
-              const email = String(formData.get('email') ?? '').trim();
+              const email = String(formData.get('email') ?? '').trim().toLowerCase();
               const password = String(formData.get('password') ?? '');
               const confirmPassword = String(formData.get('confirm-password') ?? '');
 
-              if (authMode === 'signup' && password !== confirmPassword) {
-                setAuthMessage('Passwords do not match.');
-                return;
+              if (authMode === 'signup') {
+                if (password.length < MIN_PASSCODE_LENGTH) {
+                  setAuthMessage(`Your passcode must be at least ${MIN_PASSCODE_LENGTH} characters.`);
+                  return;
+                }
+                if (password !== confirmPassword) {
+                  setAuthMessage('Passcodes do not match.');
+                  return;
+                }
               }
 
               setSubmitting(true);
@@ -362,10 +402,29 @@ function Login() {
                 return;
               }
 
-              if (authMode === 'signup' && !result.data.session) {
+              if (authMode === 'signup') {
+                const identities = result.data.user?.identities;
+                if (
+                  !result.data.user ||
+                  (Array.isArray(identities) && identities.length === 0)
+                ) {
+                  setAuthMessage('An account with this email already exists. Log in or use a different email.');
+                  return;
+                }
+
+                // Never leave a signup session active before the email code is verified.
+                setPendingSignupEmail(email);
                 setVerificationEmail(email);
                 setAwaitingCode(true);
-                setAuthMessage('Account created. Enter the confirmation code from your email.');
+                if (result.data.session) {
+                  const { error: signOutError } = await client.auth.signOut();
+                  if (signOutError) {
+                    setAuthMessage('Your email is not verified yet. Refresh this page before entering the confirmation code.');
+                    return;
+                  }
+                }
+
+                setAuthMessage('Enter the confirmation code from your email to finish creating your account.');
                 return;
               }
 
@@ -377,24 +436,24 @@ function Login() {
               <input id="login-email" name="email" type="email" autoComplete="email" required />
             </div>
             <div className="login-field">
-              <label htmlFor="login-password">Password</label>
+              <label htmlFor="login-password">{authMode === 'signup' ? 'Passcode' : 'Password'}</label>
               <input
                 id="login-password"
                 name="password"
                 type="password"
-                minLength={6}
+                minLength={authMode === 'signup' ? MIN_PASSCODE_LENGTH : undefined}
                 autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
                 required
               />
             </div>
             {authMode === 'signup' ? (
               <div className="login-field">
-                <label htmlFor="login-confirm-password">Confirm password</label>
+                <label htmlFor="login-confirm-password">Confirm passcode</label>
                 <input
                   id="login-confirm-password"
                   name="confirm-password"
                   type="password"
-                  minLength={6}
+                  minLength={MIN_PASSCODE_LENGTH}
                   autoComplete="new-password"
                   required
                 />
@@ -985,10 +1044,11 @@ function AdminEditor() {
 function AuthRequired({ children }: { children: ReactNode }) {
   const { configured, loading, session } = useAuth();
   const [, setLocation] = useLocation();
+  const emailIsConfirmed = Boolean(session?.user.email_confirmed_at) && !getPendingSignupEmail();
 
   useEffect(() => {
-    if (!loading && (!configured || !session)) setLocation('/login');
-  }, [configured, loading, session, setLocation]);
+    if (!loading && (!configured || !session || !emailIsConfirmed)) setLocation('/login');
+  }, [configured, emailIsConfirmed, loading, session, setLocation]);
 
   if (loading) {
     return (
@@ -998,7 +1058,7 @@ function AuthRequired({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!configured || !session) return null;
+  if (!configured || !session || !emailIsConfirmed) return null;
   return children;
 }
 
