@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
+import { WorldViewer } from '@/components/world-viewer';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { supabase } from '@/lib/supabase';
@@ -575,7 +576,7 @@ function Home() {
             type="button"
             onClick={() => setLocation('/immerse')}
           >
-            Immerse
+            My Worlds
           </button>
         </div>
         {client ? (
@@ -615,6 +616,8 @@ function HowItWorks() {
 }
 
 function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
+  const [, setLocation] = useLocation();
+  const { session } = useAuth();
   const [prompt, setPrompt] = useState('');
   const [worldId, setWorldId] = useState('');
   const [displayName, setDisplayName] = useState('');
@@ -627,41 +630,44 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
   const content = readContent();
 
   useEffect(() => {
-    if (!operationId) return;
+    if (!operationId || !session?.access_token) return;
 
     let cancelled = false;
     const checkOperation = async () => {
       try {
-        const response = await fetch(`/api/marble/operations/${encodeURIComponent(operationId)}`);
+        const response = await fetch(`/api/worlds/operations/${encodeURIComponent(operationId)}`, {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
         const data = (await response.json()) as Record<string, unknown>;
-        if (!response.ok) throw new Error(getApiError(data, 'Marble could not check this generation.'));
+        if (!response.ok) throw new Error(getApiError(data, 'Could not check this generation.'));
         if (cancelled) return;
 
-        const state = getOperationState(data);
+        const state = typeof data.status === 'string' ? data.status : 'generating';
         setOperationState(state);
-        if (isFinishedOperation(data, state)) {
+        if (state === 'ready' && data.world && typeof data.world === 'object') {
+          const savedWorld = data.world as { id?: unknown };
           setOperationId(null);
-          setResultMessage(
-            state === 'succeeded'
-              ? 'Your Marble world is ready in the World Labs response.'
-              : `Marble finished with status: ${state}.`,
-          );
+          if (typeof savedWorld.id === 'string') setLocation(`/worlds/${savedWorld.id}`);
+        } else if (state === 'failed') {
+          setOperationId(null);
+          setErrorMessage(getApiError(data, 'World generation failed.'));
         }
       } catch (error) {
         if (!cancelled) {
           setOperationId(null);
-          setErrorMessage(error instanceof Error ? error.message : 'Could not check Marble generation.');
+          setOperationState('error');
+          setErrorMessage(error instanceof Error ? error.message : 'Could not check world generation.');
         }
       }
     };
 
     void checkOperation();
-    const intervalId = window.setInterval(() => void checkOperation(), 5000);
+    const intervalId = window.setInterval(() => void checkOperation(), 4000);
     return () => {
       cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [operationId]);
+  }, [operationId, session?.access_token, setLocation]);
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files ?? []);
@@ -699,7 +705,12 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
     try {
       const response = await fetch('/api/marble/worlds', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token
+            ? { Authorization: `Bearer ${session.access_token}` }
+            : {}),
+        },
         body: JSON.stringify({
           mode,
           prompt: prompt.trim(),
@@ -713,12 +724,9 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
 
       const nextOperationId = typeof data.operationId === 'string' ? data.operationId : null;
       setOperationId(nextOperationId);
-      setOperationState(nextOperationId ? 'queued' : 'submitted');
-      setResultMessage(
-        nextOperationId
-          ? 'Marble accepted the request. This page will check the operation every five seconds.'
-          : 'Marble accepted the request, but did not return an operation ID.',
-      );
+      if (!nextOperationId) throw new Error('The server did not return a generation ID.');
+      setOperationState('generating');
+      setResultMessage('Your world is being created. You can stay here while we prepare it.');
     } catch (error) {
       setOperationState('error');
       setErrorMessage(error instanceof Error ? error.message : 'Could not start Marble generation.');
@@ -726,6 +734,25 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
       setIsSubmitting(false);
     }
   };
+
+  if (operationId && operationState === 'generating') {
+    return (
+      <main className="world-generation-screen">
+        <div className="evoke-glow evoke-glow-green" />
+        <div className="evoke-glow evoke-glow-purple" />
+        <div className="evoke-grid" />
+        <section className="generation-card" aria-live="polite">
+          <div className="world-loader" aria-hidden="true" />
+          <p className="evoke-eyebrow">creating your world</p>
+          <h1>Your world is being created.</h1>
+          <p>Marble is shaping the scene. Evoke will save it to your account and open it when it is ready.</p>
+          <button className="viewer-back-button" type="button" onClick={() => setLocation('/home')}>
+            Return to home
+          </button>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <PageFrame
@@ -1115,20 +1142,125 @@ function ProtectedAdminEditor() {
   );
 }
 
+type SavedWorldSummary = {
+  id: string;
+  display_name: string;
+  marble_world_id: string | null;
+  status: string;
+  assets: Array<{ kind: string; signed_url?: string }>;
+  created_at: string;
+  error_message?: string | null;
+};
+
 function Immerse() {
+  const [, setLocation] = useLocation();
+  const { session } = useAuth();
+  const [worlds, setWorlds] = useState<SavedWorldSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!session?.access_token) return;
+    let cancelled = false;
+    void fetch('/api/worlds', {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    })
+      .then(async (response) => {
+        const data = (await response.json()) as {
+          worlds?: SavedWorldSummary[];
+          error?: string;
+        };
+        if (!response.ok) throw new Error(getApiError(data, 'Could not load your worlds.'));
+        if (!cancelled) setWorlds(data.worlds ?? []);
+      })
+      .catch((requestError) => {
+        if (!cancelled) setError(requestError instanceof Error ? requestError.message : 'Could not load your worlds.');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [session?.access_token]);
+
   return (
     <PageFrame
-      eyebrow="immerse"
+      eyebrow="my worlds"
       title="Choose a world."
+      description="Every world here is saved to your Evoke account. Opening one never starts a new generation."
     >
-      <section className="world-list empty-world-list" aria-label="World slots">
-        <div className="empty-world-grid">
-          <div className="empty-world-slot" />
-          <div className="empty-world-slot" />
-          <div className="empty-world-slot" />
+      {loading ? (
+        <div className="world-list-state">
+          <div className="world-loader" aria-hidden="true" />
+          <p>Loading your saved worlds…</p>
         </div>
-      </section>
+      ) : error ? (
+        <div className="world-list-state">
+          <p className="studio-error" role="alert">{error}</p>
+          <button className="evoke-button evoke-button-small" type="button" onClick={() => setLocation('/home')}>
+            Back to home
+          </button>
+        </div>
+      ) : worlds.length === 0 ? (
+        <div className="world-list-state">
+          <p>No worlds yet. Create your first world and it will appear here.</p>
+          <button className="evoke-button evoke-button-small" type="button" onClick={() => setLocation('/create')}>
+            Create a world <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      ) : (
+        <section className="world-list" aria-label="Saved worlds">
+          {worlds.map((world) => {
+            const thumbnail = world.assets.find((asset) => asset.kind === 'thumbnail')?.signed_url;
+            return (
+              <button
+                className="world-card"
+                type="button"
+                key={world.id}
+                onClick={() => world.status === 'ready' && setLocation(`/worlds/${world.id}`)}
+                disabled={world.status !== 'ready'}
+              >
+                {thumbnail ? <img src={thumbnail} alt="" /> : <span className="world-card-placeholder" />}
+                <span className="world-card-copy">
+                  <strong>{world.display_name}</strong>
+                  <small>
+                    {world.status === 'ready'
+                      ? 'Open saved world'
+                      : world.status === 'generating'
+                        ? 'Still creating…'
+                        : world.error_message || 'Generation failed'}
+                  </small>
+                </span>
+                <span aria-hidden="true">→</span>
+              </button>
+            );
+          })}
+        </section>
+      )}
+      <div className="world-list-actions">
+        <button className="text-action" type="button" onClick={() => setLocation('/create')}>
+          Create another world <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </PageFrame>
+  );
+}
+
+function ProtectedWorld({ params }: { params: { id?: string } }) {
+  const [, setLocation] = useLocation();
+  const { session } = useAuth();
+  return (
+    <AuthRequired>
+      {session?.access_token && params.id ? (
+        <WorldViewer
+          worldId={params.id}
+          accessToken={session.access_token}
+          onBack={() => setLocation('/immerse')}
+        />
+      ) : null}
+    </AuthRequired>
   );
 }
 
@@ -1144,6 +1276,7 @@ function Router() {
         <Route path="/create" component={ProtectedCreate} />
         <Route path="/edit-create" component={ProtectedEdit} />
         <Route path="/immerse" component={ProtectedImmerse} />
+        <Route path="/worlds/:id" component={ProtectedWorld} />
         <Route path="/admin" component={ProtectedAdminEditor} />
         <Route component={NotFound} />
       </Switch>
