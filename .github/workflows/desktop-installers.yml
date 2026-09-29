@@ -1,0 +1,49 @@
+name: Desktop installers
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "desktop/evoke/**"
+      - ".github/workflows/desktop-installers.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: desktop/evoke
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: npm run package:win
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Evoke-AI-Windows-Installer
+          path: desktop/evoke/release/*.exe
+
+  linux:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: desktop/evoke
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: sudo apt-get update && sudo apt-get install -y libfuse2t64
+      - run: npm install --no-audit --no-fund
+      - run: npm test
+      - run: npm run package:linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Evoke-AI-Linux-AppImage
+          path: desktop/evoke/release/*.AppImage

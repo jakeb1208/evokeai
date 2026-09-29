@@ -1,3 +1,3 @@
 - [Railway pnpm lockfiles](railway-pnpm-lockfile.md) — regenerate with pnpm 9.15.9; pnpm 10 can produce a lockfile Railway rejects.
 - [Railway filtered starts](railway-filtered-starts.md) — pnpm filter scripts run from the package directory, so production asset paths must not depend on process.cwd().
-- [Windows desktop packaging](windows-desktop-packaging.md) — keep installer tooling outside the Railway pnpm workspace; the shell uses the hosted Evoke origin.
+- [Desktop packaging](windows-desktop-packaging.md) — keep installer tooling outside the Railway pnpm workspace; the shell uses the hosted Evoke origin.

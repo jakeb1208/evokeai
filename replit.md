@@ -27,7 +27,7 @@ Evoke AI is a web experience for creating, revising, and eventually exploring AI
 - `artifacts/evoai/src/index.css` — visual system and page layout
 - `artifacts/api-server/src/routes/marble.ts` — server-only Marble proxy
 - `artifacts/api-server/src/routes/health.ts` — health endpoint
-- `desktop/evoke/` — independent Windows desktop installer package, loading the hosted Evoke site
+- `desktop/evoke/` — independent Windows/Linux desktop installer package, loading the hosted Evoke site
 - `railway.json` — Railway build, start, and health-check configuration
 
 ## Architecture decisions

@@ -2,12 +2,13 @@
   "name": "evoke-desktop",
   "version": "1.0.0",
   "private": true,
-  "description": "Windows desktop app for Evoke AI",
+  "description": "Windows and Linux desktop app for Evoke AI",
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
     "test": "node --test test/*.test.cjs",
-    "package:win": "electron-builder --win nsis --x64"
+    "package:win": "electron-builder --win nsis --x64",
+    "package:linux": "electron-builder --linux AppImage --x64"
   },
   "devDependencies": {
     "electron": "43.2.0",
@@ -30,6 +31,19 @@
       "target": [
         {
           "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "category": "Graphics",
+      "artifactName": "Evoke-AI-${version}.${ext}",
+      "target": [
+        {
+          "target": "AppImage",
           "arch": [
             "x64"
           ]

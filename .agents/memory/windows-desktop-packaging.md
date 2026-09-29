@@ -1,6 +1,6 @@
 ---
-name: Windows desktop packaging
-description: Why the Windows installer package is separate from the hosted pnpm workspace
+name: Desktop packaging
+description: Why the Windows/Linux installer package is separate from the hosted pnpm workspace
 ---
 
 Keep desktop installer dependencies isolated from the pnpm workspace used by Railway. The desktop shell opens the hosted Evoke origin, rather than bundling a second API or embedding service credentials.

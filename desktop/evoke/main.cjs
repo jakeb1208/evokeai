@@ -99,7 +99,7 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(() => {
-    app.setAppUserModelId("ai.evoke.desktop");
+    if (process.platform === "win32") app.setAppUserModelId("ai.evoke.desktop");
     session.defaultSession.setPermissionRequestHandler((webContents, permission, respond) => {
       respond(permission === "pointerLock" && isEvokeUrl(webContents?.getURL() ?? ""));
     });

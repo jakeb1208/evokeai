@@ -55,6 +55,7 @@ test("desktop window loads Evoke and keeps untrusted pages outside the app", asy
   vm.runInNewContext(source, {
     URL,
     __dirname: appDirectory,
+    process,
     require: (name) => name === "electron" ? electron : require(name),
   });
   await new Promise(setImmediate);
