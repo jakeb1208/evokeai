@@ -15,6 +15,8 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { supabase } from '@/lib/supabase';
+import { MusicProvider } from '@/components/music-context';
+import { ImmerseTabs, MusicLibrary, MusicPlayer } from '@/components/music-ui';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
@@ -1142,6 +1144,21 @@ function ProtectedImmerse() {
   );
 }
 
+function ProtectedMusic() {
+  return (
+    <AuthRequired>
+      <PageFrame
+        eyebrow="immerse / music"
+        title="Stay a little longer."
+        description="A soundtrack for the places only you can visit. Add your music, then let it follow you through your worlds."
+      >
+        <ImmerseTabs active="music" />
+        <MusicLibrary />
+      </PageFrame>
+    </AuthRequired>
+  );
+}
+
 function ProtectedAdminEditor() {
   return (
     <AuthRequired>
@@ -1277,6 +1294,7 @@ function Immerse() {
       title="Choose a world."
       description="Every world here is saved to your Evoke account. Opening one never starts a new generation."
     >
+      <ImmerseTabs active="worlds" />
       {loading ? (
         <div className="world-list-state">
           <div className="world-loader" aria-hidden="true" />
@@ -1372,22 +1390,38 @@ function ProtectedWorld({ params }: { params: { id?: string } }) {
 }
 
 function Router() {
+  const [location] = useLocation();
+  const { session } = useAuth();
+  const showPlayer = Boolean(session?.user?.email_confirmed_at) && location !== '/' && location !== '/login';
   return (
-    <RoutedErrorBoundary>
-      <Switch>
-        <Route path="/" component={Login} />
-        <Route path="/login" component={Login} />
-        <Route path="/home" component={ProtectedHome} />
-        <Route path="/how-it-works" component={ProtectedHowItWorks} />
-        <Route path="/edit" component={ProtectedEdit} />
-        <Route path="/create" component={ProtectedCreate} />
-        <Route path="/edit-create" component={ProtectedEdit} />
-        <Route path="/immerse" component={ProtectedImmerse} />
-        <Route path="/worlds/:id" component={ProtectedWorld} />
-        <Route path="/admin" component={ProtectedAdminEditor} />
-        <Route component={NotFound} />
-      </Switch>
-    </RoutedErrorBoundary>
+    <>
+      <RoutedErrorBoundary>
+        <Switch>
+          <Route path="/" component={Login} />
+          <Route path="/login" component={Login} />
+          <Route path="/home" component={ProtectedHome} />
+          <Route path="/how-it-works" component={ProtectedHowItWorks} />
+          <Route path="/edit" component={ProtectedEdit} />
+          <Route path="/create" component={ProtectedCreate} />
+          <Route path="/edit-create" component={ProtectedEdit} />
+          <Route path="/immerse/music" component={ProtectedMusic} />
+          <Route path="/immerse" component={ProtectedImmerse} />
+          <Route path="/worlds/:id" component={ProtectedWorld} />
+          <Route path="/admin" component={ProtectedAdminEditor} />
+          <Route component={NotFound} />
+        </Switch>
+      </RoutedErrorBoundary>
+      {showPlayer ? <MusicPlayer viewer={location.startsWith('/worlds/')} /> : null}
+    </>
+  );
+}
+
+function AuthenticatedMusicShell({ children }: { children: ReactNode }) {
+  const { session } = useAuth();
+  return (
+    <MusicProvider key={session?.user.id ?? 'signed-out'} userId={session?.user.email_confirmed_at ? session.user.id : null} accessToken={session?.access_token ?? null}>
+      {children}
+    </MusicProvider>
   );
 }
 
@@ -1401,9 +1435,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-            <Router />
-          </WouterRouter>
+          <AuthenticatedMusicShell>
+            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+              <Router />
+            </WouterRouter>
+          </AuthenticatedMusicShell>
         </AuthProvider>
         <Toaster />
       </TooltipProvider>

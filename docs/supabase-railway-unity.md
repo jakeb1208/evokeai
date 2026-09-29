@@ -11,6 +11,7 @@ The web app uses Supabase Auth and keeps completed Marble worlds in Supabase as 
    - The Railway URL plus `/auth/callback` as an allowed redirect URL if the app uses a server callback.
 4. Run `docs/supabase-worlds.sql` in the Supabase SQL editor. It creates a private `world-assets` bucket and the `evoke_worlds` table.
 5. Keep the bucket private. World files are delivered to the web viewer and Unity/Meta Quest clients with short-lived signed URLs.
+6. To enable private MP3 libraries, also run `docs/supabase-music.sql`. It creates the `evoke_music` table and private `evoke-music` bucket.
 
 ## 2. Add the Railway variables
 

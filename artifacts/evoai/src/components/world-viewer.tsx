@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { SparkRenderer, SplatMesh } from "@sparkjsdev/spark";
+import { useMusic } from "./music-context";
 
 type WorldAsset = {
   kind: string;
@@ -42,6 +43,7 @@ function getErrorMessage(payload: unknown, fallback: string) {
 }
 
 export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) {
+  const { current: soundtrack } = useMusic();
   const [world, setWorld] = useState<SavedWorld | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -265,7 +267,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
           <span>Loading your saved world…</span>
         </div>
       ) : null}
-      <div className="viewer-hud">
+      <div className={`viewer-hud${soundtrack ? " has-soundtrack" : ""}`}>
         <button className="viewer-back-button" type="button" onClick={onBack}>← My Worlds</button>
         <div className="viewer-title">
           <span className="evoke-eyebrow">saved world</span>
