@@ -1,5 +1,7 @@
 import {
+  Suspense,
   createContext,
+  lazy,
   useContext,
   useEffect,
   useRef,
@@ -10,13 +12,15 @@ import {
 } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
-import { WorldViewer } from '@/components/world-viewer';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { supabase } from '@/lib/supabase';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
+const WorldViewer = lazy(() =>
+  import('@/components/world-viewer').then((module) => ({ default: module.WorldViewer })),
+);
 const queryClient = new QueryClient();
 const MIN_PASSCODE_LENGTH = 6;
 const pendingSignupEmailStorageKey = 'evoke-pending-signup-email';
@@ -735,7 +739,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
     }
   };
 
-  if (operationId && operationState === 'generating') {
+  if (isSubmitting || (operationId && operationState === 'generating')) {
     return (
       <main className="world-generation-screen">
         <div className="evoke-glow evoke-glow-green" />
@@ -743,9 +747,13 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
         <div className="evoke-grid" />
         <section className="generation-card" aria-live="polite">
           <div className="world-loader" aria-hidden="true" />
-          <p className="evoke-eyebrow">creating your world</p>
-          <h1>Your world is being created.</h1>
-          <p>Marble is shaping the scene. Evoke will save it to your account and open it when it is ready.</p>
+          <p className="evoke-eyebrow">{isSubmitting ? 'starting your world' : 'creating your world'}</p>
+          <h1>{isSubmitting ? 'Preparing your world.' : 'Your world is being created.'}</h1>
+          <p>
+            {isSubmitting
+              ? 'Connecting to Marble and starting your generation…'
+              : 'Marble is shaping the scene. Evoke will save it to your account and open it when it is ready.'}
+          </p>
           <button className="viewer-back-button" type="button" onClick={() => setLocation('/home')}>
             Return to home
           </button>
@@ -1144,6 +1152,7 @@ function ProtectedAdminEditor() {
 
 type SavedWorldSummary = {
   id: string;
+  operation_id: string | null;
   display_name: string;
   marble_world_id: string | null;
   status: string;
@@ -1158,10 +1167,24 @@ function Immerse() {
   const [worlds, setWorlds] = useState<SavedWorldSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [refreshError, setRefreshError] = useState('');
+  const pendingOperationIds = worlds
+    .filter((world) => world.status === 'generating' && world.operation_id)
+    .map((world) => world.operation_id as string);
+  const pendingOperationsKey = pendingOperationIds.join('|');
 
   useEffect(() => {
-    if (!session?.access_token) return;
+    if (!session?.access_token) {
+      setWorlds([]);
+      setLoading(false);
+      return;
+    }
+
     let cancelled = false;
+    setLoading(true);
+    setError('');
+    setRefreshError('');
+    setWorlds([]);
     void fetch('/api/worlds', {
       headers: { Authorization: `Bearer ${session.access_token}` },
     })
@@ -1184,6 +1207,69 @@ function Immerse() {
       cancelled = true;
     };
   }, [session?.access_token]);
+
+  useEffect(() => {
+    if (!session?.access_token || !pendingOperationsKey) return;
+    let cancelled = false;
+
+    const refreshOperations = async () => {
+      const results = await Promise.all(
+        pendingOperationIds.map(async (operationId) => {
+          try {
+            const response = await fetch(
+              `/api/worlds/operations/${encodeURIComponent(operationId)}`,
+              { headers: { Authorization: `Bearer ${session.access_token}` } },
+            );
+            const data = (await response.json()) as {
+              status?: string;
+              world?: SavedWorldSummary;
+              error?: string;
+            };
+            if (!response.ok) {
+              throw new Error(getApiError(data, 'Could not refresh world generation.'));
+            }
+            return { operationId, data, error: '' };
+          } catch (requestError) {
+            return {
+              operationId,
+              data: null,
+              error: requestError instanceof Error
+                ? requestError.message
+                : 'Could not refresh world generation.',
+            };
+          }
+        }),
+      );
+
+      if (cancelled) return;
+      const failedChecks = results.filter((result) => result.error);
+      setRefreshError(failedChecks[0]?.error ?? '');
+      setWorlds((current) =>
+        current.map((world) => {
+          const result = results.find((item) => item.operationId === world.operation_id);
+          if (!result?.data) return world;
+          if (result.data.status === 'ready' && result.data.world) {
+            return { ...world, ...result.data.world };
+          }
+          if (result.data.status === 'failed') {
+            return {
+              ...world,
+              status: 'failed',
+              error_message: result.data.error ?? 'World generation failed.',
+            };
+          }
+          return world;
+        }),
+      );
+    };
+
+    void refreshOperations();
+    const intervalId = window.setInterval(() => void refreshOperations(), 5_000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(intervalId);
+    };
+  }, [pendingOperationsKey, session?.access_token]);
 
   return (
     <PageFrame
@@ -1211,33 +1297,40 @@ function Immerse() {
           </button>
         </div>
       ) : (
-        <section className="world-list" aria-label="Saved worlds">
-          {worlds.map((world) => {
-            const thumbnail = world.assets.find((asset) => asset.kind === 'thumbnail')?.signed_url;
-            return (
-              <button
-                className="world-card"
-                type="button"
-                key={world.id}
-                onClick={() => world.status === 'ready' && setLocation(`/worlds/${world.id}`)}
-                disabled={world.status !== 'ready'}
-              >
-                {thumbnail ? <img src={thumbnail} alt="" /> : <span className="world-card-placeholder" />}
-                <span className="world-card-copy">
-                  <strong>{world.display_name}</strong>
-                  <small>
-                    {world.status === 'ready'
-                      ? 'Open saved world'
-                      : world.status === 'generating'
-                        ? 'Still creating…'
-                        : world.error_message || 'Generation failed'}
-                  </small>
-                </span>
-                <span aria-hidden="true">→</span>
-              </button>
-            );
-          })}
-        </section>
+        <>
+          {refreshError ? (
+            <p className="world-refresh-message" role="status">
+              {refreshError} We’ll try again automatically.
+            </p>
+          ) : null}
+          <section className="world-list" aria-label="Saved worlds">
+            {worlds.map((world) => {
+              const thumbnail = world.assets.find((asset) => asset.kind === 'thumbnail')?.signed_url;
+              return (
+                <button
+                  className="world-card"
+                  type="button"
+                  key={world.id}
+                  onClick={() => world.status === 'ready' && setLocation(`/worlds/${world.id}`)}
+                  disabled={world.status !== 'ready'}
+                >
+                  {thumbnail ? <img src={thumbnail} alt="" /> : <span className="world-card-placeholder" />}
+                  <span className="world-card-copy">
+                    <strong>{world.display_name}</strong>
+                    <small>
+                      {world.status === 'ready'
+                        ? 'Open saved world'
+                        : world.status === 'generating'
+                          ? 'Still creating…'
+                          : world.error_message || 'Generation failed'}
+                    </small>
+                  </span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              );
+            })}
+          </section>
+        </>
       )}
       <div className="world-list-actions">
         <button className="text-action" type="button" onClick={() => setLocation('/create')}>
@@ -1254,11 +1347,25 @@ function ProtectedWorld({ params }: { params: { id?: string } }) {
   return (
     <AuthRequired>
       {session?.access_token && params.id ? (
-        <WorldViewer
-          worldId={params.id}
-          accessToken={session.access_token}
-          onBack={() => setLocation('/immerse')}
-        />
+        <Suspense
+          fallback={
+            <main className="world-viewer world-viewer-state" aria-live="polite">
+              <div className="world-loader" aria-hidden="true" />
+              <p className="evoke-eyebrow">loading viewer</p>
+              <h1>Preparing your world.</h1>
+              <button className="viewer-back-button" type="button" onClick={() => setLocation('/immerse')}>
+                Return to My Worlds
+              </button>
+            </main>
+          }
+        >
+          <WorldViewer
+            key={params.id}
+            worldId={params.id}
+            accessToken={session.access_token}
+            onBack={() => setLocation('/immerse')}
+          />
+        </Suspense>
       ) : null}
     </AuthRequired>
   );

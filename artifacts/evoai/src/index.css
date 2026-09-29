@@ -615,6 +615,13 @@
   margin-top: 2rem;
 }
 
+.world-refresh-message {
+  margin: 1.5rem 0 -0.75rem;
+  color: #9a5a28;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .world-card {
   display: grid;
   grid-template-columns: 7rem minmax(0, 1fr) auto;

@@ -46,9 +46,15 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
+    setWorld(null);
+    setError("");
+    setSplatReady(false);
+    setIsLocked(false);
     setLoading(true);
     void fetch(`/api/worlds/${encodeURIComponent(worldId)}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
+      signal: controller.signal,
     })
       .then(async (response) => {
         const payload = (await response.json()) as { world?: SavedWorld; error?: string };
@@ -65,6 +71,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
       });
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, [accessToken, worldId]);
 
@@ -84,19 +91,42 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
     setSplatReady(false);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(65, 1, 0.01, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    } catch {
+      setError("This browser could not start the 3D viewer. Try a recent browser with WebGL enabled.");
+      return;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x10251f, 1);
     host.appendChild(renderer.domElement);
 
-    const spark = new SparkRenderer({ renderer });
+    let spark: SparkRenderer;
+    try {
+      spark = new SparkRenderer({ renderer });
+    } catch {
+      renderer.dispose();
+      renderer.domElement.remove();
+      setError("The Gaussian-splat renderer could not start in this browser.");
+      return;
+    }
     scene.add(spark);
-    const splat = new SplatMesh({
-      url: splatAsset.signed_url,
-      onLoad: () => {
-        if (!disposed) setSplatReady(true);
-      },
-    });
+    let splat: SplatMesh;
+    try {
+      splat = new SplatMesh({
+        url: splatAsset.signed_url,
+        onLoad: () => {
+          if (!disposed) setSplatReady(true);
+        },
+      });
+    } catch {
+      spark.dispose();
+      renderer.dispose();
+      renderer.domElement.remove();
+      setError("The saved SPZ world could not be opened in this browser.");
+      return;
+    }
     void splat.initialized.catch(() => {
       if (!disposed) setError("The saved SPZ world could not be rendered in this browser.");
     });
@@ -110,6 +140,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
     let pitch = 0;
     const keys = new Set<string>();
     const clock = new THREE.Clock();
+    let animationFrameId = 0;
 
     const resize = () => {
       const width = host.clientWidth || window.innerWidth;
@@ -153,7 +184,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
       }
       camera.position.y = Math.max(camera.position.y, groundOffset + 1.65);
       renderer.render(scene, camera);
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     resize();
@@ -163,7 +194,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
     window.addEventListener("mousemove", onMouseMove);
     document.addEventListener("pointerlockchange", onPointerLockChange);
     renderer.domElement.addEventListener("click", onCanvasClick);
-    requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
 
     return () => {
       disposed = true;
@@ -174,6 +205,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
       window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("pointerlockchange", onPointerLockChange);
       renderer.domElement.removeEventListener("click", onCanvasClick);
+      cancelAnimationFrame(animationFrameId);
       splat.dispose();
       spark.dispose();
       renderer.dispose();
