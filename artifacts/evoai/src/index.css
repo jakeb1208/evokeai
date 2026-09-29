@@ -841,32 +841,7 @@
     linear-gradient(135deg, #cfeeb3 0%, #e7f3c9 45%, #e2eed2 72%, #e7e0ee 100%);
 }
 
-/* Immerse / music: a little listening room inside the existing notebook palette. */
-.immerse-tabs {
-  display: flex;
-  gap: .35rem;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto 2rem;
-  padding: .35rem;
-  border: 1px solid rgba(36,103,69,.17);
-  border-radius: 999px;
-  background: rgba(247,250,222,.65);
-}
-.immerse-tab {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 8.5rem;
-  border-radius: 999px;
-  color: #52725c;
-  font: 600 .86rem 'Outfit', sans-serif;
-  padding: .75rem 1.2rem;
-  text-decoration: none;
-  transition: background-color .2s ease, color .2s ease, transform .2s ease;
-}
-.immerse-tab:hover, .immerse-tab:focus-visible { color: #173f2b; transform: translateY(-2px); outline: none; }
-.immerse-tab[aria-current="page"] { background: #246745; color: #f5f7df; }
+/* Music library: a listening room inside the notebook palette. */
 .music-room {
   overflow: hidden;
   border: 1px solid rgba(36,103,69,.18);

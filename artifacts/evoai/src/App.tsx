@@ -16,9 +16,9 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { supabase } from '@/lib/supabase';
 import { MusicProvider } from '@/components/music-context';
-import { ImmerseTabs, MusicLibrary, MusicPlayer } from '@/components/music-ui';
+import { MusicLibrary, MusicPlayer } from '@/components/music-ui';
 import NotFound from '@/pages/not-found';
-import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
+import { Redirect, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
 const WorldViewer = lazy(() =>
   import('@/components/world-viewer').then((module) => ({ default: module.WorldViewer })),
@@ -584,6 +584,13 @@ function Home() {
           >
             My Worlds
           </button>
+          <button
+            className="evoke-button"
+            type="button"
+            onClick={() => setLocation('/music')}
+          >
+            Music
+          </button>
         </div>
         {client ? (
           <button className="auth-signout" type="button" onClick={() => void client.auth.signOut()}>
@@ -1148,11 +1155,10 @@ function ProtectedMusic() {
   return (
     <AuthRequired>
       <PageFrame
-        eyebrow="immerse / music"
+        eyebrow="music"
         title="Stay a little longer."
         description="A soundtrack for the places only you can visit. Add your music, then let it follow you through your worlds."
       >
-        <ImmerseTabs active="music" />
         <MusicLibrary />
       </PageFrame>
     </AuthRequired>
@@ -1294,7 +1300,6 @@ function Immerse() {
       title="Choose a world."
       description="Every world here is saved to your Evoke account. Opening one never starts a new generation."
     >
-      <ImmerseTabs active="worlds" />
       {loading ? (
         <div className="world-list-state">
           <div className="world-loader" aria-hidden="true" />
@@ -1404,7 +1409,8 @@ function Router() {
           <Route path="/edit" component={ProtectedEdit} />
           <Route path="/create" component={ProtectedCreate} />
           <Route path="/edit-create" component={ProtectedEdit} />
-          <Route path="/immerse/music" component={ProtectedMusic} />
+          <Route path="/music" component={ProtectedMusic} />
+          <Route path="/immerse/music"><Redirect to="/music" /></Route>
           <Route path="/immerse" component={ProtectedImmerse} />
           <Route path="/worlds/:id" component={ProtectedWorld} />
           <Route path="/admin" component={ProtectedAdminEditor} />

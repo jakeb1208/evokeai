@@ -1,16 +1,6 @@
-import { Link } from 'wouter';
 import { Disc3, Music2, Pause, Play, SkipForward, Upload, Volume2 } from 'lucide-react';
 import { useRef, type ChangeEvent } from 'react';
 import { useMusic } from './music-context';
-
-export function ImmerseTabs({ active }: { active: 'worlds' | 'music' }) {
-  return (
-    <nav className="immerse-tabs" aria-label="Immerse sections">
-      <Link href="/immerse" className="immerse-tab" aria-current={active === 'worlds' ? 'page' : undefined} data-testid="link-my-worlds">My Worlds</Link>
-      <Link href="/immerse/music" className="immerse-tab" aria-current={active === 'music' ? 'page' : undefined} data-testid="link-music">Music</Link>
-    </nav>
-  );
-}
 
 function time(value: number) {
   if (!Number.isFinite(value)) return '0:00';
