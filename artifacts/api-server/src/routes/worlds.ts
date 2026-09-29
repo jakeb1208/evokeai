@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { requireAuth } from "../middlewares/auth";
-import { getSupabaseAdmin, getWorldAssetsBucket, supabaseConfigurationError } from "../lib/supabase";
+import { getSupabaseAdmin, getWorldAssetsBucket, supabaseConfigurationError, worldStorageErrorMessage } from "../lib/supabase";
 
 const router: IRouter = Router();
 
@@ -81,9 +81,10 @@ router.get("/worlds", requireAuth, async (req, res) => {
     const worlds = await selectWorlds(req.evokeUser!.id);
     return res.json({ worlds: await Promise.all(worlds.map(toWorldResponse)) });
   } catch (error) {
+    req.log.error({ err: error }, "Could not list Evoke worlds");
     const status = supabaseConfigurationError(error) ? 503 : 500;
     return res.status(status).json({
-      error: error instanceof Error ? error.message : "Could not load your worlds.",
+      error: worldStorageErrorMessage(error, "Could not load your worlds."),
     });
   }
 });
@@ -95,9 +96,10 @@ router.get("/worlds/:id", requireAuth, async (req, res) => {
     if (worlds.length === 0) return res.status(404).json({ error: "World not found." });
     return res.json({ world: await toWorldResponse(worlds[0]) });
   } catch (error) {
+    req.log.error({ err: error }, "Could not load Evoke world");
     const status = supabaseConfigurationError(error) ? 503 : 500;
     return res.status(status).json({
-      error: error instanceof Error ? error.message : "Could not load this world.",
+      error: worldStorageErrorMessage(error, "Could not load this world."),
     });
   }
 });
@@ -121,9 +123,10 @@ router.get("/worlds/operations/:operationId", requireAuth, async (req, res) => {
       error: world.error_message,
     });
   } catch (error) {
+    req.log.error({ err: error }, "Could not check Evoke world generation");
     const status = supabaseConfigurationError(error) ? 503 : 500;
     return res.status(status).json({
-      error: error instanceof Error ? error.message : "Could not check this generation.",
+      error: worldStorageErrorMessage(error, "Could not check this generation."),
     });
   }
 });

@@ -1,10 +1,13 @@
 import { Router, type IRouter } from "express";
 import { requireAuth } from "../middlewares/auth";
 import {
+  assertWorldStorageReady,
   getSupabaseAdmin,
   getWorldAssetsBucket,
   supabaseConfigurationError,
+  worldStorageErrorMessage,
 } from "../lib/supabase";
+import { logger } from "../lib/logger";
 
 const router: IRouter = Router();
 const MARBLE_API_BASE_URL = "https://api.worldlabs.ai";
@@ -266,10 +269,11 @@ async function waitForMarbleWorld(operationId: string) {
 }
 
 async function markGenerationFailed(worldRecordId: string, message: string) {
-  await getSupabaseAdmin()
+  const result = await getSupabaseAdmin()
     .from("evoke_worlds")
     .update({ status: "failed", error_message: message })
     .eq("id", worldRecordId);
+  if (result.error) throw result.error;
 }
 
 async function persistCompletedWorld(
@@ -300,7 +304,12 @@ async function persistCompletedWorld(
     if (result.error) throw result.error;
   } catch (error) {
     const message = error instanceof Error ? error.message : "World generation failed.";
-    await markGenerationFailed(worldRecordId, message);
+    logger.error({ err: error, operationId, worldRecordId }, "Could not save generated Marble world");
+    try {
+      await markGenerationFailed(worldRecordId, message);
+    } catch (updateError) {
+      logger.error({ err: updateError, operationId, worldRecordId }, "Could not mark Marble generation as failed");
+    }
   }
 }
 
@@ -324,6 +333,9 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
       return res.status(400).json({ error: "worldId is required when editing a world." });
     }
     if (files.length > 8) return res.status(400).json({ error: "Attach no more than eight images." });
+
+    // Check both persistent destinations before starting a chargeable Marble operation.
+    await assertWorldStorageReady();
 
     let worldPrompt = buildWorldPrompt(prompt ?? "", files);
     if (mode === "edit" && worldId) {
@@ -393,7 +405,14 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
       })
       .select("id")
       .single();
-    if (inserted.error || !inserted.data) throw inserted.error ?? new Error("Could not create the Evoke world record.");
+    if (inserted.error || !inserted.data) {
+      req.log.error({ err: inserted.error, operationId }, "Marble started but Evoke could not save its operation");
+      const reason = worldStorageErrorMessage(inserted.error, "Could not create the Evoke world record.");
+      return res.status(503).json({
+        error: `Marble started this world, but Evoke could not save it. Do not generate it again. ${reason}`,
+        operationId,
+      });
+    }
 
     void persistCompletedWorld(inserted.data.id as string, req.evokeUser!.id, operationId, displayName, model);
     return res.status(202).json({
@@ -402,11 +421,12 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
       status: "generating",
     });
   } catch (error) {
+    req.log.error({ err: error }, "Could not start Evoke world generation");
     const status = error instanceof Error && error.name === "ConfigurationError"
       ? 503
       : supabaseConfigurationError(error) ? 503 : 500;
     return res.status(status).json({
-      error: error instanceof Error ? error.message : "Unexpected world generation error.",
+      error: worldStorageErrorMessage(error, "Could not start world generation."),
     });
   }
 });
