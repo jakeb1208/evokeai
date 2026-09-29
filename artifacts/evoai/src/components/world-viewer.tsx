@@ -15,7 +15,12 @@ type SavedWorld = {
   marble_world_id: string | null;
   marble_world: {
     assets?: {
-      splats?: { semantics_metadata?: { ground_plane_offset?: number } | null } | null;
+      splats?: {
+        semantics_metadata?: {
+          metric_scale_factor?: number | null;
+          ground_plane_offset?: number | null;
+        } | null;
+      } | null;
     };
   } | null;
   assets: WorldAsset[];
@@ -93,7 +98,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
     const camera = new THREE.PerspectiveCamera(65, 1, 0.01, 1000);
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer = new THREE.WebGLRenderer({ antialias: false });
     } catch {
       setError("This browser could not start the 3D viewer. Try a recent browser with WebGL enabled.");
       return;
@@ -132,11 +137,27 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
     });
     scene.add(splat);
 
-    const groundOffset =
-      world.marble_world?.assets?.splats?.semantics_metadata?.ground_plane_offset ?? 0;
-    camera.position.set(0, groundOffset + 1.65, 4);
+    const semantics = world.marble_world?.assets?.splats?.semantics_metadata;
+    const rawScale = semantics?.metric_scale_factor;
+    const metricScale = typeof rawScale === "number" && Number.isFinite(rawScale) && rawScale > 0
+      ? rawScale
+      : 1;
+    const rawOffset = semantics?.ground_plane_offset;
+    const groundOffset = typeof rawOffset === "number" && Number.isFinite(rawOffset)
+      ? rawOffset
+      : 0;
+    // Marble's SPZ is in an OpenCV frame. Scale to meters, subtract the
+    // ground offset in that frame, then rotate 180° around X into Three.js.
+    // After the X rotation, the ground translation is positive Y.
+    splat.scale.setScalar(metricScale);
+    splat.rotation.x = Math.PI;
+    splat.position.y = groundOffset;
+
+    // The generated camera origin faces +Z in Marble's raw frame, which
+    // becomes -Z in Three.js. Start there instead of outside the scene.
+    camera.position.set(0, 1.65, 0);
     camera.rotation.order = "YXZ";
-    let yaw = Math.PI;
+    let yaw = 0;
     let pitch = 0;
     const keys = new Set<string>();
     const clock = new THREE.Clock();
@@ -182,7 +203,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
         direction.normalize().multiplyScalar(delta * 3.5);
         camera.position.add(direction);
       }
-      camera.position.y = Math.max(camera.position.y, groundOffset + 1.65);
+      camera.position.y = Math.max(camera.position.y, 1.65);
       renderer.render(scene, camera);
       animationFrameId = requestAnimationFrame(animate);
     };
