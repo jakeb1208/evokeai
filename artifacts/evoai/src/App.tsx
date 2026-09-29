@@ -20,6 +20,9 @@ import { MusicLibrary, MusicPlayer } from '@/components/music-ui';
 import NotFound from '@/pages/not-found';
 import { Redirect, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
+const ExplorePage = lazy(() =>
+  import('@/components/explore-page').then((module) => ({ default: module.ExplorePage })),
+);
 const WorldViewer = lazy(() =>
   import('@/components/world-viewer').then((module) => ({ default: module.WorldViewer })),
 );
@@ -583,6 +586,13 @@ function Home() {
             onClick={() => setLocation('/immerse')}
           >
             My Worlds
+          </button>
+          <button
+            className="evoke-button"
+            type="button"
+            onClick={() => setLocation('/explore')}
+          >
+            Explore
           </button>
           <button
             className="evoke-button"
@@ -1165,6 +1175,22 @@ function ProtectedMusic() {
   );
 }
 
+function Explore() {
+  const [, setLocation] = useLocation();
+  return (
+    <Suspense
+      fallback={
+        <main className="world-viewer-state" aria-live="polite">
+          <div className="world-loader" aria-hidden="true" />
+          <p>Opening Explore…</p>
+        </main>
+      }
+    >
+      <ExplorePage onBack={() => setLocation('/home')} />
+    </Suspense>
+  );
+}
+
 function ProtectedAdminEditor() {
   return (
     <AuthRequired>
@@ -1410,6 +1436,7 @@ function Router() {
           <Route path="/create" component={ProtectedCreate} />
           <Route path="/edit-create" component={ProtectedEdit} />
           <Route path="/music" component={ProtectedMusic} />
+          <Route path="/explore" component={Explore} />
           <Route path="/immerse/music"><Redirect to="/music" /></Route>
           <Route path="/immerse" component={ProtectedImmerse} />
           <Route path="/worlds/:id" component={ProtectedWorld} />

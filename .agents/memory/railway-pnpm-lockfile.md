@@ -7,4 +7,4 @@ Generate the workspace lockfile with pnpm 9.15.9 when preparing this project for
 
 **Why:** A lockfile accepted by the local pnpm 10 toolchain can still fail Railway's frozen install with an overrides configuration mismatch, while a package-manager pin can make Replit's managed workflows loop during startup.
 
-**How to apply:** Before deploying to Railway, run the pnpm 9 frozen-install check and commit the resulting pnpm-lock.yaml. Leave package.json free of a packageManager pin unless the workspace runtime explicitly supports it.
+**How to apply:** Before deploying to Railway, run the pnpm 9 frozen-install check and commit the resulting pnpm-lock.yaml. Leave package.json free of a packageManager pin unless the workspace runtime explicitly supports it. For a dependency in one artifact, use `corepack pnpm@9.15.9 --filter @workspace/<artifact> add` so the manifest and lockfile stay aligned; the generic package installer attempts to add at the workspace root and rejects filter flags.
