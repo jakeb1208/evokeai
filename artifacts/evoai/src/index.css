@@ -205,8 +205,7 @@
   display: grid;
   min-height: 100dvh;
   place-items: center;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 2rem 1.25rem;
   background:
     radial-gradient(circle at 76% 26%, rgba(178, 134, 225, 0.24), transparent 31%),
@@ -221,10 +220,10 @@
   width: min(100%, 760px);
   flex-direction: column;
   align-items: center;
-  gap: clamp(1.8rem, 5vw, 3.4rem);
-  padding: clamp(1.5rem, 4vw, 3rem);
+  gap: clamp(2.4rem, 7vw, 4.6rem);
+  padding: clamp(2rem, 5vw, 4rem);
   text-align: center;
-  transform: none;
+  transform: translateY(-7vh);
 }
 
 .login-card {
@@ -397,11 +396,7 @@
   display: flex;
   width: min(100%, 500px);
   flex-direction: column;
-  gap: 1rem;
-}
-
-.evoke-actions .evoke-button {
-  min-height: 4.3rem;
+  gap: 1.35rem;
 }
 
 .evoke-button {
@@ -493,9 +488,9 @@
   }
 
   .evoke-card {
-    gap: 2rem;
+    gap: 3rem;
     padding: 1.5rem 0.5rem;
-    transform: none;
+    transform: translateY(-5vh);
   }
 
   .login-card {
