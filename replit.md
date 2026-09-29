@@ -28,6 +28,7 @@ Evoke AI is a web experience for creating, revising, and eventually exploring AI
 - `artifacts/api-server/src/routes/marble.ts` — server-only Marble proxy
 - `artifacts/api-server/src/routes/health.ts` — health endpoint
 - `desktop/evoke/` — independent Windows/Linux desktop installer package, loading the hosted Evoke site
+- `unity/evoke-quest2/` — Unity source for a Quest 2-only 360° saved-world viewer (same accounts and API)
 - `railway.json` — Railway build, start, and health-check configuration
 
 ## Architecture decisions

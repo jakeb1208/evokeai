@@ -8,6 +8,12 @@ out-tsc
 .expo
 .expo-shared
 /desktop/evoke/release/
+/unity/evoke-quest2/Library/
+/unity/evoke-quest2/Temp/
+/unity/evoke-quest2/Logs/
+/unity/evoke-quest2/Obj/
+/unity/evoke-quest2/Builds/
+/unity/evoke-quest2/UserSettings/
 
 # dependencies
 node_modules

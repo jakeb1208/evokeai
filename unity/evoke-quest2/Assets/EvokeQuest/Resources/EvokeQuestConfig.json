@@ -1,0 +1,5 @@
+{
+  "supabaseUrl": "https://YOUR_PROJECT.supabase.co",
+  "supabaseAnonKey": "YOUR_SUPABASE_PUBLIC_ANON_KEY",
+  "apiBaseUrl": "https://evokeai-production.up.railway.app"
+}
