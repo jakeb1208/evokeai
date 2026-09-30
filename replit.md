@@ -46,6 +46,7 @@ Evoke AI is a web experience for creating, revising, and eventually exploring AI
 ## User preferences
 
 - Keep the existing monorepo structure and add service boundaries rather than migrating the stack.
+- Evoke's UI should favor flowing dark-green, light-green, and bright-blue gradients over hard color blocks. Avoid square chart/grid backdrops and typewriter-like mono labels; use futuristic but proportional typography.
 
 ## Gotchas
 
