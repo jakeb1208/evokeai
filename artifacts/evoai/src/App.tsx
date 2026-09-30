@@ -18,7 +18,7 @@ import { supabase } from '@/lib/supabase';
 import { MusicProvider } from '@/components/music-context';
 import { MusicLibrary, MusicPlayer } from '@/components/music-ui';
 import NotFound from '@/pages/not-found';
-import { Redirect, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
+import { Redirect, Route, Switch, Router as WouterRouter, Link, useLocation } from 'wouter';
 
 const WorldViewer = lazy(() =>
   import('@/components/world-viewer').then((module) => ({ default: module.WorldViewer })),
@@ -196,12 +196,44 @@ function Wordmark({ onClick }: { onClick?: () => void }) {
         onClick={onClick}
         aria-label="Evoke AI. Click five times quickly to open the admin editor."
       >
-        evoke ai
+        evokeai
       </button>
     );
   }
 
-  return <span className="page-wordmark">evoke ai</span>;
+  return <span className="page-wordmark">evokeai</span>;
+}
+
+function StudioNav({ overlay = false }: { overlay?: boolean }) {
+  const [location, setLocation] = useLocation();
+  const { client } = useAuth();
+  const logoClicks = useRef<number[]>([]);
+  const handleLogoClick = () => {
+    const now = Date.now();
+    logoClicks.current = [...logoClicks.current.filter((timestamp) => now - timestamp < 900), now];
+    if (logoClicks.current.length >= 5) {
+      logoClicks.current = [];
+      setLocation('/admin');
+    }
+  };
+  return (
+    <header className={`studio-nav${overlay ? ' studio-nav-overlay' : ''}`}>
+      <button className="studio-nav-brand" type="button" onClick={handleLogoClick} aria-label="evokeai, click five times quickly for editor" data-testid="button-wordmark">
+        <span className="brand-sigil" aria-hidden="true">e</span><span>evoke<span className="brand-ai">ai</span></span>
+      </button>
+      <nav className="studio-nav-links" aria-label="Primary navigation">
+        {(['edit', 'create', 'immerse', 'music'] as const).map((item) => (
+          <Link key={item} href={`/${item}`} className={`studio-nav-link${location === `/${item}` || (item === 'immerse' && location.startsWith('/worlds/')) ? ' active' : ''}`} aria-current={location === `/${item}` ? 'page' : undefined} data-testid={`link-${item}`}>
+            {item === 'immerse' ? 'Immerse' : item.charAt(0).toUpperCase() + item.slice(1)}
+          </Link>
+        ))}
+      </nav>
+      <div className="studio-nav-end">
+        <Link href="/home" className="nav-home-link" aria-label="Home" data-testid="link-home">Home</Link>
+        {client ? <button className="nav-signout" type="button" onClick={() => void client.auth.signOut()} data-testid="button-sign-out">Sign out</button> : null}
+      </div>
+    </header>
+  );
 }
 
 function BackHome() {
@@ -223,36 +255,22 @@ function PageFrame({
   eyebrow,
   title,
   description,
-  adminShortcut = false,
   children,
 }: {
   eyebrow: string;
   title: string;
   description?: string;
-  adminShortcut?: boolean;
   children: ReactNode;
 }) {
-  const [, setLocation] = useLocation();
-  const logoClicks = useRef<number[]>([]);
-
-  const handleLogoClick = () => {
-    const now = Date.now();
-    logoClicks.current = [...logoClicks.current.filter((timestamp) => now - timestamp < 900), now];
-    if (logoClicks.current.length >= 5) {
-      logoClicks.current = [];
-      setLocation('/admin');
-    }
-  };
-
   return (
     <main className="evoke-page">
       <div className="evoke-glow evoke-glow-green" />
-      <div className="evoke-glow evoke-glow-purple" />
+      <div className="evoke-glow evoke-glow-blue" />
       <div className="evoke-grid" />
+      <StudioNav />
       <div className="evoke-page-inner">
         <BackHome />
         <header className="evoke-page-header">
-          <Wordmark onClick={adminShortcut ? handleLogoClick : undefined} />
           <p className="evoke-eyebrow">{eyebrow}</p>
           <h1 className="evoke-page-title">{title}</h1>
           {description ? <p className="evoke-page-description">{description}</p> : null}
@@ -341,20 +359,22 @@ function Login() {
   return (
     <main className="evoke-home evoke-login">
       <div className="evoke-glow evoke-glow-green" />
-      <div className="evoke-glow evoke-glow-purple" />
+      <div className="evoke-glow evoke-glow-blue" />
       <div className="evoke-grid" />
 
       <section className="login-card" aria-label="Log in to Evoke AI">
-        <Wordmark />
-        <div className="login-heading">
-          <p className="evoke-eyebrow">{awaitingCode ? 'check your email' : 'welcome back'}</p>
-          <h1>
-            {awaitingCode
-              ? 'Confirm your account.'
-              : authMode === 'login'
-                ? 'Step into your worlds.'
-                : 'Create your first world.'}
-          </h1>
+        <div className="login-intro">
+          <Wordmark />
+          <div className="login-heading">
+            <p className="evoke-eyebrow">{awaitingCode ? 'check your email' : 'welcome back'}</p>
+            <h1>
+              {awaitingCode
+                ? 'Confirm your account.'
+                : authMode === 'login'
+                  ? 'Step into your worlds.'
+                  : 'Create your first world.'}
+            </h1>
+          </div>
         </div>
         {awaitingCode ? (
           <form className="login-form" onSubmit={handleVerification}>
@@ -522,108 +542,76 @@ function Login() {
           </button>
         ) : null}
       </section>
+      <aside className="login-art" aria-hidden="true"><span>YOUR MIND, MADE EXPLORABLE</span><div className="login-art-caption"><span>01 / 03</span><strong>Every memory<br />has a world inside.</strong></div></aside>
     </main>
   );
 }
 
 function Home() {
   const [, setLocation] = useLocation();
-  const { client } = useAuth();
-  const logoClicks = useRef<number[]>([]);
-
-  const handleLogoClick = () => {
-    const now = Date.now();
-    logoClicks.current = [...logoClicks.current.filter((timestamp) => now - timestamp < 900), now];
-    if (logoClicks.current.length >= 5) {
-      logoClicks.current = [];
-      setLocation('/admin');
-    }
-  };
+  const steps = readContent().how.steps;
 
   return (
-    <main className="evoke-home">
+    <main className="evoke-home home-experience">
       <div className="evoke-glow evoke-glow-green" />
-      <div className="evoke-glow evoke-glow-purple" />
+      <div className="evoke-glow evoke-glow-blue" />
       <div className="evoke-grid" />
-
-      <section className="evoke-card" aria-label="Evoke AI home">
-        <button
-          className="evoke-wordmark"
-          type="button"
-          onClick={handleLogoClick}
-          aria-label="Evoke AI. Click five times quickly to open the admin editor."
-        >
-          evoke ai
-        </button>
-        <div className="evoke-actions">
-          <button
-            className="evoke-button"
-            type="button"
-            onClick={() => setLocation('/how-it-works')}
-          >
-            How it works
+      <StudioNav />
+      <section className="home-hero" aria-label="Evoke AI home">
+        <div className="hero-art" aria-hidden="true" />
+        <div className="hero-copy">
+          <p className="hero-kicker"><span className="live-pulse" /> YOUR PRIVATE CREATIVE UNIVERSE <span className="kicker-line" /> 001 / ∞</p>
+          <h1>Memories,<br /> <em>Reimagined</em></h1>
+          <button className="hero-create" type="button" onClick={() => setLocation('/create')} data-testid="button-create-world">
+            Create world <span aria-hidden="true">↗</span>
           </button>
-          <button
-            className="evoke-button"
-            type="button"
-            onClick={() => setLocation('/edit')}
-          >
-            Edit
-          </button>
-          <button
-            className="evoke-button"
-            type="button"
-            onClick={() => setLocation('/create')}
-          >
-            Create
-          </button>
-          <button
-            className="evoke-button"
-            type="button"
-            onClick={() => setLocation('/immerse')}
-          >
-            My Worlds
-          </button>
-          <button
-            className="evoke-button"
-            type="button"
-            onClick={() => setLocation('/music')}
-          >
-            Music
-          </button>
+          <p className="hero-description">Your thoughts. Your images. A world you can actually step into. Give a memory dimension, then let your music follow you there.</p>
         </div>
-        {client ? (
-          <button className="auth-signout" type="button" onClick={() => void client.auth.signOut()}>
-            Sign out
-          </button>
-        ) : null}
+        <div className="hero-bottom"><span>IMAGINE / GENERATE / ENTER</span><a href="#the-process">Explore the process <span aria-hidden="true">↓</span></a></div>
       </section>
+      <section className="home-process" id="the-process" aria-labelledby="process-title">
+        <div className="home-process-inner">
+          <div className="section-intro">
+            <p className="evoke-eyebrow">01 / THE PROCESS</p>
+            <h2 id="process-title">A thought is<br /><em>a place in waiting.</em></h2>
+            <p>There is no right way to begin. Start with a sentence, an image, or the feeling you can't quite name.</p>
+          </div>
+          <div className="process-steps">
+            {steps.map((step, index) => (
+              <article className="process-step" key={index}>
+                <span className="process-index">0{index + 1} <span aria-hidden="true">↗</span></span>
+                <div><h3>{step.title}</h3><p>{step.description}</p></div>
+              </article>
+            ))}
+            <button className="process-more" type="button" onClick={() => setLocation('/how-it-works')}>See how it works <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+      </section>
+      <section className="home-after" aria-label="Explore Evoke">
+        <div className="home-after-inner">
+          <div className="after-visual"><div className="after-visual-label"><span>EVOKE / WORLD SPACE</span><span>YOUR PERSPECTIVE, EXPANDED</span></div></div>
+          <div className="after-copy"><p className="evoke-eyebrow">02 / GO FURTHER</p><h2>Not just remembered.<br /><em>Relived.</em></h2><p>Return to the places you've made. Walk through them at your own pace. Add the sounds that make them yours.</p>
+            <div className="after-actions"><button type="button" onClick={() => setLocation('/immerse')}>Enter your worlds <span aria-hidden="true">↗</span></button><button type="button" onClick={() => setLocation('/music')}>Open music library <span aria-hidden="true">↗</span></button></div>
+          </div>
+        </div>
+      </section>
+      <section className="home-closing"><p>THE NEXT WORLD STARTS WITH YOU</p><h2>Make a place<br />of your own.</h2><button className="hero-create" type="button" onClick={() => setLocation('/create')}>Create world <span aria-hidden="true">↗</span></button></section>
+      <footer className="home-footer"><span>evokeai</span><span>A PRIVATE STUDIO FOR WHAT YOU IMAGINE.</span><span>© {new Date().getFullYear()} EVOKE AI</span></footer>
     </main>
   );
 }
 
 function HowItWorks() {
   const content = readContent();
-  const pageText = content.how.steps
-    .map(
-      (step, index) =>
-        `${String(index + 1).padStart(2, '0')}  ${step.title}\n${step.description}`,
-    )
-    .join('\n\n');
-
   return (
     <PageFrame
       eyebrow="how it works"
       title={content.how.title}
-      adminShortcut
     >
-      <textarea
-        className="how-text-box"
-        aria-label="How Evoke AI works"
-        value={pageText}
-        readOnly
-        spellCheck={false}
-      />
+      <div className="how-guide">
+        {content.how.steps.map((step, index) => <article className="how-guide-step" key={index}><span>0{index + 1} / 03</span><div><h2>{step.title}</h2><p>{step.description}</p></div></article>)}
+      </div>
+      <div className="how-guide-end"><p>It only takes a thought to begin.</p><Link href="/create" className="hero-create">Create world <span aria-hidden="true">↗</span></Link></div>
     </PageFrame>
   );
 }
@@ -752,8 +740,9 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
     return (
       <main className="world-generation-screen">
         <div className="evoke-glow evoke-glow-green" />
-        <div className="evoke-glow evoke-glow-purple" />
+        <div className="evoke-glow evoke-glow-blue" />
         <div className="evoke-grid" />
+        <StudioNav />
         <section className="generation-card" aria-live="polite">
           <div className="world-loader" aria-hidden="true" />
           <p className="evoke-eyebrow">{isSubmitting ? 'starting your world' : 'creating your world'}</p>
@@ -1400,6 +1389,7 @@ function Router() {
   const showPlayer = Boolean(session?.user?.email_confirmed_at) && location !== '/' && location !== '/login';
   return (
     <>
+      {showPlayer && location.startsWith('/worlds/') ? <StudioNav overlay /> : null}
       <RoutedErrorBoundary>
         <Switch>
           <Route path="/" component={Login} />
