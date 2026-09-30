@@ -12,6 +12,16 @@ namespace EvokeQuest
     public sealed partial class EvokeQuestPanoramaClient
     {
         private InputField selectedInput;
+        private sealed class PointerInteraction
+        {
+            public GameObject hovered;
+            public GameObject pressed;
+            public GameObject dragged;
+            public Vector2 lastPosition;
+        }
+        private readonly Dictionary<XRNode, PointerInteraction> controllerPointers = new Dictionary<XRNode, PointerInteraction>();
+        private readonly PointerInteraction editorPointer = new PointerInteraction();
+        private readonly Dictionary<XRNode, bool> previousTrigger = new Dictionary<XRNode, bool>();
 
 #if UNITY_EDITOR && ENABLE_INPUT_SYSTEM
         private void OnEnable()
@@ -72,6 +82,7 @@ namespace EvokeQuest
 
             PollController(XRNode.LeftHand);
             PollController(XRNode.RightHand);
+            UpdateMusicUi();
 #if UNITY_EDITOR
             PollEditorMouse();
 #endif
@@ -88,6 +99,7 @@ namespace EvokeQuest
             if (!device.isValid)
             {
                 if (line != null) line.enabled = false;
+                ReleaseControllerPointer(node);
                 return;
             }
             Vector3 localPosition;
@@ -98,15 +110,18 @@ namespace EvokeQuest
                 !device.TryGetFeatureValue(CommonUsages.triggerButton, out trigger))
             {
                 if (line != null) line.enabled = false;
+                ReleaseControllerPointer(node);
                 return;
             }
-            bool wasPressed;
-            previousTrigger.TryGetValue(node, out wasPressed);
             Vector2 stick;
             if (worldsPanel != null && worldsPanel.activeSelf &&
                 device.TryGetFeatureValue(CommonUsages.primary2DAxis, out stick) &&
                 Mathf.Abs(stick.y) > 0.55f)
                 worldScroll.verticalNormalizedPosition = Mathf.Clamp01(worldScroll.verticalNormalizedPosition + stick.y * Time.deltaTime);
+            if (musicPanel != null && musicPanel.activeSelf &&
+                device.TryGetFeatureValue(CommonUsages.primary2DAxis, out stick) &&
+                Mathf.Abs(stick.y) > 0.55f)
+                musicScroll.verticalNormalizedPosition = Mathf.Clamp01(musicScroll.verticalNormalizedPosition + stick.y * Time.deltaTime);
             Vector3 position = transform.TransformPoint(localPosition);
             Quaternion rotation = transform.rotation * localRotation;
             Ray ray = new Ray(position, rotation * Vector3.forward);
@@ -130,11 +145,99 @@ namespace EvokeQuest
                 eventData.position = screenPosition;
                 graphicRaycaster.Raycast(eventData, results);
                 if (results.Count > 0)
+                {
                     target = results[0].gameObject;
+                    eventData.pointerCurrentRaycast = results[0];
+                }
             }
-            if (trigger && !wasPressed && target != null)
-                ExecuteEvents.ExecuteHierarchy(target, eventData, ExecuteEvents.pointerClickHandler);
+            bool wasPressed;
+            previousTrigger.TryGetValue(node, out wasPressed);
+            PointerInteraction pointer;
+            if (!controllerPointers.TryGetValue(node, out pointer))
+            {
+                pointer = new PointerInteraction();
+                controllerPointers[node] = pointer;
+            }
+            eventData.pointerId = node == XRNode.LeftHand ? -1 : -2;
+            ProcessPointer(pointer, eventData, target, trigger, trigger && !wasPressed, !trigger && wasPressed);
             previousTrigger[node] = trigger;
+        }
+
+        private void ReleaseControllerPointer(XRNode node)
+        {
+            bool wasPressed;
+            previousTrigger.TryGetValue(node, out wasPressed);
+            if (!wasPressed) return;
+            PointerInteraction pointer;
+            if (controllerPointers.TryGetValue(node, out pointer))
+            {
+                PointerEventData eventData = new PointerEventData(eventSystem)
+                {
+                    pointerId = node == XRNode.LeftHand ? -1 : -2,
+                    position = pointer.lastPosition,
+                };
+                ProcessPointer(pointer, eventData, null, false, false, true);
+            }
+            previousTrigger[node] = false;
+        }
+
+        private void ProcessPointer(PointerInteraction pointer, PointerEventData eventData, GameObject target,
+            bool pressed, bool down, bool up)
+        {
+            eventData.button = PointerEventData.InputButton.Left;
+            eventData.delta = eventData.position - pointer.lastPosition;
+
+            if (pointer.hovered != target)
+            {
+                if (pointer.hovered != null)
+                    ExecuteEvents.ExecuteHierarchy(pointer.hovered, eventData, ExecuteEvents.pointerExitHandler);
+                if (target != null)
+                    ExecuteEvents.ExecuteHierarchy(target, eventData, ExecuteEvents.pointerEnterHandler);
+                pointer.hovered = target;
+            }
+
+            if (down && target != null)
+            {
+                pointer.pressed = ExecuteEvents.GetEventHandler<IPointerClickHandler>(target);
+                if (pointer.pressed == null)
+                    pointer.pressed = target;
+                eventData.pointerPress = pointer.pressed;
+                eventData.pressPosition = eventData.position;
+                eventData.pointerPressRaycast = eventData.pointerCurrentRaycast;
+                eventData.eligibleForClick = true;
+                ExecuteEvents.ExecuteHierarchy(target, eventData, ExecuteEvents.pointerDownHandler);
+
+                pointer.dragged = ExecuteEvents.GetEventHandler<IDragHandler>(target);
+                if (pointer.dragged != null)
+                {
+                    eventData.pointerDrag = pointer.dragged;
+                    ExecuteEvents.ExecuteHierarchy(target, eventData, ExecuteEvents.initializePotentialDrag);
+                    ExecuteEvents.Execute(pointer.dragged, eventData, ExecuteEvents.beginDragHandler);
+                }
+            }
+
+            if (pressed && pointer.dragged != null)
+            {
+                eventData.pointerPress = pointer.pressed;
+                eventData.pointerDrag = pointer.dragged;
+                ExecuteEvents.Execute(pointer.dragged, eventData, ExecuteEvents.dragHandler);
+            }
+
+            if (up)
+            {
+                eventData.pointerPress = pointer.pressed;
+                eventData.pointerDrag = pointer.dragged;
+                if (pointer.pressed != null)
+                    ExecuteEvents.ExecuteHierarchy(pointer.pressed, eventData, ExecuteEvents.pointerUpHandler);
+                GameObject clickTarget = target == null ? null : ExecuteEvents.GetEventHandler<IPointerClickHandler>(target);
+                if (pointer.pressed != null && pointer.pressed == clickTarget && eventData.eligibleForClick)
+                    ExecuteEvents.Execute(pointer.pressed, eventData, ExecuteEvents.pointerClickHandler);
+                if (pointer.dragged != null)
+                    ExecuteEvents.Execute(pointer.dragged, eventData, ExecuteEvents.endDragHandler);
+                pointer.pressed = null;
+                pointer.dragged = null;
+            }
+            pointer.lastPosition = eventData.position;
         }
 
         private void CreateControllerRay(XRNode node)
@@ -164,29 +267,43 @@ namespace EvokeQuest
         {
             if (eventSystem.currentInputModule != null)
                 return;
+            bool available = false;
             bool pressed = false;
+            bool down = false;
+            bool up = false;
             Vector2 position = Vector2.zero;
 #if ENABLE_INPUT_SYSTEM
             Mouse mouse = Mouse.current;
-            if (mouse != null && mouse.leftButton.wasPressedThisFrame)
+            if (mouse != null)
             {
-                pressed = true;
+                available = true;
+                pressed = mouse.leftButton.isPressed;
+                down = mouse.leftButton.wasPressedThisFrame;
+                up = mouse.leftButton.wasReleasedThisFrame;
                 position = mouse.position.ReadValue();
             }
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-            if (!pressed && Input.GetMouseButtonDown(0))
+            if (!available)
             {
-                pressed = true;
+                available = true;
                 position = Input.mousePosition;
             }
+            pressed |= Input.GetMouseButton(0);
+            down |= Input.GetMouseButtonDown(0);
+            up |= Input.GetMouseButtonUp(0);
 #endif
-            if (!pressed) return;
-            PointerEventData eventData = new PointerEventData(eventSystem) { position = position };
+            if (!available) return;
+            PointerEventData eventData = new PointerEventData(eventSystem) { position = position, pointerId = 0 };
             List<RaycastResult> results = new List<RaycastResult>();
             graphicRaycaster.Raycast(eventData, results);
+            GameObject target = null;
             if (results.Count > 0)
-                ExecuteEvents.ExecuteHierarchy(results[0].gameObject, eventData, ExecuteEvents.pointerClickHandler);
+            {
+                target = results[0].gameObject;
+                eventData.pointerCurrentRaycast = results[0];
+            }
+            ProcessPointer(editorPointer, eventData, target, pressed, down, up);
         }
 
 #if ENABLE_INPUT_SYSTEM

@@ -15,6 +15,7 @@ namespace EvokeQuest
     /// </summary>
     public sealed partial class EvokeQuestPanoramaClient : MonoBehaviour
     {
+        private static int nextAuthSessionGeneration;
         [SerializeField] private Camera headCamera;
         [SerializeField] private float interfaceDistance = 1.35f;
 
@@ -35,6 +36,9 @@ namespace EvokeQuest
         private GameObject worldsPanel;
         private GameObject viewerPanel;
         private GameObject keyboardPanel;
+        private GameObject howPanel;
+        private GameObject musicPanel;
+        private GameObject tabsPanel;
         private Transform keyboardKeyRoot;
         private readonly List<GameObject> keyboardKeys = new List<GameObject>();
         private Transform worldListContent;
@@ -45,10 +49,13 @@ namespace EvokeQuest
         private static Sprite uiSprite;
         private readonly Dictionary<XRNode, LineRenderer> controllerRays = new Dictionary<XRNode, LineRenderer>();
         private Text viewerStatus;
+        private Text worldsStatus;
         private bool busy;
+        private Coroutine worldLoadCoroutine;
+        private int authSessionGeneration;
         private bool keyboardShifted;
         private bool keyboardSymbols;
-        private readonly Dictionary<XRNode, bool> previousTrigger = new Dictionary<XRNode, bool>();
+        private string activeTab = "immerse";
 
         [Serializable] private sealed class AuthPayload
         {
@@ -78,6 +85,11 @@ namespace EvokeQuest
             public string message;
             public string msg;
             public string error_description;
+        }
+
+        private void AdvanceAuthSessionGeneration()
+        {
+            authSessionGeneration = ++nextAuthSessionGeneration;
         }
 
         private void Start()
@@ -149,19 +161,30 @@ namespace EvokeQuest
             worldsPanel.SetActive(false);
             viewerPanel.SetActive(false);
             keyboardPanel.SetActive(false);
+            tabsPanel.SetActive(false);
+            howPanel.SetActive(false);
+            musicPanel.SetActive(false);
             statusText.text = "Sign in to load your saved panoramas.";
         }
 
         private void BackToWorlds()
         {
-            StopAllCoroutines();
+            if (worldLoadCoroutine != null)
+            {
+                StopCoroutine(worldLoadCoroutine);
+                worldLoadCoroutine = null;
+            }
             busy = false;
             RemovePanorama();
             panelBackground.enabled = true;
             brandText.gameObject.SetActive(true);
-            statusText.gameObject.SetActive(true);
+            statusText.gameObject.SetActive(false);
             viewerPanel.SetActive(false);
             worldsPanel.SetActive(true);
+            howPanel.SetActive(false);
+            musicPanel.SetActive(false);
+            tabsPanel.SetActive(true);
+            activeTab = "immerse";
         }
 
         private void Logout()
@@ -171,12 +194,14 @@ namespace EvokeQuest
 
         private void Logout(bool clearPassword)
         {
+            AdvanceAuthSessionGeneration();
             StopAllCoroutines();
             busy = false;
             accessToken = null;
             refreshToken = null;
             tokenExpiresAt = 0f;
             RemovePanorama();
+            StopAndClearMusic();
             ClearWorldRows();
             if (clearPassword && passwordField != null)
                 passwordField.text = string.Empty;
@@ -198,7 +223,10 @@ namespace EvokeQuest
 
         private void OnDestroy()
         {
+            AdvanceAuthSessionGeneration();
+            StopAllCoroutines();
             RemovePanorama();
+            StopAndClearMusic();
             foreach (LineRenderer line in controllerRays.Values)
             {
                 if (line != null && line.material != null)

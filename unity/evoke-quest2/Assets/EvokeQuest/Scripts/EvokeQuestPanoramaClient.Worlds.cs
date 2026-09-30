@@ -51,10 +51,12 @@ namespace EvokeQuest
                     busy = false;
                     yield break;
                 }
+                AdvanceAuthSessionGeneration();
             }
             passwordField.text = string.Empty;
             busy = false;
             LoadWorlds();
+            ReloadMusic();
         }
 
         private bool AcceptAuth(string json)
@@ -73,11 +75,15 @@ namespace EvokeQuest
             if (busy) return;
             panelBackground.enabled = true;
             brandText.gameObject.SetActive(true);
-            statusText.gameObject.SetActive(true);
+            statusText.gameObject.SetActive(false);
             loginPanel.SetActive(false);
             viewerPanel.SetActive(false);
             worldsPanel.SetActive(true);
-            statusText.text = "Loading your saved worlds…";
+            howPanel.SetActive(false);
+            musicPanel.SetActive(false);
+            tabsPanel.SetActive(true);
+            activeTab = "immerse";
+            worldsStatus.text = "Loading your saved worlds…";
             StartCoroutine(FetchWorldList());
         }
 
@@ -90,7 +96,7 @@ namespace EvokeQuest
             ClearWorldRows();
             if (error != null)
             {
-                statusText.text = error;
+                worldsStatus.text = error;
                 busy = false;
                 yield break;
             }
@@ -107,7 +113,7 @@ namespace EvokeQuest
                     readyCount++;
                 }
             }
-            statusText.text = readyCount == 0 ? "No ready worlds yet." : readyCount + " ready panorama" + (readyCount == 1 ? "" : "s") + ".";
+            worldsStatus.text = readyCount == 0 ? "No ready worlds yet. Create and save one on the Evoke website." : readyCount + " ready panorama" + (readyCount == 1 ? "" : "s") + ".";
             busy = false;
         }
 
@@ -138,10 +144,11 @@ namespace EvokeQuest
             brandText.gameObject.SetActive(false);
             statusText.gameObject.SetActive(false);
             worldsPanel.SetActive(false);
+            tabsPanel.SetActive(false);
             viewerPanel.SetActive(true);
             viewerStatus.gameObject.SetActive(true);
             viewerStatus.text = "Requesting a fresh panorama URL…";
-            StartCoroutine(LoadWorld(id, displayName));
+            worldLoadCoroutine = StartCoroutine(LoadWorld(id, displayName));
         }
 
         private IEnumerator LoadWorld(string id, string displayName)

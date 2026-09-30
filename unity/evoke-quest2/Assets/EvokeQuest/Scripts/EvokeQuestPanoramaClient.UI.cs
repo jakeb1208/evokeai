@@ -39,11 +39,15 @@ namespace EvokeQuest
 
             panelBackground = CreateImage(canvasObject.transform, "PanelBackground", new Color(0.035f, 0.075f, 0.065f, 0.96f));
             Stretch(panelBackground.rectTransform, 0f, 0f, 0f, 0f);
-            brandText = CreateText(canvasObject.transform, "Brand", "EVOKE  /  YOUR WORLDS", 30, TextAnchor.MiddleLeft, new Vector2(35f, 310f), new Vector2(600f, 52f));
+            brandText = CreateText(canvasObject.transform, "Brand", "evokeai", 31, TextAnchor.MiddleLeft, new Vector2(-392f, 310f), new Vector2(185f, 52f));
+            brandText.color = new Color(0.73f, 0.94f, 0.60f, 1f);
             statusText = CreateText(canvasObject.transform, "Status", "Sign in to load your saved panoramas.", 22, TextAnchor.MiddleLeft, new Vector2(35f, 265f), new Vector2(920f, 42f));
 
             BuildLogin();
             BuildWorlds();
+            BuildTabs();
+            BuildHowItWorks();
+            BuildMusic();
             BuildViewer();
             BuildKeyboard();
         }
@@ -63,17 +67,17 @@ namespace EvokeQuest
         private void BuildWorlds()
         {
             worldsPanel = NewPanel("WorldsPanel");
-            CreateText(worldsPanel.transform, "WorldsTitle", "Ready panoramas", 34, TextAnchor.MiddleLeft, new Vector2(-415f, 210f), new Vector2(600f, 55f));
-            CreateButton(worldsPanel.transform, "RefreshWorlds", "REFRESH", new Vector2(330f, 210f), new Vector2(180f, 60f), LoadWorlds);
-            CreateButton(worldsPanel.transform, "Logout", "LOG OUT", new Vector2(420f, 310f), new Vector2(130f, 54f), Logout);
+            CreateText(worldsPanel.transform, "WorldsTitle", "Ready panoramas", 34, TextAnchor.MiddleLeft, new Vector2(-415f, 190f), new Vector2(600f, 55f));
+            CreateButton(worldsPanel.transform, "RefreshWorlds", "REFRESH", new Vector2(300f, 190f), new Vector2(180f, 60f), LoadWorlds);
+            worldsStatus = CreateText(worldsPanel.transform, "WorldsStatus", "Your saved panoramas appear here.", 18, TextAnchor.MiddleLeft, new Vector2(-410f, 135f), new Vector2(780f, 40f));
 
             GameObject scrollObject = new GameObject("WorldList");
             scrollObject.transform.SetParent(worldsPanel.transform, false);
             RectTransform scrollRect = scrollObject.AddComponent<RectTransform>();
             scrollRect.anchorMin = scrollRect.anchorMax = new Vector2(0.5f, 0.5f);
             scrollRect.pivot = new Vector2(0.5f, 0.5f);
-            scrollRect.anchoredPosition = new Vector2(0f, -35f);
-            scrollRect.sizeDelta = new Vector2(870f, 390f);
+            scrollRect.anchoredPosition = new Vector2(0f, -65f);
+            scrollRect.sizeDelta = new Vector2(870f, 320f);
             Image viewportImage = scrollObject.AddComponent<Image>();
             viewportImage.sprite = GetUiSprite();
             viewportImage.color = new Color(1f, 1f, 1f, 0.015f);
@@ -104,11 +108,34 @@ namespace EvokeQuest
             worldScroll.content = contentRect;
         }
 
+        private void BuildTabs()
+        {
+            tabsPanel = new GameObject("HeadsetTabs");
+            tabsPanel.transform.SetParent(canvas.transform, false);
+            RectTransform rect = tabsPanel.AddComponent<RectTransform>();
+            Stretch(rect, 20f, 0f, 20f, 0f);
+            CreateButton(tabsPanel.transform, "TabImmerse", "IMMERSE", new Vector2(-215f, 310f), new Vector2(160f, 58f), () => SelectTab("immerse"));
+            CreateButton(tabsPanel.transform, "TabHow", "HOW IT WORKS", new Vector2(-15f, 310f), new Vector2(210f, 58f), () => SelectTab("how"));
+            CreateButton(tabsPanel.transform, "TabMusic", "MUSIC", new Vector2(165f, 310f), new Vector2(125f, 58f), () => SelectTab("music"));
+            CreateButton(tabsPanel.transform, "TabLogout", "LOG OUT", new Vector2(355f, 310f), new Vector2(135f, 58f), Logout);
+        }
+
+        private void BuildHowItWorks()
+        {
+            howPanel = NewPanel("HowItWorksPanel");
+            CreateText(howPanel.transform, "HowTitle", "A thought becomes a world.", 37, TextAnchor.MiddleLeft, new Vector2(-410f, 175f), new Vector2(820f, 62f));
+            CreateText(howPanel.transform, "HowIntro", "Evoke turns your ideas into places to explore. Create and refine worlds on the website; this Quest client is for visiting worlds already saved to your account.", 23, TextAnchor.MiddleLeft, new Vector2(-410f, 110f), new Vector2(820f, 78f));
+            CreateText(howPanel.transform, "HowStep1", "01  DESCRIBE\nPut the first version of your idea into words.", 27, TextAnchor.MiddleLeft, new Vector2(-390f, 10f), new Vector2(780f, 72f));
+            CreateText(howPanel.transform, "HowStep2", "02  SHAPE\nAdd detail, direction, and the pieces that make it yours.", 27, TextAnchor.MiddleLeft, new Vector2(-390f, -80f), new Vector2(780f, 72f));
+            CreateText(howPanel.transform, "HowStep3", "03  REINFORCE\nKeep refining until the world feels ready to step into.", 27, TextAnchor.MiddleLeft, new Vector2(-390f, -170f), new Vector2(780f, 72f));
+            CreateText(howPanel.transform, "HowLimit", "In VR, choose a ready panorama and look around from a fixed viewpoint. World creation, editing, and positional 3D movement are not available here.", 21, TextAnchor.MiddleLeft, new Vector2(-410f, -245f), new Vector2(820f, 75f));
+        }
+
         private void BuildViewer()
         {
             viewerPanel = NewPanel("ViewerPanel");
             viewerStatus = CreateText(viewerPanel.transform, "ViewerStatus", "Preparing panorama…", 17, TextAnchor.MiddleCenter, new Vector2(0f, 310f), new Vector2(700f, 36f));
-            CreateButton(viewerPanel.transform, "Back", "← WORLDS", new Vector2(-365f, -300f), new Vector2(180f, 56f), BackToWorlds);
+            CreateButton(viewerPanel.transform, "Back", "← IMMERSE", new Vector2(-365f, -300f), new Vector2(180f, 56f), BackToWorlds);
             CreateButton(viewerPanel.transform, "ViewerLogout", "LOG OUT", new Vector2(365f, -300f), new Vector2(180f, 56f), Logout);
         }
 

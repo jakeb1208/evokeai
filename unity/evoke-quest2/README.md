@@ -1,10 +1,11 @@
-# Evoke Quest 2 — 360° world viewer
+# Evoke Quest 2 — Evoke headset client
 
 This is a **separate Unity client** for Meta Quest 2. It uses the same Supabase
 email/password accounts and the same saved worlds as the Evoke website, but has
-its own headset UI. This first version lets you look around from one spot in a
-world's 360° panorama; it does **not** render SPZ splats or let you walk through
-the world.
+its own headset UI. After sign-in it has three screens: Immerse (your ready
+worlds and 360° panorama viewer), How It Works, and Music. The viewer lets you
+look around from one spot; it does **not** render SPZ splats or let you walk
+through the world. World creation and editing remain on the website.
 
 Unity and the Android/Quest toolchain are not available in this Replit
 workspace. These are Unity-ready source files, **not an APK**. Build and test
@@ -48,9 +49,24 @@ underlying Evoke website or database from other devices.
   select. Use the built-in panel keyboard for email/password.
 - Sign in with your existing Evoke account. The app keeps the access and
   refresh tokens **in memory only**, so you sign in again after closing it.
-- Choose a ready world. The app requests a fresh, short-lived signed panorama
-  URL from Railway and displays the 360° image around your head.
-- Use **Back** to return to the world list or **Log out** to clear the session.
+- Use the three headset tabs to move between Immerse, How It Works, and Music.
+- In Immerse, choose a ready world. The app requests a fresh, short-lived
+  signed panorama URL from Railway and displays the 360° image around your
+  head. Use **Back** to return to Immerse.
+- Music loads only after sign-in. Reload the owner-scoped library, choose an
+  MP3 to play, or use play/pause, skip, seek, and volume. Playback continues
+  while changing tabs or viewing a panorama; logout stops playback, clears the
+  in-memory list and visible titles, invalidates outstanding account-scoped
+  callbacks, and disposes the downloaded audio clip. The first loaded library
+  auto-starts a shuffled track; a first upload also starts playback when nothing
+  has started yet. Reloading does not restart the current track.
+- **Add an MP3** opens Android's system document picker in an Android Quest
+  build. Select an `.mp3` file no larger than 25 MiB. The plugin copies it
+  temporarily to app-private cache, uploads the original MP3 bytes, then
+  deletes the temporary copy. Canceling the picker does not upload anything.
+  File picking explicitly reports that it is supported only in an Android
+  Quest build; it is not available in the Unity Editor or other platforms.
+- Use **Log out** to clear the session.
   Worlds without a saved panorama display an error instead of showing an
   unrelated image.
 
@@ -64,10 +80,27 @@ ready worlds will appear in the Quest library when you refresh it.
 - The world API verifies the user's Supabase access token and returns only
   their worlds. Panorama download URLs expire, so the client fetches a world
   again before viewing and retries once with a new URL if needed.
+- The music client uses the same authenticated, owner-scoped Railway routes as
+  the website: `GET /api/music`, `GET /api/music/:id/play`, and raw-byte
+  `POST /api/music`. Uploads set `Content-Type: audio/mpeg` and a percent-encoded
+  `X-File-Name`, with the API enforcing its 25 MiB and MP3 checks. API requests
+  refresh the in-memory Supabase session and retry an unauthorized request.
+- Android picker bridge setup is in
+  `Assets/EvokeQuest/Plugins/Android/EvokeMp3Picker.androidlib`; its manifest
+  registers a small translucent Activity that launches `ACTION_OPEN_DOCUMENT`,
+  copies the selected URI into app cache on a worker thread, and calls the
+  Unity component's `OnQuestMp3Picked` callback with the launch-time session
+  generation. The Java bridge uses reflection for UnityPlayer access so it has
+  no compile-time UnityPlayer JAR dependency; its Android library build targets
+  compile SDK 35. Unity 6 Android Gradle/manifest merging and SDK availability
+  must still be checked in a generated build on the target Unity installation.
 - A 360° panorama shows the scene from a fixed viewpoint. For positional 3D
   movement later, a performant Quest-compatible SPZ renderer is separate
   work; this version does not pretend the collider GLB is a visual scene.
-- Before sharing the APK, check on a physical Quest 2: controller selection and
-  keyboard input, signing in with an existing account, opening and returning
-  from a panorama, session refresh after the access token expires, and rejection
-  on a non-Quest-2 Android device. These cannot be verified in Replit.
+- Before sharing the APK, validate on a **physical Quest 2**: controller
+  selection and keyboard input, sign-in, opening and returning from a panorama,
+  session refresh after token expiry, native MP3 picking/upload/playback,
+  switching tabs while audio plays, logout cleanup, and rejection on a
+  non-Quest-2 Android device. No physical headset or Unity/Android toolchain is
+  available in this workspace, so none of those device/build checks have been
+  performed here.

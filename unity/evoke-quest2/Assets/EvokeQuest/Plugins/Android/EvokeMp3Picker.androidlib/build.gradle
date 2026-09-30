@@ -1,0 +1,9 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.evoke.quest'
+    compileSdkVersion 35
+    defaultConfig {
+        minSdkVersion 23
+    }
+}

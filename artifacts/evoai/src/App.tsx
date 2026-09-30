@@ -1384,7 +1384,7 @@ function ProtectedWorld({ params }: { params: { id?: string } }) {
 function Router() {
   const [location] = useLocation();
   const { session } = useAuth();
-  const showPlayer = Boolean(session?.user?.email_confirmed_at) && location !== '/' && location !== '/login';
+  const showPlayer = Boolean(session?.user?.email_confirmed_at) && !getPendingSignupEmail() && location !== '/' && location !== '/login';
   return (
     <>
       {showPlayer && location.startsWith('/worlds/') ? <StudioNav overlay /> : null}
@@ -1412,8 +1412,11 @@ function Router() {
 
 function AuthenticatedMusicShell({ children }: { children: ReactNode }) {
   const { session } = useAuth();
+  const [location] = useLocation();
+  const canPlay = Boolean(session?.user?.email_confirmed_at) && !getPendingSignupEmail() && location !== '/' && location !== '/login';
+  const userId = canPlay ? session?.user.id ?? null : null;
   return (
-    <MusicProvider key={session?.user.id ?? 'signed-out'} userId={session?.user.email_confirmed_at ? session.user.id : null} accessToken={session?.access_token ?? null}>
+    <MusicProvider key={userId ?? 'signed-out'} userId={userId} accessToken={canPlay ? session?.access_token ?? null : null}>
       {children}
     </MusicProvider>
   );
@@ -1429,11 +1432,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <AuthenticatedMusicShell>
-            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+            <AuthenticatedMusicShell>
               <Router />
-            </WouterRouter>
-          </AuthenticatedMusicShell>
+            </AuthenticatedMusicShell>
+          </WouterRouter>
         </AuthProvider>
         <Toaster />
       </TooltipProvider>
