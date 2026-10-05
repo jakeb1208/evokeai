@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "cgCbI-r5l5PNCQvYegM_B"
+uri = "file://exports/evoke-quest2-unity-source.zip"
+type = "unspecified"
+title = "Evoke Quest 2 Unity source"
+description = "Unity-ready Quest 2 source folder and README. Extract this on your Linux computer and import Assets/EvokeQuest into your Unity URP project."
+logical_id = "c4063794-1f75-4e7d-9b1b-4113a84b7557"
+content_hash = "sha256:8de3127ae7c76fd6b63a230cbb2842136889dcec6fdd0a8edd61612ecb88a393"
+size = 36798
+mtime_ms = 1791223944305
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/c4063794-1f75-4e7d-9b1b-4113a84b7557/bad0d481-5ff1-4275-9ae7-fbcbe4baf2a1"
+storage_version_token = "1791223949973040"
+content_type = "application/octet-stream"
