@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.XR;
+using XRCommonUsages = UnityEngine.XR.CommonUsages;
+using XRInputDevice = UnityEngine.XR.InputDevice;
 #if UNITY_EDITOR && ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -93,7 +95,7 @@ namespace EvokeQuest
 
         private void PollController(XRNode node)
         {
-            InputDevice device = InputDevices.GetDeviceAtXRNode(node);
+            XRInputDevice device = InputDevices.GetDeviceAtXRNode(node);
             LineRenderer line;
             controllerRays.TryGetValue(node, out line);
             if (!device.isValid)
@@ -105,9 +107,9 @@ namespace EvokeQuest
             Vector3 localPosition;
             Quaternion localRotation;
             bool trigger;
-            if (!device.TryGetFeatureValue(CommonUsages.devicePosition, out localPosition) ||
-                !device.TryGetFeatureValue(CommonUsages.deviceRotation, out localRotation) ||
-                !device.TryGetFeatureValue(CommonUsages.triggerButton, out trigger))
+            if (!device.TryGetFeatureValue(XRCommonUsages.devicePosition, out localPosition) ||
+                !device.TryGetFeatureValue(XRCommonUsages.deviceRotation, out localRotation) ||
+                !device.TryGetFeatureValue(XRCommonUsages.triggerButton, out trigger))
             {
                 if (line != null) line.enabled = false;
                 ReleaseControllerPointer(node);
@@ -115,11 +117,11 @@ namespace EvokeQuest
             }
             Vector2 stick;
             if (worldsPanel != null && worldsPanel.activeSelf &&
-                device.TryGetFeatureValue(CommonUsages.primary2DAxis, out stick) &&
+                device.TryGetFeatureValue(XRCommonUsages.primary2DAxis, out stick) &&
                 Mathf.Abs(stick.y) > 0.55f)
                 worldScroll.verticalNormalizedPosition = Mathf.Clamp01(worldScroll.verticalNormalizedPosition + stick.y * Time.deltaTime);
             if (musicPanel != null && musicPanel.activeSelf &&
-                device.TryGetFeatureValue(CommonUsages.primary2DAxis, out stick) &&
+                device.TryGetFeatureValue(XRCommonUsages.primary2DAxis, out stick) &&
                 Mathf.Abs(stick.y) > 0.55f)
                 musicScroll.verticalNormalizedPosition = Mathf.Clamp01(musicScroll.verticalNormalizedPosition + stick.y * Time.deltaTime);
             Vector3 position = transform.TransformPoint(localPosition);
