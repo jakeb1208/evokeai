@@ -14,3 +14,17 @@ mtime_ms = 1792071467478
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/c4063794-1f75-4e7d-9b1b-4113a84b7557/ce0cd6c7-84c9-421f-816f-209221cd4b89"
 storage_version_token = "1792071486571667"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "V0HYUct9kU0Qoto4kJhfB"
+uri = "file://exports/evoke-quest2-unity-source-fixed.zip"
+type = "unspecified"
+title = "Evoke Quest 2 — updated Unity source"
+description = "Includes both compile fixes: the InputField event correction and explicit XR input types. For the errors in your latest screenshot, replace EvokeQuestPanoramaClient.Input.cs in your Unity project with the version from this ZIP."
+logical_id = "be4a0948-9f20-4686-8dce-bc79e4d03516"
+content_hash = "sha256:266b5a065b4ffefcd2d7b6f9afc3c5db626d7dc8978295979566670b374efaf7"
+size = 36798
+mtime_ms = 1792071781630
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/be4a0948-9f20-4686-8dce-bc79e4d03516/de28332a-8c72-4b86-87f1-e1e8855dfd3d"
+storage_version_token = "1792071792725296"
+content_type = "application/octet-stream"
