@@ -275,7 +275,14 @@ namespace EvokeQuest
         private static Sprite GetUiSprite()
         {
             if (uiSprite == null)
-                uiSprite = Resources.GetBuiltinResource<Sprite>("UI/Skin/UISprite.psd");
+            {
+                // Avoid version-specific Editor UI resource paths in runtime builds.
+                Texture2D texture = Texture2D.whiteTexture;
+                uiSprite = Sprite.Create(texture,
+                    new Rect(0f, 0f, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect);
+                uiSprite.name = "EvokeQuestUiSprite";
+            }
             return uiSprite;
         }
 

@@ -28,3 +28,17 @@ mtime_ms = 1792071781630
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/be4a0948-9f20-4686-8dce-bc79e4d03516/de28332a-8c72-4b86-87f1-e1e8855dfd3d"
 storage_version_token = "1792071792725296"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "bXYWUSYzapTHkGPuVH0Tv"
+uri = "file://exports/evoke-quest2-unity-source-ui-fix.zip"
+type = "unspecified"
+title = "Evoke Quest 2 — UI sprite fix"
+description = "Updated source with the missing built-in UI sprite lookup removed. Includes previous compile fixes. Replace EvokeQuestPanoramaClient.UI.cs in your existing Unity project."
+logical_id = "073381b0-994d-4afb-b36b-b6b9f1f241d8"
+content_hash = "sha256:b367f4cb7644bf2fdb9e3c0ba8968917410cf1f49f72eabc54cb161b43965885"
+size = 36906
+mtime_ms = 1792072736658
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/073381b0-994d-4afb-b36b-b6b9f1f241d8/50434188-4c63-4833-9efc-997de4d7f8d5"
+storage_version_token = "1792072742954679"
+content_type = "application/octet-stream"
