@@ -231,7 +231,6 @@ namespace EvokeQuest
             input.placeholder = hint;
             input.contentType = contentType;
             input.lineType = InputField.LineType.SingleLine;
-            input.onSelect.AddListener(_ => selectedInput = input);
 #if UNITY_EDITOR
             input.readOnly = false;
 #else
