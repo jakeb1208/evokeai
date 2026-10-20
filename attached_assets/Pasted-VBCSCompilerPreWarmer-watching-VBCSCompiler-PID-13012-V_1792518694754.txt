@@ -1,0 +1,1801 @@
+VBCSCompilerPreWarmer: watching VBCSCompiler (PID 13012)
+VBCSCompilerPreWarmer: pre-warm launched (dotnet PID 16924)
+VBCSCompiler prewarm took 10.51 ms
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.6/staging' branch; Version is '6000.6.4f1 (12bfff696524) revision 1228799'; Using compiler version '194234433'; Build Type 'Release'
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Student" at "2026-10-20T17:47:46.3460146Z"
+OS: 'Windows 11  (10.0.26200) Core' Language: 'en' Physical Memory: 32580 MB
+BatchMode: 0, IsHumanControllingUs: 1, StartBugReporterOnCrash: 1, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-20T17:47:46Z
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 10452, path: "C:/Program Files/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              5332a5e609634723b8213c3b0296799b
+  Correlation Id:          316d8067c90d4cef5722fa63a9e288e4
+  External correlation Id: 1908419531825144158
+  Machine Id:              KrD+kHBqWJJAPupv67ZXQRjGPdI=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Student" (connect: 0.00s, validation: 0.00s, handshake: 0.03s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Student-notifications" at "2026-10-20T17:47:46.3804174Z"
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated the access token kh3rNKzhoe...
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 2476055161908-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 0.04s
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Unity.exe
+-projectpath
+C:\Users\Student\evokebeta
+-acceptSoftwareTermsForThisRunOnly
+-useHub
+-hubIPC
+-cloudEnvironment
+production
+-licensingIpc
+LicenseClient-Student
+-hubSessionId
+03fc5df0-61de-476a-98e5-2dd244edf508
+-accessToken
+kh3rNKzhoeeYymP25yusjdIzq4m-l7k3CkItNOTI-Ck002f
+Successfully changed project path to: C:\Users\Student\evokebeta
+C:/Users/Student/evokebeta
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-remapper-allocator-initial-capacity=32768"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=1"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Player connection [23264]  Target information:
+
+Player connection [23264]  * "[IP] 10.12.8.152 [Port] 55504 [Flags] 2 [Guid] 3558346930 [EditorId] 3558346930 [Version] 1048832 [Id] WindowsEditor(7,Engineering2506) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [23264] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [23264] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-23364" after 0.2 seconds.
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+Initialising UDS system complete:
+  - System type: Client
+  - Resource namespace: 7e157d0b88b76186e78dbc0448da969d
+  - Shared memory size: 1073741824
+  - Command buffer id: 1052576
+  - Command buffer size: 8192
+  - Hashmap size: 4194304
+  - Service connected: false
+Launching Unity Data Store - C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Tools/Unity.DataStore.exe 
+Unity Data Store artifact dir = Library/DataStore, working dir = C:/Users/Student/evokebetaActive build profile path: `Assets/Settings/Build Profiles/Meta Quest.asset`
+Unity Data Store running and initialised
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `Color Space`, value `1`
+[Licensing::Client] Successfully resolved entitlement details
+Got setting from build profile YAML, name `m_BuildTarget`, value `13`
+Got setting from build profile YAML, name `m_Subtarget`, value `0`
+[Physics::Module] Selected backend (deferred post-plugins).
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.6.4f1 (12bfff696524)
+[EntityIdStore] init: VM path (explicit commit), pageSize=4096, blockCount=1048576, entitiesPerBlock=256, slots reserved=4294967296 bytes
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Student/evokebeta/Assets
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 4060 (ID=0x2882)
+    Vendor:   NVIDIA
+    VRAM:     7956 MB
+    Driver:   32.0.15.9186
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56364
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+Registered in 0.001533 seconds.
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Got setting from build profile YAML, name `m_BuildSubtarget`, value `0`
+Native extension for Android target not found
+Got setting from build profile YAML, name `Color Space`, value `1`
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Got setting from build profile YAML, name `Color Space`, value `1`
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  0.758 seconds
+Domain Reload Profiling: 1276ms
+	BeginReloadAssembly (124ms)
+		CreateAndSetChildDomain (13ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (15ms)
+	initialDomainReloadingComplete (58ms)
+	LoadAllAssembliesAndSetupDomain (313ms)
+		LoadAssemblies (109ms)
+		TypeCache.Refresh (208ms)
+			TypeCache.ScanAssembly (195ms)
+		AnalyzeDomain (0ms)
+	FinalizeReload (761ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (65ms)
+			BeforeProcessingInitializeOnLoad (129ms)
+			ProcessInitializeOnLoadAttributes (147ms)
+			ProcessInitializeOnLoadMethodAttributes (190ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+Got setting from build profile YAML, name `Color Space`, value `1`
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 67 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.navigation@2.0.14 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.collab-proxy@2.13.6 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.collab-proxy@4628d2ba6ea4)
+    com.unity.ide.rider@3.0.38 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.ide.rider@1f60b3138684)
+    com.unity.ide.visualstudio@2.0.26 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.inputsystem@1.20.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.inputsystem@7a4e1a2a8194)
+    com.unity.pipeline@0.8.0-exp.1 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.pipeline@62c08c808737)
+    com.unity.visualscripting@1.9.12 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.visualscripting@4edfcc09512f)
+    com.unity.xr.interaction.toolkit@3.6.1 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.xr.interaction.toolkit@530ce2e6c59e)
+    com.unity.xr.management@4.7.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.xr.management@2ad85c7dd480)
+    com.unity.xr.openxr@1.18.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.xr.openxr@b5b77b4027be)
+    com.unity.xr.core-utils@2.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.xr.core-utils@a8b900321199)
+    com.unity.xr.legacyinputhelpers@3.0.1 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.xr.legacyinputhelpers@3f62d634f63b)
+    com.unity.nuget.mono-cecil@1.11.6 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.searcher@4.9.5 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.searcher@a463122f2c00)
+    com.unity.profiling.core@1.0.3 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.profiling.core@8a49f7027d06)
+  Built-in packages:
+    com.unity.render-pipelines.universal@17.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.render-pipelines.universal@b0678dfc9e21)
+    com.unity.test-framework@1.8.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.test-framework@80f691d4262b)
+    com.unity.timeline@6.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.timeline@c56d56b0070b)
+    com.unity.ugui@2.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.ugui@0727b404f3a0)
+    com.unity.modules.accessibility@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tetgen@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.tetgen)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.timelinefoundation@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.timelinefoundation)
+    com.unity.modules.ui@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.mathematics@1.4.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.mathematics@8306a64d0cd6)
+    com.unity.ext.nunit@2.1.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.ext.nunit@0198eae3b53e)
+    com.unity.render-pipelines.core@17.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.render-pipelines.core@285af6b8c83f)
+    com.unity.shadergraph@17.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.shadergraph@58bcb150677d)
+    com.unity.render-pipelines.universal-config@17.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.render-pipelines.universal-config@561422b74439)
+    com.unity.graph-authoring@1.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.graph-authoring@cfd2588851ee)
+    com.unity.burst@2.0.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.burst@626e66ab421b)
+    com.unity.collections@6.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.collections@10fff0607388)
+    com.unity.test-framework.performance@6.6.0 (location: C:\Users\Student\evokebeta\Library\PackageCache\com.unity.test-framework.performance@b6023decb532)
+[Subsystems] Looking for new subsystems at path C:\Users\Student\evokebeta\Library\PackageCache\com.unity.xr.openxr@b5b77b4027be
+[Subsystems] Novel subsystem found at Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/UnitySubsystemsManifest.json
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.6.4f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Student/evokebeta/Assets
+[Subsystems] Discovering subsystems at path C:\Users\Student\evokebeta\Library\PackageCache\com.unity.xr.openxr@b5b77b4027be
+[Subsystems] No descriptors matched for  examples in Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/UnitySubsystemsManifest.json.
+[Subsystems] 1 'inputs' descriptors matched in Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/UnitySubsystemsManifest.json
+[Subsystems] 1 'displays' descriptors matched in Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/UnitySubsystemsManifest.json
+[Subsystems] No descriptors matched for  meshings in Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/UnitySubsystemsManifest.json.
+[Package Manager] Done registering packages in 0.02 seconds
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1300b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/Student/evokebeta
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\NetStandard\Extensions\2.0.0\System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.InteropServices.WindowsRuntime.dll"
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.ComponentModel.Composition.dll" in favor of "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.ComponentModel.Composition.dll"
+ExitCode: 0 Duration: 0s254ms
+[ 639/1324  0s] WriteResponseFile Library/Bee/artifacts/rsp/4747638433968585886.rsp
+[1017/1324  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.22 seconds), 2 items updated, 1324 evaluated
+AssetDatabase: script compilation time: 0.736977s
+Begin MonoManager ReloadAssembly
+Total cache size 268020606
+Total cache size after purge 268020606, took 00:00:00.1703963
+Symbol file LoadedFromMemory is not a mono symbol file
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+'Packages/com.unity.render-pipelines.core/Editor/Deprecated.cs' contains partial class of Unity.Object, exactly 1 of the partial classes needs to be in a file with the same filename. This is to know the one that can be referenced from ie. GameObjects
+Refreshing native plugins compatible for Editor in 3.57 ms, found 10 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for Android target not found
+Start HTTP server: port:7800
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Scripting: successfully reloaded assembly
+- Finished resetting the current domain, in  1.159 seconds
+Domain Reload Profiling: 2175ms
+	BeginReloadAssembly (212ms)
+		DisableScriptedObjects (27ms)
+		CreateAndSetChildDomain (36ms)
+	RebuildCommonClasses (8ms)
+	RebuildNativeTypeToScriptingClass (19ms)
+	initialDomainReloadingComplete (77ms)
+	LoadAllAssembliesAndSetupDomain (698ms)
+		LoadAssemblies (315ms)
+		TypeCache.Refresh (248ms)
+			TypeCache.ScanAssembly (233ms)
+		AnalyzeDomain (76ms)
+			BuildScriptInfoCaches (67ms)
+			ResolveRequiredComponents (8ms)
+	FinalizeReload (1160ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			BeforeProcessingInitializeOnLoad (105ms)
+			ProcessInitializeOnLoadAttributes (552ms)
+			ProcessInitializeOnLoadMethodAttributes (113ms)
+			AfterProcessingInitializeOnLoad (4ms)
+		AwakeInstancesAfterBackupRestoration (27ms)
+Starting new worker id: 0 with log in C:/Users/Student/evokebeta/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=125e814a5ab6cbe4184d12e76a31a6e5): Total: 3.584 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=1653 ms
+		Asset DB Callback time: managed=43 ms, native=23 ms
+		Scripting: domain reloads=1, domain reload time=1062 ms, compile time=739 ms, other=61 ms
+		Project Asset Count: scripts=1745, non-scripts=2397
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 25.003ms
+	ApplyChangesToAssetFolders: 0.610ms
+	Scan: 99.750ms
+	Collect global state as custom dependencies: 19.325ms
+	CategorizeScriptCompilationAssets: 48.193ms
+	ProcessAssetsWithTransientArtifactChanges: 78.566ms
+	CategorizeAssets: 50.726ms
+	CompileScripts: 738.842ms
+	ImportOutOfDateAssets: 1182.414ms (1172.839ms without children)
+		UnloadImportedAssets: 0.669ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.668ms
+		ImportSchedulerStart: 8.196ms
+	PostProcessAllAssets: 43.729ms
+		MonoPostProcessAllAssets: 43.660ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 14.849ms
+			SyncVS.PostprocessSyncProject 8.710ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 1.928ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.659ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.904ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.725ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.528ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.276ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.259ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.196ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.193ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.189ms
+	UnloadStreamsBegin: 1.547ms
+	PersistCurrentRevisions: 0.153ms
+	GenerateScriptTypeHashes: 1.212ms
+	GenerateScriptTypeSerializationHashes: 2.223ms
+	Untracked: 1264.142ms
+
+Application.AssetDatabase Initial Refresh End
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
+Scanning for USB devices : 3.985ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-evokebeta
+Unloading 27 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/SampleScene.unity'
+	Deserialize:            7.153 ms
+	Integration:            10.642 ms
+	Integration of assets:  0.043 ms
+	Thread Wait Time:       0.023 ms
+	Total Operation Time:   17.861 ms
+Unloading 7951 unused Assets / (8.2 MB). Loaded Objects now: 8991.
+Memory consumption went from 479.5 MB to 471.2 MB.
+Total: 9.171500 ms (FindLiveObjects: 0.702700 ms CreateObjectMapping: 0.386800 ms MarkObjects: 6.025900 ms  DeleteObjects: 1.768000 ms)
+
+[LAYOUT] About to load UserSettings\Layouts\default-6000.dwlt, keepMainWindow=False
+Worker ready: AssetImportWorkerHW0 0
+[LAYOUT] About to save layout C:\Users\Student\evokebeta\UserSettings\Layouts\default-6000.dwlt
+[LAYOUT] About to save layout C:/Users/Student/AppData/Roaming/Unity/Editor-5.x/Preferences\Layouts\current\default-6000.dwlt
+[MODES] ModeService[default].InitializeCurrentMode
+[MODES] ModeService[default].RaiseModeChanged(default, default)
+<RI> Initializing input.
+
+Using Windows.Gaming.Input
+[Project] Loading completed in 8.419 seconds
+	Project init time: 				6.185 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.232 seconds
+		Asset Database init time: 		0.276 seconds
+		Global illumination init time: 	0.002 seconds
+		Assemblies load time: 			1.311 seconds
+		Unity extensions init time: 	0.038 seconds
+		Asset Database refresh time: 	3.585 seconds
+	Scene opening time: 			2.031 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1792518474747,"processId":23364,"projectLoad":8.418681399999999,"projectInit":6.1852194,"templateInit":0.0,"packageManagerInit":0.231951,"assetDatabaseInit":0.2757091,"globalIlluminationInit":0.0020769,"assembliesLoad":1.311072,"unityExtensionsInit":0.0378391,"assetDatabaseRefresh":3.5845449,"sceneOpening":2.0306289}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1792518474747,"processId":23364,"editorVersion":"6000.6.4f1 (12bfff696524)","branch":"6000.6/staging","buildType":"Release","platform":"Windows"}
+GPU Resident Drawer created.
+Asset Pipeline Refresh (id=515e22ae3e7c3cb48b87f3b518e805e3): Total: 0.080 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+GPU Resident Drawer disposed.
+Importing 'GUID: 00000000000000009000000000000000 - Path: ProjectSettings/QualitySettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000009000000000000000' -> (Import Result ID: 'e5fd9dadefc23c06fc0a7e8fa1b65e8e') in 0.004 seconds [static dependencies only]. Details - ImportResultOutputID=2a108b3da874f726c62fbe5f12be4a8a DependenciesID=bf44675abfeaf6acfcf260e80edb14be StaticDependenciesID=58613df30a7fb2b73091d409791f5c3e 
+Importing 'GUID: 00000000000000006100000000000000 - Path: ProjectSettings/GraphicsSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000006100000000000000' -> (Import Result ID: 'd53148c0f9c9de24c4eb7c618928336c') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=a2dcdb8bc9503711bc0f2e2d72cfd36c DependenciesID=8cd8feeeb261d459bcf82806af798d0c StaticDependenciesID=e3bd632f061e18819a1b0d1af24fe8c0 
+Refreshing native plugins compatible for Editor in 2.84 ms, found 10 plugins.
+Asset Pipeline Refresh (id=05ab3ea105ccab4459dd04186a9ee61d): Total: 0.079 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+GPU Resident Drawer created.
+Created GICache directory at C:/Users/Student/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.010s, timestamps: [9.537 - 9.547]
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+GPU Resident Drawer disposed.
+GPU Resident Drawer created.
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "kh3rNKzh"... (expires: 2026-10-20T19:23:04Z)
+[Licensing::Client] Successfully resolved entitlement details
+Starting new worker id: 1 with log in C:/Users/Student/evokebeta/Logs/AssetImportWorkerHW1.log
+[Worker0] Imported GUID: 83a190b5cf963b042993eaddb87d0522 - Path: Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.asset - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '33d7979018287664ccda32d511648e3e') in 0.139251 seconds
+Starting new worker id: 2 with log in C:/Users/Student/evokebeta/Logs/AssetImportWorkerHW2.log
+[Worker0] Imported GUID: 33252ffbe594768488a1da3619cc321e - Path: Assets/Resources/PerformanceTestRunSettings.json - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '2f0a1bbfa8c5edb6a45c4c27fe1ec0fa') in 0.0144791 seconds
+[Worker0] Imported GUID: e7f6e47c3e2de7744add3ed35c70d9f9 - Path: Assets/Resources - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '87703e49cf8ddfd889688e3410bf809b') in 0.0128519 seconds
+[Worker0] Imported GUID: 5e6cbd92db86f4b18aec3ed561671858 - Path: Assets/Settings/Mobile_RPAsset.asset - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '32a92b20318305bcc24100a0301968b2') in 0.0191593 seconds
+[Worker0] Imported GUID: ab09877e2e707104187f6f83e2f62510 - Path: Assets/Settings/DefaultVolumeProfile.asset - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '982f574151c174de2e87152f790a4ec1') in 0.0133761 seconds
+[Worker0] Imported GUID: 18dc0cd2c080841dea60987a38ce93fa - Path: Assets/Settings/UniversalRenderPipelineGlobalSettings.asset - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: 'c9087502cc0c4bef044116e9071691c4') in 0.080322 seconds
+[Worker0] Imported GUID: 5f5f5d6a17613344282460ec43e1b0bd - Path: Assets/Settings/Build Profiles/Meta Quest.asset - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '1f97783443ec499ba3a11e445e54e0f3') in 0.0208218 seconds
+[Worker0] Imported GUID: cd17ec0242c3ae344a91cae860492de7 - Path: Assets/XR/Settings/OpenXR Package Settings.asset - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: 'ed134bc8f1560b957108e20e67d73cb2') in 0.0664305 seconds
+[Worker0] Imported GUID: bdf6a4620be94d74ab4c21349fdcd312 - Path: Assets/Resources/PerformanceTestRunInfo.json - Importer: ScriptedImporter/UnityEditor.QuickSearchModule:UnityEditor.Search:ASIAI0B -> (ImportResultId: '5f71bb945884658bef86ce642540eecf') in 0.0123839 seconds
+UPID Received 'f1aa7971-4a2c-4e8f-9edd-81b9c6db1737'.
+Asset Pipeline Refresh (id=060ec446ec758304ca4f2f2e9b53d323): Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Worker ready: AssetImportWorkerHW1 1
+Worker ready: AssetImportWorkerHW2 2
+[Licensing::Client] Successfully resolved entitlement details
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 5201 ms
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 141 ms
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 133 ms
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 139 ms
+TrimDiskCacheJob: Current cache size 0mb
+Asset Pipeline Refresh (id=ddde2b05ac786624b84324dd67554e7b): Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Scanning for USB devices : 4.032ms
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Android Extension - Scanning For ADB Devices 181 ms
+Android Extension - Scanning For ADB Devices 204 ms
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Android Extension - Scanning For ADB Devices 220 ms
+Scanning for USB devices : 4.211ms
+Scanning for USB devices : 3.997ms
+Scanning for USB devices : 3.779ms
+Scanning for USB devices : 4.117ms
+Scanning for USB devices : 3.988ms
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 167 ms
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 218 ms
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 252 ms
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Unauthorized device detected, Id: 1WMHHA6CGG2151, please add debug authorization and reconnect.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:LogFormat (UnityEngine.LogType,string,object[])
+UnityEngine.Debug:LogFormat (string,object[])
+UnityEditor.Android.AndroidDeploymentTargetsExtension:GetKnownTargets (UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,UnityEditor.ProgressHandler) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs:414)
+UnityEditor.Android.TargetScanWorker:DoScan (UnityEditor.DeploymentTargets.IDeploymentTargetsExtension,UnityEditor.DeploymentTargets.IDeploymentTargetsMainThreadContext,System.Threading.CancellationToken) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:188)
+UnityEditor.Android.TargetScanWorker/<>c__DisplayClass15_0:<MainThreadProcessing>b__0 () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/TargetScanWorker.cs:227)
+System.Threading.Tasks.Task:InnerInvoke ()
+System.Threading.Tasks.Task:Execute ()
+System.Threading.Tasks.Task:ExecutionContextCallback (object)
+System.Threading.ExecutionContext:RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.ExecutionContext:Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool)
+System.Threading.Tasks.Task:ExecuteWithThreadLocal (System.Threading.Tasks.Task&)
+System.Threading.Tasks.Task:ExecuteEntry (bool)
+System.Threading.Tasks.Task:System.Threading.IThreadPoolWorkItem.ExecuteWorkItem ()
+System.Threading.ThreadPoolWorkQueue:Dispatch ()
+System.Threading._ThreadPoolWaitCallback:PerformWaitCallback ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/DeploymentTargets/AndroidDeploymentTargetsExtension.cs Line: 414)
+
+Android Extension - Scanning For ADB Devices 244 ms
+Scanning for USB devices : 12.511ms
+Android Extension - Scanning For ADB Devices 177 ms
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Android Extension - Scanning For ADB Devices 159 ms
+Android Extension - Scanning For ADB Devices 246 ms
+Scanning for USB devices : 2.893ms
+Scanning for USB devices : 11.373ms
+Scanning for USB devices : 11.258ms
+Scanning for USB devices : 9.733ms
+Scanning for USB devices : 7.860ms
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Android Extension - Scanning For ADB Devices 161 ms
+Asset Pipeline Refresh (id=379122f6eb911e14b9b2c73c60c8b5ba): Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Successfully resolved entitlement details
+Importing 'GUID: 5e6cbd92db86f4b18aec3ed561671858 - Path: Assets/Settings/Mobile_RPAsset.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 5e6cbd92db86f4b18aec3ed561671858' -> (Import Result ID: '23f2474aa5e0ca6d04df179fcf36f54a') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=87c79727be4dab5ed51d3da607f590f1 DependenciesID=1fb732b7de237f4e538363780192a733 StaticDependenciesID=d34cef571174391c0ee6608d820353e2 
+Refreshing native plugins compatible for Editor in 3.07 ms, found 10 plugins.
+Asset Pipeline Refresh (id=57964c82b06784f469aa1d7accb5e65b): Total: 0.020 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 83a190b5cf963b042993eaddb87d0522 - Path: Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 83a190b5cf963b042993eaddb87d0522' -> (Import Result ID: '9e7e79983dd92e208c36eb09b1bbe47a') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=dbd0a6cdf4f6d580d698f5590f4f6760 DependenciesID=69c9fc80cc5d609f0064c3401803bdd6 StaticDependenciesID=d9fbd65a3534b85984a018265d145496 
+Refreshing native plugins compatible for Editor in 2.70 ms, found 10 plugins.
+Asset Pipeline Refresh (id=0c830612dd993364da35e1c1deedec92): Total: 0.017 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+2 URP assets included in build
+- Mobile_RPAsset - Assets/Settings/Mobile_RPAsset.asset
+	 - Mobile_Renderer - Assets/Settings/Mobile_Renderer.asset - UnityEngine.Rendering.Universal.UniversalRendererData
+- UniversalRenderPipelineAsset - Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.asset
+	 - UniversalRendererData - Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRendererData.asset - UnityEngine.Rendering.Universal.UniversalRendererData
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.Rendering.Universal.URPPreprocessBuild:LogIncludedAssets (System.Collections.Generic.List`1<UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset>) (at ./Library/PackageCache/com.unity.render-pipelines.universal@b0678dfc9e21/Editor/BuildProcessors/URPPreprocessBuild.cs:72)
+UnityEditor.Rendering.Universal.URPPreprocessBuild:OnPreprocessBuild (UnityEditor.Build.Reporting.BuildReport) (at ./Library/PackageCache/com.unity.render-pipelines.universal@b0678dfc9e21/Editor/BuildProcessors/URPPreprocessBuild.cs:31)
+UnityEditor.Build.BuildPipelineInterfaces/<>c__DisplayClass17_0:<OnBuildPreProcess>b__1 (UnityEditor.Build.IPreprocessBuildWithReport)
+UnityEditor.Build.BuildPipelineInterfaces:InvokeCallbackInterfacesPair<UnityEditor.Build.IPreprocessBuild, UnityEditor.Build.IPreprocessBuildWithReport> (System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuild>,System.Action`1<UnityEditor.Build.IPreprocessBuild>,System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuildWithReport>,System.Action`1<UnityEditor.Build.IPreprocessBuildWithReport>,bool)
+UnityEditor.Build.BuildPipelineInterfaces:OnBuildPreProcess (UnityEditor.Build.Reporting.BuildReport)
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: ./Library/PackageCache/com.unity.render-pipelines.universal@b0678dfc9e21/Editor/BuildProcessors/URPPreprocessBuild.cs Line: 72)
+
+Using the Screen Space Ambient Occlusion render feature results in significant performance overhead when the application is running natively on device. Disabling or removing that render feature is recommended.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+UnityEditor.XR.OpenXR.OpenXRProjectValidation:LogBuildValidationIssues (UnityEditor.BuildTargetGroup) (at ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/OpenXRProjectValidation.cs:513)
+UnityEditor.XR.OpenXR.OpenXRProjectValidationBuildStep:OnPreprocessBuild (UnityEditor.Build.Reporting.BuildReport) (at ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Editor/OpenXRProjectValidationRulesSetup.cs:274)
+UnityEditor.Build.BuildPipelineInterfaces/<>c__DisplayClass17_0:<OnBuildPreProcess>b__1 (UnityEditor.Build.IPreprocessBuildWithReport)
+UnityEditor.Build.BuildPipelineInterfaces:InvokeCallbackInterfacesPair<UnityEditor.Build.IPreprocessBuild, UnityEditor.Build.IPreprocessBuildWithReport> (System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuild>,System.Action`1<UnityEditor.Build.IPreprocessBuild>,System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuildWithReport>,System.Action`1<UnityEditor.Build.IPreprocessBuildWithReport>,bool)
+UnityEditor.Build.BuildPipelineInterfaces:OnBuildPreProcess (UnityEditor.Build.Reporting.BuildReport)
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/OpenXRProjectValidation.cs Line: 513)
+
+[Optional] Latency Optimization is recommended to be set to <b>Prioritize Input Polling</b> when Meta Quest support is enabled.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+UnityEditor.XR.OpenXR.OpenXRProjectValidation:LogBuildValidationIssues (UnityEditor.BuildTargetGroup) (at ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/OpenXRProjectValidation.cs:513)
+UnityEditor.XR.OpenXR.OpenXRProjectValidationBuildStep:OnPreprocessBuild (UnityEditor.Build.Reporting.BuildReport) (at ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Editor/OpenXRProjectValidationRulesSetup.cs:274)
+UnityEditor.Build.BuildPipelineInterfaces/<>c__DisplayClass17_0:<OnBuildPreProcess>b__1 (UnityEditor.Build.IPreprocessBuildWithReport)
+UnityEditor.Build.BuildPipelineInterfaces:InvokeCallbackInterfacesPair<UnityEditor.Build.IPreprocessBuild, UnityEditor.Build.IPreprocessBuildWithReport> (System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuild>,System.Action`1<UnityEditor.Build.IPreprocessBuild>,System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuildWithReport>,System.Action`1<UnityEditor.Build.IPreprocessBuildWithReport>,bool)
+UnityEditor.Build.BuildPipelineInterfaces:OnBuildPreProcess (UnityEditor.Build.Reporting.BuildReport)
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/OpenXRProjectValidation.cs Line: 513)
+
+[Optional] Meta Quest supports Thin Link Time Optimization. This can optimize CPU performance and can only be done in non-development, IL2CPP enabled builds with Strip Engine Code disabled.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+UnityEditor.XR.OpenXR.OpenXRProjectValidation:LogBuildValidationIssues (UnityEditor.BuildTargetGroup) (at ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/OpenXRProjectValidation.cs:513)
+UnityEditor.XR.OpenXR.OpenXRProjectValidationBuildStep:OnPreprocessBuild (UnityEditor.Build.Reporting.BuildReport) (at ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Editor/OpenXRProjectValidationRulesSetup.cs:274)
+UnityEditor.Build.BuildPipelineInterfaces/<>c__DisplayClass17_0:<OnBuildPreProcess>b__1 (UnityEditor.Build.IPreprocessBuildWithReport)
+UnityEditor.Build.BuildPipelineInterfaces:InvokeCallbackInterfacesPair<UnityEditor.Build.IPreprocessBuild, UnityEditor.Build.IPreprocessBuildWithReport> (System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuild>,System.Action`1<UnityEditor.Build.IPreprocessBuild>,System.Collections.Generic.List`1<UnityEditor.Build.IPreprocessBuildWithReport>,System.Action`1<UnityEditor.Build.IPreprocessBuildWithReport>,bool)
+UnityEditor.Build.BuildPipelineInterfaces:OnBuildPreProcess (UnityEditor.Build.Reporting.BuildReport)
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: ./Library/PackageCache/com.unity.xr.openxr@b5b77b4027be/Runtime/OpenXRProjectValidation.cs Line: 513)
+
+Importing 'GUID: 5e6cbd92db86f4b18aec3ed561671858 - Path: Assets/Settings/Mobile_RPAsset.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 5e6cbd92db86f4b18aec3ed561671858' -> (Import Result ID: '23f2474aa5e0ca6d04df179fcf36f54a') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=87c79727be4dab5ed51d3da607f590f1 DependenciesID=1fb732b7de237f4e538363780192a733 StaticDependenciesID=d34cef571174391c0ee6608d820353e2 
+Refreshing native plugins compatible for Editor in 2.58 ms, found 10 plugins.
+Asset Pipeline Refresh (id=5f6828f24eb551747824b2a515462a33): Total: 0.014 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 83a190b5cf963b042993eaddb87d0522 - Path: Packages/com.unity.render-pipelines.universal/Runtime/Data/UniversalRenderPipelineAsset.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 83a190b5cf963b042993eaddb87d0522' -> (Import Result ID: '9e7e79983dd92e208c36eb09b1bbe47a') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=dbd0a6cdf4f6d580d698f5590f4f6760 DependenciesID=69c9fc80cc5d609f0064c3401803bdd6 StaticDependenciesID=d9fbd65a3534b85984a018265d145496 
+Refreshing native plugins compatible for Editor in 2.53 ms, found 10 plugins.
+Asset Pipeline Refresh (id=ca64db4b6e23a93438fb92e5f6fc8732): Total: 0.015 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Pipeline: No RuntimePipelineConfig asset found (Project Settings > Pipeline > Runtime). Pipeline will be disabled in Player builds.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+Unity.Pipeline.Editor.BuildProcessors.PipelineRuntimeBuildProcessor:OnPreprocessBuild (UnityEditor.Build.BuildCallbackContext) (at ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/BuildProcessors/PipelineRuntimeBuildProcessor.cs:73)
+UnityEditor.Build.BuildPipelineInterfaces:OnBuildPreProcessWithContext (UnityEditor.Build.BuildCallbackContext)
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: ./Library/PackageCache/com.unity.pipeline@62c08c808737/Editor/BuildProcessors/PipelineRuntimeBuildProcessor.cs Line: 73)
+
+Importing 'GUID: 00000000000000009000000000000000 - Path: ProjectSettings/QualitySettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000009000000000000000' -> (Import Result ID: 'e5fd9dadefc23c06fc0a7e8fa1b65e8e') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=2a108b3da874f726c62fbe5f12be4a8a DependenciesID=bf44675abfeaf6acfcf260e80edb14be StaticDependenciesID=58613df30a7fb2b73091d409791f5c3e 
+Importing 'GUID: 00000000000000006100000000000000 - Path: ProjectSettings/GraphicsSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000006100000000000000' -> (Import Result ID: 'd53148c0f9c9de24c4eb7c618928336c') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=a2dcdb8bc9503711bc0f2e2d72cfd36c DependenciesID=8cd8feeeb261d459bcf82806af798d0c StaticDependenciesID=e3bd632f061e18819a1b0d1af24fe8c0 
+Importing 'GUID: 18dc0cd2c080841dea60987a38ce93fa - Path: Assets/Settings/UniversalRenderPipelineGlobalSettings.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 18dc0cd2c080841dea60987a38ce93fa' -> (Import Result ID: 'e5a5b36ed996efc6eaa236de3696a66f') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=ac92a3253360087966dd104547753906 DependenciesID=81b749b164c341fb834b1db38265cf2d StaticDependenciesID=df6528ad0ae52f4c17bb76448a242916 
+Refreshing native plugins compatible for Editor in 3.55 ms, found 10 plugins.
+Asset Pipeline Refresh (id=b4e9fba881fa85f47b1067d573426708): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Diagnostics Data is enabled, and it requires Debug Symbols to be either SymbolTable or Full to resolve stacktraces in crash reports. Consider selecting Full to receive fully-detailed crash reports.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+UnityEditor.Android.PostProcessAndroidPlayer:SetupContextForPreBuild (UnityEditor.BuildOptions,UnityEditor.BuildTarget) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessAndroidPlayer.cs:151)
+UnityEditor.Android.PostProcessAndroidPlayer:PrepareForBuild (UnityEditor.BuildOptions,UnityEditor.BuildTarget) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessAndroidPlayer.cs:49)
+UnityEditor.Android.AndroidBuildPostprocessor:PrepareForBuild (UnityEditor.BuildPlayerOptions) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/AndroidBuildPostprocessor.cs:1130)
+UnityEditor.PostprocessBuildPlayer:PrepareForBuild (intptr)
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessAndroidPlayer.cs Line: 151)
+
+Reporting tool paths:
+ JDK: 'C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK'
+ Android SDK: 'C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK'
+ Android NDK: 'C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK'
+ Gradle: 'C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\Tools\gradle' (Gradle Version: '9.3.1' Android Plugin Version: '9.1.1')
+Android PostProcess task "Checking prerequisites" took 11.6159 ms
+Android PostProcess task "Detect Java Development Kit (JDK)" took 2.199 ms
+AndroidSDKTools:
+
+	root          : C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK
+	cmdline-tools : C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\cmdline-tools\16.0
+	platform-tools: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools
+	build-tools   : C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\build-tools\36.0.0
+
+	adb           : C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\platform-tools\adb.exe
+
+Android PostProcess task "Detecting Android SDK" took 1840.9365 ms
+Android PostProcess task "Detect Android NDK" took 0.9967 ms
+Android PostProcess task "Trying to find a suitable Android device" took 616.9534 ms
+Android PostProcess task "Check resources" took 0.3331 ms
+Android PostProcess task "Check Android Player Settings" took 1.6719 ms
+[Licensing::Client] Successfully resolved entitlement details
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1300b0aESkipCompile.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssembliesAndTypeDB
+WorkingDir: C:/Users/Student/evokebeta
+ExitCode: 0 Duration: 0s120ms
+*** Tundra build success (0.10 seconds), 0 items updated, 4 evaluated
+Asset Pipeline Refresh (id=ce9b380729df704438b793cfa2fc2b68): Total: 0.002 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[ScriptCompilation] Requested script compilation because: Recompiling scripts for player build.
+BuildPlayer: start building target 13
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1300b0aP.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssembliesAndTypeDB
+WorkingDir: C:/Users/Student/evokebeta
+Total cache size 268020606
+Total cache size after purge 268020606, took 00:00:00.1807084
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.runtime.interopservices.windowsruntime has duplicate hint path. Ignoring "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\NetStandard\Extensions\2.0.0\System.Runtime.InteropServices.WindowsRuntime.dll" in favor of "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\Facades\System.Runtime.InteropServices.WindowsRuntime.dll"
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly system.componentmodel.composition has duplicate hint path. Ignoring "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.ComponentModel.Composition.dll" in favor of "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\System.ComponentModel.Composition.dll"
+ExitCode: 0 Duration: 0s777ms
+[544/859    0s] WriteResponseFile Library/Bee/artifacts/rsp/4747638433968585886.rsp
+[709/859    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[759/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.TestTooling.dll
+[760/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.ProtectedJobNested.dll
+[761/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.PathTracing.Runtime.dll
+[762/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.dll
+[763/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.ConformanceAutomation.dll
+[764/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.ObjectDispatcher.Runtime.dll
+[765/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.2D.Runtime.dll
+[766/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.SurfaceCache.Runtime.dll
+[767/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll
+[768/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.UnifiedRayTracing.Runtime.dll
+[769/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll
+[770/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.DocCodeExamples.dll
+[771/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InputSystem.dll
+[772/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.dll
+[773/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.OculusQuestSupport.dll
+[774/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll
+[775/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll
+[776/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Pipeline.Attributes.dll
+[777/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.dll
+[778/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll
+[779/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/UnityEngine.SpatialTracking.dll
+[780/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.RuntimeDebugger.dll
+[781/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Profiling.Core.dll
+[782/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Core.Runtime.Shared.dll
+[783/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Config.Runtime.dll
+[784/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll
+[785/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll
+[786/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.Interaction.Toolkit.dll
+[787/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll
+[788/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll
+[789/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.CoreUtils.dll
+[790/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InputSystem.ForUI.dll
+[791/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.AI.Navigation.dll
+[792/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.MetaQuestSupport.dll
+[793/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll
+[794/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.GPUDriven.Runtime.dll
+[795/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.MetaHandMeshData.dll
+[796/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+[797/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll
+[798/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.Management.dll
+[799/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Timeline.pdb
+[800/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.pdb
+[801/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/UnityEngine.SpatialTracking.pdb
+[802/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.pdb
+[803/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Core.Runtime.Shared.pdb
+[804/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Shaders.pdb
+[805/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.ConformanceAutomation.pdb
+[806/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.pdb
+[807/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.dll
+[808/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll
+[809/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.OculusQuestSupport.pdb
+[810/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.pdb
+[811/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.pdb
+[812/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.SurfaceCache.Runtime.pdb
+[813/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.2D.Runtime.pdb
+[814/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.pdb
+[815/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InputSystem.pdb
+[816/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.pdb
+[817/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.PrivateJobNested.pdb
+[818/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.MockRuntime.pdb
+[819/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.UnifiedRayTracing.Runtime.pdb
+[820/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.pdb
+[821/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.dll
+[822/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InputSystem.ForUI.pdb
+[823/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.004.dll
+[824/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll
+[825/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.ProtectedJobNested.pdb
+[826/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll
+[827/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Pipeline.Attributes.pdb
+[828/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.pdb
+[829/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.pdb
+[830/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.AI.Navigation.pdb
+[831/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.pdb
+[832/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.pdb
+[833/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Core.Runtime.pdb
+[834/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Runtime.pdb
+[835/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.TestTooling.pdb
+[836/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.MetaQuestSupport.pdb
+[837/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.dll
+[838/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll
+[839/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.MockRuntime.dll
+[840/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.GPUDriven.Runtime.pdb
+[841/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.pdb
+[842/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.PathTracing.Runtime.pdb
+[843/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Burst.pdb
+[844/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.CoreUtils.pdb
+[845/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.pdb
+[846/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.004.pdb
+[847/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.Profiling.Core.pdb
+[848/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.Interaction.Toolkit.pdb
+[849/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.ObjectDispatcher.Runtime.pdb
+[850/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipeline.Universal.ShaderLibrary.pdb
+[851/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.DocCodeExamples.pdb
+[852/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.pdb
+[853/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.RuntimeDebugger.pdb
+[854/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.Management.pdb
+[855/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.RenderPipelines.Universal.Config.Runtime.pdb
+[856/859    0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Unity.XR.OpenXR.Features.MetaHandMeshData.pdb
+*** Tundra build success (0.76 seconds), 100 items updated, 859 evaluated
+Total cache size 268020606
+Total cache size after purge 268020606, took 00:00:00.1377585
+Not rebuilding Data files -- no changes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+
+
+Mono dependencies included in the build
+Dependency assembly - Unity.InternalAPIEngineBridge.ObjectDispatcher.Runtime.dll
+Dependency assembly - System.Xml.Serialization.dll
+Dependency assembly - netstandard.dll
+Dependency assembly - System.Transactions.dll
+Dependency assembly - System.Linq.Expressions.dll
+Dependency assembly - System.dll
+Dependency assembly - System.Diagnostics.DiagnosticSource.dll
+Dependency assembly - System.Linq.Queryable.dll
+Dependency assembly - System.Runtime.InteropServices.RuntimeInformation.dll
+Dependency assembly - System.Linq.dll
+Dependency assembly - Unity.RenderPipelines.Core.ShaderLibrary.dll
+Dependency assembly - System.Xml.Xsl.Primitives.dll
+Dependency assembly - Unity.RenderPipeline.Universal.ShaderLibrary.dll
+Dependency assembly - System.Net.Http.dll
+Dependency assembly - System.Net.ServicePoint.dll
+Dependency assembly - Unity.Timeline.dll
+Dependency assembly - Unity.InternalAPIEngineBridge.004.dll
+Dependency assembly - System.Runtime.Serialization.Json.dll
+Dependency assembly - System.ComponentModel.TypeConverter.dll
+Dependency assembly - mscorlib.dll
+Dependency assembly - System.Runtime.CompilerServices.Unsafe.dll
+Dependency assembly - Unity.RenderPipelines.GPUDriven.Runtime.dll
+Dependency assembly - System.Security.Cryptography.Hashing.dll
+Dependency assembly - Unity.XR.Interaction.Toolkit.dll
+Dependency assembly - Unity.Collections.Tests.CoreCLR.ProtectedJobNested.dll
+Dependency assembly - Unity.Collections.Tests.CoreCLR.InternalJobNestedPrivate.dll
+Dependency assembly - System.Data.Common.dll
+Dependency assembly - Unity.Pipeline.Attributes.dll
+Dependency assembly - System.Numerics.Vectors.dll
+Dependency assembly - System.ServiceModel.Duplex.dll
+Dependency assembly - System.Security.dll
+Dependency assembly - System.Threading.Tasks.Extensions.dll
+Dependency assembly - System.Dynamic.Runtime.dll
+Dependency assembly - Mono.Security.dll
+Dependency assembly - System.Security.Cryptography.Pkcs.dll
+Dependency assembly - System.IO.FileSystem.dll
+Dependency assembly - Assembly-CSharp.dll
+Dependency assembly - System.Security.Cryptography.OpenSsl.dll
+Dependency assembly - System.Data.dll
+Dependency assembly - System.IO.MemoryMappedFiles.dll
+Dependency assembly - System.Runtime.Serialization.Xml.dll
+Dependency assembly - System.Security.Cryptography.Encryption.ECDsa.dll
+Dependency assembly - System.Runtime.CompilerServices.VisualC.dll
+Dependency assembly - System.Web.Extensions.Design.dll
+Dependency assembly - System.Xml.ReaderWriter.dll
+Dependency assembly - System.ServiceModel.dll
+Dependency assembly - System.Net.AuthenticationManager.dll
+Dependency assembly - System.Runtime.Caching.dll
+Dependency assembly - Unity.Collections.Tests.CoreCLR.PublicJobPrivateGeneric.dll
+Dependency assembly - System.Core.dll
+Dependency assembly - Unity.XR.OpenXR.dll
+Dependency assembly - System.Configuration.Install.dll
+Dependency assembly - System.Diagnostics.TraceEvent.dll
+Dependency assembly - System.Globalization.Calendars.dll
+Dependency assembly - System.Runtime.Serialization.Formatters.dll
+Dependency assembly - System.IO.FileSystem.DriveInfo.dll
+Dependency assembly - System.Net.Cache.dll
+Dependency assembly - System.Diagnostics.TraceSource.dll
+Dependency assembly - I18N.MidEast.dll
+Dependency assembly - Unity.XR.OpenXR.Features.OculusQuestSupport.dll
+Dependency assembly - System.IO.Compression.ZipFile.dll
+Dependency assembly - System.Buffers.dll
+Dependency assembly - System.Design.dll
+Dependency assembly - I18N.West.dll
+Dependency assembly - System.Diagnostics.Tracing.dll
+Dependency assembly - System.Messaging.dll
+Dependency assembly - System.Security.Principal.Windows.dll
+Dependency assembly - System.Xml.dll
+Dependency assembly - System.Net.NetworkInformation.dll
+Dependency assembly - Microsoft.CSharp.dll
+Dependency assembly - Unity.VisualScripting.DocCodeExamples.dll
+Dependency assembly - Unity.Collections.Tests.CoreCLR.PrivateJobNested.dll
+Dependency assembly - System.Net.HttpListener.dll
+Dependency assembly - System.ServiceModel.Activation.dll
+Dependency assembly - System.IO.UnmanagedMemoryStream.dll
+Dependency assembly - System.Threading.dll
+Dependency assembly - System.Threading.Tasks.dll
+Dependency assembly - System.Net.WebSockets.Client.dll
+Dependency assembly - System.Security.Cryptography.Encryption.dll
+Dependency assembly - System.IO.Pipes.dll
+Dependency assembly - System.Security.Cryptography.Encoding.dll
+Dependency assembly - System.Security.Cryptography.Primitives.dll
+Dependency assembly - System.Reflection.Context.dll
+Dependency assembly - I18N.Rare.dll
+Dependency assembly - System.Runtime.InteropServices.dll
+Dependency assembly - System.Drawing.Primitives.dll
+Dependency assembly - System.Runtime.Numerics.dll
+Dependency assembly - Unity.UnifiedRayTracing.Runtime.dll
+Dependency assembly - System.Reflection.Emit.dll
+Dependency assembly - System.Security.Cryptography.Encryption.ECDiffieHellman.dll
+Dependency assembly - System.ServiceModel.Security.dll
+Dependency assembly - Unity.RenderPipelines.Core.Runtime.Shared.dll
+Dependency assembly - System.Drawing.dll
+Dependency assembly - System.Reflection.dll
+Dependency assembly - System.Runtime.Serialization.dll
+Dependency assembly - System.IdentityModel.dll
+Dependency assembly - System.Security.AccessControl.dll
+Dependency assembly - System.ComponentModel.Primitives.dll
+Dependency assembly - System.Runtime.DurableInstancing.dll
+Dependency assembly - System.Security.Cryptography.Cng.dll
+Dependency assembly - System.EnterpriseServices.dll
+Dependency assembly - System.Management.dll
+Dependency assembly - System.Diagnostics.Tools.dll
+Dependency assembly - Unity.XR.OpenXR.Features.MetaQuestSupport.dll
+Dependency assembly - System.Security.SecureString.dll
+Dependency assembly - Unity.InternalAPIEngineBridge.RenderPipelines.Core.Runtime.Shared.dll
+Dependency assembly - Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll
+Dependency assembly - System.Text.Encoding.Extensions.dll
+Dependency assembly - System.Web.DynamicData.dll
+Dependency assembly - Unity.RenderPipelines.Universal.Runtime.dll
+Dependency assembly - System.Collections.dll
+Dependency assembly - System.IO.Hashing.dll
+Dependency assembly - System.ServiceModel.Web.dll
+Dependency assembly - System.ServiceModel.Internals.dll
+Dependency assembly - System.IO.FileSystem.AccessControl.dll
+Dependency assembly - System.Runtime.Serialization.Primitives.dll
+Dependency assembly - Unity.XR.OpenXR.Features.ConformanceAutomation.dll
+Dependency assembly - System.IO.Compression.dll
+Dependency assembly - System.Json.dll
+Dependency assembly - UnityEngine.XR.LegacyInputHelpers.dll
+Dependency assembly - Unity.RenderPipelines.Universal.Shaders.dll
+Dependency assembly - System.Security.Cryptography.RSA.dll
+Dependency assembly - System.Reflection.Extensions.dll
+Dependency assembly - System.Data.SqlClient.dll
+Dependency assembly - System.Net.WebSockets.dll
+Dependency assembly - System.IO.dll
+Dependency assembly - System.Net.Requests.dll
+Dependency assembly - System.Text.Encoding.CodePages.dll
+Dependency assembly - Unity.Profiling.Core.dll
+Dependency assembly - System.Reflection.Emit.Lightweight.dll
+Dependency assembly - System.Resources.ResourceManager.dll
+Dependency assembly - System.ServiceModel.Routing.dll
+Dependency assembly - System.ComponentModel.Composition.dll
+Dependency assembly - System.Threading.Overlapped.dll
+Dependency assembly - System.Threading.Timer.dll
+Dependency assembly - System.Diagnostics.Contracts.dll
+Dependency assembly - System.Collections.Immutable.dll
+Dependency assembly - System.Data.Services.dll
+Dependency assembly - System.Memory.dll
+Dependency assembly - System.Runtime.Handles.dll
+Dependency assembly - System.ServiceModel.Http.dll
+Dependency assembly - Microsoft.Extensions.Logging.Abstractions.dll
+Dependency assembly - System.IO.IsolatedStorage.dll
+Dependency assembly - System.Data.OracleClient.dll
+Dependency assembly - System.Threading.AccessControl.dll
+Dependency assembly - System.ObjectModel.dll
+Dependency assembly - System.Resources.ReaderWriter.dll
+Dependency assembly - Unity.PathTracing.Runtime.dll
+Dependency assembly - System.Runtime.Loader.dll
+Dependency assembly - Mono.Data.Sqlite.dll
+Dependency assembly - System.IdentityModel.Selectors.dll
+Dependency assembly - Unity.SurfaceCache.Runtime.dll
+Dependency assembly - System.Security.Cryptography.Algorithms.dll
+Dependency assembly - System.Net.Primitives.dll
+Dependency assembly - System.IO.FileSystem.Primitives.dll
+Dependency assembly - System.Runtime.Remoting.dll
+Dependency assembly - System.Windows.dll
+Dependency assembly - System.Net.Security.dll
+Dependency assembly - Unity.XR.OpenXR.TestTooling.dll
+Dependency assembly - System.IO.FileSystem.Watcher.dll
+Dependency assembly - System.Data.Linq.dll
+Dependency assembly - System.Collections.Specialized.dll
+Dependency assembly - System.Diagnostics.FileVersionInfo.dll
+Dependency assembly - System.Security.Cryptography.Csp.dll
+Dependency assembly - System.Linq.Parallel.dll
+Dependency assembly - System.Net.dll
+Dependency assembly - System.Xml.XmlDocument.dll
+Dependency assembly - System.Net.WebHeaderCollection.dll
+Dependency assembly - System.Runtime.Extensions.dll
+Dependency assembly - UnityEngine.UI.dll
+Dependency assembly - System.Xaml.dll
+Dependency assembly - System.ServiceModel.NetTcp.dll
+Dependency assembly - System.Data.Services.Client.dll
+Dependency assembly - System.Reflection.DispatchProxy.dll
+Dependency assembly - Unity.Collections.dll
+Dependency assembly - System.Xml.XPath.dll
+Dependency assembly - System.ServiceProcess.ServiceController.dll
+Dependency assembly - System.Security.Cryptography.Hashing.Algorithms.dll
+Dependency assembly - Accessibility.dll
+Dependency assembly - Unity.VisualScripting.State.dll
+Dependency assembly - Mono.Data.Tds.dll
+Dependency assembly - Unity.RenderPipelines.Universal.Config.Runtime.dll
+Dependency assembly - System.Threading.ThreadPool.dll
+Dependency assembly - System.Threading.Tasks.Parallel.dll
+Dependency assembly - System.ComponentModel.DataAnnotations.dll
+Dependency assembly - Microsoft.Win32.Primitives.dll
+Dependency assembly - Unity.TextMeshPro.dll
+Dependency assembly - Microsoft.Win32.Registry.dll
+Dependency assembly - System.Xml.XPath.XDocument.dll
+Dependency assembly - I18N.dll
+Dependency assembly - System.Web.ApplicationServices.dll
+Dependency assembly - System.Configuration.dll
+Dependency assembly - Unity.InputSystem.ForUI.dll
+Dependency assembly - System.ServiceProcess.dll
+Dependency assembly - System.Runtime.dll
+Dependency assembly - System.ComponentModel.Annotations.dll
+Dependency assembly - System.Diagnostics.StackTrace.dll
+Dependency assembly - Microsoft.Bcl.AsyncInterfaces.dll
+Dependency assembly - Microsoft.Win32.Registry.AccessControl.dll
+Dependency assembly - System.DirectoryServices.Protocols.dll
+Dependency assembly - Unity.VisualScripting.Flow.dll
+Dependency assembly - System.Text.Encoding.dll
+Dependency assembly - System.Xml.XmlSerializer.dll
+Dependency assembly - System.ValueTuple.dll
+Dependency assembly - Unity.AI.Navigation.dll
+Dependency assembly - Unity.XR.OpenXR.Features.RuntimeDebugger.dll
+Dependency assembly - System.Reflection.TypeExtensions.dll
+Dependency assembly - System.Text.Json.dll
+Dependency assembly - System.Net.NameResolution.dll
+Dependency assembly - System.Security.Cryptography.ProtectedData.dll
+Dependency assembly - System.Threading.Thread.dll
+Dependency assembly - UnityEngine.SpatialTracking.dll
+Dependency assembly - System.Data.Entity.dll
+Dependency assembly - Unity.Burst.dll
+Dependency assembly - Unity.XR.CoreUtils.dll
+Dependency assembly - Unity.XR.Management.dll
+Dependency assembly - Unity.RenderPipelines.Universal.2D.Runtime.dll
+Dependency assembly - Unity.VisualScripting.Core.dll
+Dependency assembly - System.Numerics.dll
+Dependency assembly - Unity.XR.OpenXR.Features.MockRuntime.dll
+Dependency assembly - System.Security.Principal.dll
+Dependency assembly - System.Diagnostics.Process.dll
+Dependency assembly - System.Text.Encodings.Web.dll
+Dependency assembly - System.Runtime.Serialization.Formatters.Soap.dll
+Dependency assembly - System.Windows.Forms.DataVisualization.dll
+Dependency assembly - Unity.Collections.LowLevel.ILSupport.dll
+Dependency assembly - System.ComponentModel.dll
+Dependency assembly - System.ComponentModel.EventBasedAsync.dll
+Dependency assembly - System.Reflection.Primitives.dll
+Dependency assembly - System.IO.Compression.FileSystem.dll
+Dependency assembly - Microsoft.Extensions.DependencyInjection.Abstractions.dll
+Dependency assembly - System.Collections.Concurrent.dll
+Dependency assembly - System.Diagnostics.Debug.dll
+Dependency assembly - System.Net.Utilities.dll
+Dependency assembly - System.Console.dll
+Dependency assembly - System.Resources.Reader.dll
+Dependency assembly - System.Data.DataSetExtensions.dll
+Dependency assembly - System.Web.dll
+Dependency assembly - System.Reflection.Emit.ILGeneration.dll
+Dependency assembly - System.Text.RegularExpressions.dll
+Dependency assembly - System.Resources.Writer.dll
+Dependency assembly - Unity.RenderPipelines.Core.Runtime.dll
+Dependency assembly - Unity.Mathematics.dll
+Dependency assembly - System.Net.Sockets.dll
+Dependency assembly - System.Net.Mail.dll
+Dependency assembly - System.Security.Cryptography.Encryption.Aes.dll
+Dependency assembly - System.ServiceModel.Primitives.dll
+Dependency assembly - System.Security.Cryptography.X509Certificates.dll
+Dependency assembly - System.Xml.XDocument.dll
+Dependency assembly - System.Net.Http.WebRequest.dll
+Dependency assembly - System.Web.Extensions.dll
+Dependency assembly - System.Globalization.dll
+Dependency assembly - System.DirectoryServices.dll
+Dependency assembly - System.Security.Cryptography.DeriveBytes.dll
+Dependency assembly - Newtonsoft.Json.dll
+Dependency assembly - System.Xml.Linq.dll
+Dependency assembly - System.Globalization.Extensions.dll
+Dependency assembly - System.Reflection.Metadata.dll
+Dependency assembly - I18N.CJK.dll
+Dependency assembly - System.Security.Claims.dll
+Dependency assembly - System.Net.Ping.dll
+Dependency assembly - System.Drawing.Design.dll
+Dependency assembly - System.Security.Cryptography.RandomNumberGenerator.dll
+Dependency assembly - Unity.XR.OpenXR.Features.MetaHandMeshData.dll
+Dependency assembly - System.ServiceModel.Discovery.dll
+Dependency assembly - System.Runtime.InteropServices.WindowsRuntime.dll
+Dependency assembly - System.Web.Services.dll
+Dependency assembly - Unity.InputSystem.dll
+Dependency assembly - Unity.VisualScripting.Antlr3.Runtime.dll
+Dependency assembly - System.Diagnostics.TextWriterTraceListener.dll
+Dependency assembly - System.Web.RegularExpressions.dll
+Dependency assembly - System.Collections.NonGeneric.dll
+Dependency assembly - System.Windows.Forms.dll
+Dependency assembly - System.Xml.XPath.XmlDocument.dll
+Dependency assembly - I18N.Other.dll
+Dependency assembly - System.AppContext.dll
+
+Android PostProcess task "Initializing" took 0.5589 ms
+Android PostProcess task "Check gradle project collisions" took 0.2134 ms
+Android PostProcess task "Preparing banner" took 0.3733 ms
+    Call "UnityEditor.Android.AndroidHardwareProfilesManager.Setup" from assembly 'UnityEditor.Android.Extensions'
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --dagfile="Library/Bee/Player5ac6a751.dag" --profile="Library/Bee/backend1.traceevents" Player
+WorkingDir: C:/Users/Student/evokebeta
+[ 117/1272  0s] CopyFiles C:/Users/Student/evokebeta/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/xrmanifest.androidlib/AndroidManifest.xml
+[           0s] ComputeLeafInputSignature Lib_Android_arm64 Library/Bee/artifacts/Android/87lik/il2cpp.a [success 9bc930e37c55c978ad34153a1fd4d163]
+*** Tundra build success (0.12 seconds), 1 items updated, 1272 evaluated
+ExitCode: 0 Duration: 0s151ms
+Calling IPostGenerateGradleAndroidProject callbacks on 'C:\Users\Student\evokebeta\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary':
+    Call "UnityEditor.XR.OpenXR.OpenXRApiLayersBuildProcessorAndroid.OnPostGenerateGradleAndroidProject" from assembly 'Unity.XR.OpenXR.Editor'
+    Call "UnityEditor.XR.OpenXR.Features.OculusQuestSupport.ModifyAndroidManifestOculus.OnPostGenerateGradleAndroidProject" from assembly 'Unity.XR.OpenXR.Features.OculusQuestSupport.Editor'
+    Call "UnityEditor.XR.OpenXR.Features.MetaQuestSupport.ModifyAndroidManifestMeta.OnPostGenerateGradleAndroidProject" from assembly 'Unity.XR.OpenXR.Features.MetaQuestSupport.Editor'
+    Call "Unity.XR.Management.AndroidManifest.Editor.AndroidManifestBuildEventReceiver.OnPostGenerateGradleAndroidProject" from assembly 'Unity.XR.Management.Editor'
+    Call "UnityEditor.XR.OpenXR.Features.MetaQuestSupport.MetaQuestFeatureBuildHooks.OnPostGenerateGradleAndroidProject" from assembly 'Unity.XR.OpenXR.Features.MetaQuestSupport.Editor'
+    Call "UnityEditor.XR.OpenXR.Features.SpaceWarpFeatureBuildHooks.OnPostGenerateGradleAndroidProject" from assembly 'Unity.XR.OpenXR.Editor'
+Android PostProcess task "Calling IPostGenerateGradleAndroidProject callbacks" took 36.7484 ms
+Android PostProcess task "Validate Gradle Project" took 0.7853 ms
+Android PostProcess task "Unity Services Symbol Upload" took 0.3165 ms
+Total cache size 268020606
+Total cache size after purge 268020606, took 00:00:00.1453119
+Starting: C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK\bin\java.exe -classpath "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\Tools\gradle\lib\gradle-launcher-9.3.1.jar" org.gradle.launcher.GradleMain "-Dorg.gradle.jvmargs=-Xmx4096m" "assembleRelease" 
+WorkingDir: C:/Users/Student/evokebeta/Library/Bee/Android/Prj/IL2CPP/Gradle\launcher
+Build log was saved at 'C:\Users\Student\evokebeta\Library\Bee\Android\Prj\IL2CPP\Gradle\launcher\build\outputs\logs\unity-assembleRelease-build.log'
+
+> Configure project :launcher
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.enableJetifier=true' is deprecated.
+The current default is 'false'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+
+> Configure project :unityLibrary
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+
+> Configure project :launcher
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+Checking the license for package Android SDK Platform 35 in C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\licenses
+License for package Android SDK Platform 35 accepted.
+Preparing "Install Android SDK Platform 35 (revision 2)".
+Warning: Failed to read or create install properties file.
+
+[Incubating] Problems report is available at: file:///C:/Users/Student/evokebeta/Library/Bee/Android/Prj/IL2CPP/Gradle/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.Android.GradleInvokationException:ParseAndShowException () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs:139)
+UnityEditor.Android.PostProcessor.PostProcessRunner:RunAllTasks (UnityEditor.Android.PostProcessor.PostProcessorContext) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessor/AndroidPostProcessor.cs:121)
+UnityEditor.Android.PostProcessAndroidPlayer:PostProcess (UnityEditor.Modules.BuildPostProcessArgs,AndroidPlayerBuildProgram.Data.AndroidPlayerBuildProgramOutput) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessAndroidPlayer.cs:362)
+UnityEditor.Android.AndroidBuildPostprocessor:PostProcess (UnityEditor.Modules.BuildPostProcessArgs,UnityEditor.BuildProperties&) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/AndroidBuildPostprocessor.cs:212)
+UnityEditor.PostprocessBuildPlayer:Postprocess (UnityEditor.BuildTarget,int,string,string,string,UnityEditor.BuildOptions,UnityEditor.RuntimeClassRegistry,UnityEditor.Build.Reporting.BuildReport,string[])
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs Line: 139)
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not determine the dependencies of task ':unityLibrary:EvokeMp3Picker.androidlib:compileReleaseJavaWithJavac'.
+> Failed to install the following SDK components:
+      platforms;android-35 Android SDK Platform 35
+  The SDK directory is not writable (C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK)
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5s
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.Android.GradleInvokationException:ParseAndShowException () (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs:139)
+UnityEditor.Android.PostProcessor.PostProcessRunner:RunAllTasks (UnityEditor.Android.PostProcessor.PostProcessorContext) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessor/AndroidPostProcessor.cs:121)
+UnityEditor.Android.PostProcessAndroidPlayer:PostProcess (UnityEditor.Modules.BuildPostProcessArgs,AndroidPlayerBuildProgram.Data.AndroidPlayerBuildProgramOutput) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessAndroidPlayer.cs:362)
+UnityEditor.Android.AndroidBuildPostprocessor:PostProcess (UnityEditor.Modules.BuildPostProcessArgs,UnityEditor.BuildProperties&) (at /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/AndroidBuildPostprocessor.cs:212)
+UnityEditor.PostprocessBuildPlayer:Postprocess (UnityEditor.BuildTarget,int,string,string,string,UnityEditor.BuildOptions,UnityEditor.RuntimeClassRegistry,UnityEditor.Build.Reporting.BuildReport,string[])
+UnityEditor.BuildPipeline:BuildPlayerInternal (string[],string,string,UnityEditor.BuildTargetGroup,UnityEditor.BuildTarget,int,UnityEditor.BuildOptions,string[],string[],bool)
+UnityEditor.BuildPipeline:BuildPlayerFromUI (UnityEditor.BuildPlayerOptions,bool)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs Line: 139)
+
+CommandInvokationFailure: Gradle build failed. 
+C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK\bin\java.exe -classpath "C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\Tools\gradle\lib\gradle-launcher-9.3.1.jar" org.gradle.launcher.GradleMain "-Dorg.gradle.jvmargs=-Xmx4096m" "assembleRelease" 
+
+Environment Variables:
+KMP_DUPLICATE_LIB_OK = TRUE
+USERDOMAIN = Engineering2506
+ProgramFiles = C:\Program Files
+TMP = C:\Users\Student\AppData\Local\Temp
+PROCESSOR_ARCHITECTURE = AMD64
+PROCESSOR_REVISION = bf02
+ALLUSERSPROFILE = C:\ProgramData
+OS = Windows_NT
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_6140_EVRSMHMEWEWDGPCW
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 191 Stepping 2, GenuineIntel
+ProgramW6432 = C:\Program Files
+EFC_9092_1592913036 = 1
+USERPROFILE = C:\Users\Student
+JAVA_HOME = C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK
+CommonProgramFiles = C:\Program Files\Common Files
+DriverData = C:\Windows\System32\Drivers\DriverData
+ComSpec = C:\WINDOWS\system32\cmd.exe
+PSModulePath = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+ANDROID_NDK_ROOT = C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK
+SystemRoot = C:\WINDOWS
+NUMBER_OF_PROCESSORS = 16
+EFC_9092_3789132940 = 1
+EFC_9092_2283032206 = 1
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
+EFC_9092_4126798990 = 1
+TEMP = C:\Users\Student\AppData\Local\Temp
+Path = C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Python313\Scripts\;C:\Program Files\Python313\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Users\Student\AppData\Local\Microsoft\WindowsApps;C:\Users\Student\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-24\bin;C:\Users\Student\AppData\Local\Unity\bin;C:\Users\Student\.dotnet\tools
+USERNAME = Student
+COMPUTERNAME = ENGINEERING2506
+OMP_NUM_THREADS = 16
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
+EFC_9092_1262719628 = 1
+SystemDrive = C:
+windir = C:\WINDOWS
+MKL_SERIAL = YES
+FPS_BROWSER_USER_PROFILE_STRING = Default
+HOMEPATH = \Users\Student
+PUBLIC = C:\Users\Public
+CommonProgramFiles(x86) = C:\Program Files (x86)\Common Files
+APPDATA = C:\Users\Student\AppData\Roaming
+OneDrive = C:\Users\Student\OneDrive
+PROCESSOR_LEVEL = 6
+CommonProgramW6432 = C:\Program Files\Common Files
+ProgramFiles(x86) = C:\Program Files (x86)
+SESSIONNAME = Console
+LOGONSERVER = \\ENGINEERING2506
+LOCALAPPDATA = C:\Users\Student\AppData\Local
+EFC_9092_2946480783 = 1
+HOMEDRIVE = C:
+USERDOMAIN_ROAMINGPROFILE = Engineering2506
+ProgramData = C:\ProgramData
+
+
+stderr[
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not determine the dependencies of task ':unityLibrary:EvokeMp3Picker.androidlib:compileReleaseJavaWithJavac'.
+> Failed to install the following SDK components:
+      platforms;android-35 Android SDK Platform 35
+  The SDK directory is not writable (C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK)
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 5s
+]
+stdout[
+
+> Configure project :launcher
+WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
+The current default is 'true'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+WARNING: The option setting 'android.enableJetifier=true' is deprecated.
+The current default is 'false'.
+It will be removed in version 10.0 of the Android Gradle plugin.
+
+> Configure project :unityLibrary
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+
+> Configure project :launcher
+Variant 'debug', will keep symbols in binaries for:
+  'libunity.so'
+  'libil2cpp.so'
+  'libmain.so'
+Variant 'release', symbols will be stripped from binaries.
+Checking the license for package Android SDK Platform 35 in C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\licenses
+License for package Android SDK Platform 35 accepted.
+Preparing "Install Android SDK Platform 35 (revision 2)".
+Warning: Failed to read or create install properties file.
+
+[Incubating] Problems report is available at: file:///C:/Users/Student/evokebeta/Library/Bee/Android/Prj/IL2CPP/Gradle/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+]
+exit code: 1
+  at UnityEditor.Android.Command.WaitForProgramToRun (UnityEditor.Utils.Program p, UnityEditor.Android.Command+WaitingForProcessToExit waitingForProcessToExit, System.String errorMsg) [0x00099] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Command.cs:221 
+  at UnityEditor.Android.Command.Run (System.Diagnostics.ProcessStartInfo psi, UnityEditor.Android.Command+WaitingForProcessToExit waitingForProcessToExit, System.String errorMsg) [0x00017] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Command.cs:159 
+  at UnityEditor.Android.Command.Run (System.String command, System.String args, System.String workingdir, UnityEditor.Android.Command+WaitingForProcessToExit waitingForProcessToExit, System.String errorMsg, System.Text.Encoding inputEncoding) [0x0000c] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Command.cs:117 
+  at UnityEditor.Android.AndroidJavaTools.RunJava (System.String args, System.String workingdir, System.Action`1[T] progress, System.String error) [0x00046] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/AndroidJavaTools.cs:115 
+  at UnityEditor.Android.GradleWrapper.Run (UnityEditor.Android.AndroidJavaTools javaTools, Unity.Android.Gradle.AndroidGradle androidGradle, System.String workingdir, System.String task, System.String[] extraArguments, System.Action`1[T] progress) [0x00079] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs:271 
+Rethrow as GradleInvokationException: Gradle build failed
+  at UnityEditor.Android.GradleWrapper.Run (UnityEditor.Android.AndroidJavaTools javaTools, Unity.Android.Gradle.AndroidGradle androidGradle, System.String workingdir, System.String task, System.String[] extraArguments, System.Action`1[T] progress) [0x000bd] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Gradle.cs:280 
+  at UnityEditor.Android.PostProcessor.Tasks.TasksCommon.RunGradleTask (UnityEditor.Android.PostProcessor.PostProcessorContext context, System.String workingDirectory, System.String taskName, System.String[] extraArguments, UnityEditor.Android.PostProcessor.IPostProcessorTask owner, UnityEditor.Android.PostProcessor.ProgressHandler progress) [0x00030] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessor/Tasks/TasksCommon.cs:71 
+  at UnityEditor.Android.PostProcessor.Tasks.TasksCommon.RunLauncherGradleTask (UnityEditor.Android.PostProcessor.PostProcessorContext context, System.String taskName, System.String[] extraArguments, UnityEditor.Android.PostProcessor.IPostProcessorTask owner, UnityEditor.Android.PostProcessor.ProgressHandler progress) [0x00001] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessor/Tasks/TasksCommon.cs:54 
+  at UnityEditor.Android.PostProcessor.Tasks.BuildGradleProject.Execute (UnityEditor.Android.PostProcessor.PostProcessorContext context) [0x00212] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessor/Tasks/BuildGradleProject.cs:100 
+  at UnityEditor.Android.PostProcessor.PostProcessRunner.RunAllTasks (UnityEditor.Android.PostProcessor.PostProcessorContext context) [0x00078] in /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/PostProcessor/AndroidPostProcessor.cs:112 
+UnityEngine.StackTraceUtility:ExtractStringFromExceptionInternal(Object, String&, String&)
+UnityEditor.BuildPipeline:BuildPlayerInternal_Injected(String[], ManagedSpanWrapper&, ManagedSpanWrapper&, BuildTargetGroup, BuildTarget, Int32, BuildOptions, String[], String[], Boolean)
+UnityEditor.BuildPipeline:BuildPlayerInternal(String[], String, String, BuildTargetGroup, BuildTarget, Int32, BuildOptions, String[], String[], Boolean)
+UnityEditor.BuildPipeline:BuildPlayerFromUI(BuildPlayerOptions, Boolean)
+UnityEditor.DefaultBuildMethods:BuildPlayer(BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods(Boolean, BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal(Boolean)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun()
+
+(Filename: /home/bokken/build/output/unity/unity/PlatformDependent/AndroidPlayer/Editor/Managed/Android/Command.cs Line: 221)
+
+GPU Resident Drawer disposed.
+GPU Resident Drawer created.
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 137 unused Assets / (0.9 MB). Loaded Objects now: 10151.
+Memory consumption went from 0.71 GB to 0.71 GB.
+Total: 12.430300 ms (FindLiveObjects: 0.520900 ms CreateObjectMapping: 0.144200 ms MarkObjects: 11.107100 ms  DeleteObjects: 0.366700 ms)
+
+Build Finished, Result: Failure.
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            1.543 ms
+	Integration:            20.073 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.092 ms
+	Total Operation Time:   21.709 ms
+Unloading 0 unused Assets / (Unknown). Loaded Objects now: 10108.
+Memory consumption went from 0.71 GB to 0.71 GB.
+Total: 12.002800 ms (FindLiveObjects: 0.499200 ms CreateObjectMapping: 0.136200 ms MarkObjects: 11.075900 ms  DeleteObjects: 0.018900 ms)
+
+##utp:{"success":false,"type":"PlayerBuildInfo","version":2,"phase":"Immediate","time":1792518631256,"processId":23364,"steps":[{"description":"Call PrepareForBuild callbacks","duration":3},{"description":"Call internal build started callbacks","duration":0},{"description":"Preprocess Player","duration":281},{"description":"Save scenes before build","duration":3},{"description":"Prepare For Build","duration":2487},{"description":"ProducePlayerScriptAssemblies","duration":1201},{"description":"Verify Build setup","duration":269},{"description":"Prepare assets for target platform","duration":10},{"description":"Prepare splash screen","duration":0},{"description":"Run script only build","duration":25},{"description":"Build scripts DLLs","duration":23},{"description":"Postprocess built player","duration":14916},{"description":"Call Post-Process callbacks","duration":0}],"duration":19218}
+Build completed with a result of 'Failed' in 19 seconds (19422 ms) [10/20/2026 12:50:11 PM -> 10/20/2026 12:50:31 PM, 19s]
+3 errors
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogError (object)
+UnityEditor.BuildPlayerWindow/DefaultBuildMethods:BuildPlayer (UnityEditor.BuildPlayerOptions)
+UnityEditor.BuildPlayerWindow:CallBuildMethods (bool,UnityEditor.BuildOptions)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRunInternal (bool)
+UnityEditor.BuildPlayerWindow:BuildPlayerAndRun ()
+
+Asset Pipeline Refresh (id=718a3631045aaa54faa4d1b3ec1f58c5): Total: 0.016 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh (id=c170214c6eef6d046956852cce198338): Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh (id=9fa4c302da97c0e48b1acf2472180d63): Total: 0.002 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
