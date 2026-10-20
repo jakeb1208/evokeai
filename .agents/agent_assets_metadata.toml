@@ -42,3 +42,17 @@ mtime_ms = 1792072736658
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/073381b0-994d-4afb-b36b-b6b9f1f241d8/50434188-4c63-4833-9efc-997de4d7f8d5"
 storage_version_token = "1792072742954679"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "qcxqot8Cto25BbMy21ALy"
+uri = "file://exports/evoke-quest2-mp3-build-fix.zip"
+type = "unspecified"
+title = "Quest MP3 picker — Android build fix"
+description = "One corrected build.gradle file. Replace the existing file inside EvokeMp3Picker.androidlib in your Unity project's Assets folder. This is a source fix, not an APK."
+logical_id = "91adca8f-d17b-471e-b734-258777b52ce6"
+content_hash = "sha256:c95ee75c6d3f404fc80effbad6cce700974249de0e5a4170391e41028037b42b"
+size = 382
+mtime_ms = 1792519751430
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/91adca8f-d17b-471e-b734-258777b52ce6/8290046f-671b-451a-99c0-7e9f481b155d"
+storage_version_token = "1792519758284477"
+content_type = "application/octet-stream"

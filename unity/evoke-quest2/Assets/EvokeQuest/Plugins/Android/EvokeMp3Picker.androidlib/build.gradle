@@ -2,7 +2,9 @@ apply plugin: 'com.android.library'
 
 android {
     namespace 'com.evoke.quest'
-    compileSdkVersion 35
+    // The picker uses older SAF APIs; keep its compile requirement compatible
+    // with Quest applications whose launcher still compiles against API 32.
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 23
     }
