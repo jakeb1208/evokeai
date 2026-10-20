@@ -94,18 +94,18 @@ namespace EvokeQuest
 
         private void Start()
         {
-            if (!IsSupportedRuntime())
-            {
-                ShowRuntimeGuard();
-                return;
-            }
-
             if (headCamera == null)
                 headCamera = GetComponentInChildren<Camera>();
             if (headCamera == null)
             {
                 Debug.LogError("Evoke Quest: Assign the XR Origin's tracked head camera.");
                 enabled = false;
+                return;
+            }
+
+            if (!IsSupportedRuntime())
+            {
+                ShowRuntimeGuard();
                 return;
             }
 
@@ -122,6 +122,7 @@ namespace EvokeQuest
 
             BuildInterface();
             ShowLogin();
+            Debug.Log("Evoke Quest: sign-in interface initialized.");
         }
 
         private bool IsSupportedRuntime()
@@ -132,18 +133,49 @@ namespace EvokeQuest
             if (Application.platform != RuntimePlatform.Android)
                 return false;
             string model = SystemInfo.deviceModel ?? string.Empty;
-            model = model.Replace(" ", string.Empty).Replace("-", string.Empty).Replace("_", string.Empty);
-            return model.EndsWith("Quest2", StringComparison.OrdinalIgnoreCase);
+            string androidModel = string.Empty;
+            try
+            {
+                // Unity may report the generic "Oculus Quest" even on a Quest 2.
+                using (AndroidJavaClass build = new AndroidJavaClass("android.os.Build"))
+                    androidModel = build.GetStatic<string>("MODEL") ?? string.Empty;
+            }
+            catch (Exception exception)
+            {
+                Debug.LogWarning("Evoke Quest: Android model lookup failed: " + exception.Message);
+            }
+            bool supported = IsQuest2Model(string.IsNullOrWhiteSpace(androidModel) ? model : androidModel);
+            Debug.Log("Evoke Quest: Unity model='" + model + "', Android model='" + androidModel +
+                "', supported=" + supported + ".");
+            return supported;
 #endif
+        }
+
+        private static bool IsQuest2Model(string model)
+        {
+            string normalized = (model ?? string.Empty).Replace(" ", string.Empty)
+                .Replace("-", string.Empty).Replace("_", string.Empty);
+            return normalized.EndsWith("Quest2", StringComparison.OrdinalIgnoreCase);
         }
 
         private void ShowRuntimeGuard()
         {
+            Debug.LogWarning("Evoke Quest: unsupported runtime; showing the device compatibility message.");
             GameObject root = new GameObject("EvokeQuestRuntimeGuard");
+            root.transform.SetParent(headCamera.transform, false);
+            root.transform.localPosition = new Vector3(0f, 0f, interfaceDistance);
+            root.transform.localRotation = Quaternion.identity;
             Canvas guardCanvas = root.AddComponent<Canvas>();
-            guardCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            // Screen-space overlay canvases are not visible in the headset's stereo view.
+            guardCanvas.renderMode = RenderMode.WorldSpace;
+            guardCanvas.worldCamera = headCamera;
+            RectTransform canvasRect = guardCanvas.GetComponent<RectTransform>();
+            canvasRect.sizeDelta = new Vector2(1000f, 700f);
+            canvasRect.localScale = Vector3.one * 0.0017f;
             root.AddComponent<CanvasScaler>();
-            root.AddComponent<GraphicRaycaster>();
+            Image background = CreateImage(root.transform, "RuntimeGuardBackground",
+                new Color(0.035f, 0.075f, 0.065f, 0.96f));
+            Stretch(background.rectTransform, 0f, 0f, 0f, 0f);
             Text message = CreateText(root.transform, "RuntimeGuardMessage", "Evoke panorama client\nQuest 2 Android runtime only.", 32, TextAnchor.MiddleCenter);
             RectTransform rect = message.rectTransform;
             rect.anchorMin = Vector2.zero;

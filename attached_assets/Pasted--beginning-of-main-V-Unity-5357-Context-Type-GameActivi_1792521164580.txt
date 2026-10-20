@@ -1,0 +1,370 @@
+--------- beginning of main
+V/Unity   ( 5357): Context Type: GameActivity
+I/Unity   ( 5357): UnityApplication::CreateInstance
+I/Unity   ( 5357): GameActivity Package Version '4.4.0'
+I/Unity   ( 5357): Starting Game Loop
+I/Unity   ( 5357): Handle cmd APP_CMD_START(11)
+I/Unity   ( 5357): Handle cmd APP_CMD_RESUME(12)
+I/Unity   ( 5357): Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+I/Unity   ( 5357): Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+I/Unity   ( 5357): Handle cmd APP_CMD_CONTENT_RECT_CHANGED(5)
+I/Unity   ( 5357): Handle cmd APP_CMD_INIT_WINDOW(1)
+I/Unity   ( 5357): MemoryManager: Using 'Dynamic Heap' Allocator.
+I/Unity   ( 5357): Mimalloc is enabled and will override the Dynamic Heap and Dual Thread (Main and MainThread) allocators.
+E/Unity   ( 5357): java.lang.ClassNotFoundException: Didn't find class "com.google.android.play.core.assetpacks.AssetPackManager" on path: DexPathList[[zip file "/data/app/~~9QEtOZWw15STS4WjBmKivQ==/com.UnityTechnologies.com.unity.template.urpblank-vxQ7kaMVgabLW9RCKOBTmg==/base.apk"],nativeLibraryDirectories=[/data/app/~~9QEtOZWw15STS4WjBmKivQ==/com.UnityTechnologies.com.unity.template.urpblank-vxQ7kaMVgabLW9RCKOBTmg==/lib/arm64, /data/app/~~9QEtOZWw15STS4WjBmKivQ==/com.UnityTechnologies.com.unity.template.urpblank-vxQ7kaMVgabLW9RCKOBTmg==/base.apk!/lib/arm64-v8a, /system/lib64, /system_ext/lib64]]
+I/Unity   ( 5357): SystemInfo CPU = ARM64 FP ASIMD AES, Cores = 3, Memory = 5840mb
+I/Unity   ( 5357): SystemInfo ARM big.LITTLE configuration: 3 big (mask: 0x70), 0 little (mask: 0x0)
+I/Unity   ( 5357): XR UsableCoreMask: 0x70
+I/Unity   ( 5357): ApplicationInfo 'com.UnityTechnologies.com.unity.template.urpblank', Version '0.1.0', Min API Level '29', Target API Level '32'
+I/Unity   ( 5357): Built from '6000.6/staging' branch, Version '6000.6.4f1 (12bfff696524)', Build type 'Release', Scripting Backend 'il2cpp', CPU 'arm64-v8a', Stripping 'Enabled'
+I/Unity   ( 5357): Device Model 'Oculus Quest', OS 'Android OS 12 (API 32)'
+I/Unity   ( 5357): Company Name: DefaultCompany
+I/Unity   ( 5357): Product Name: evokebeta
+I/Unity   ( 5357): [XR] [510377732464] [13:31:47.597][Info   ] Available Layers: (0)
+I/Unity   ( 5357): XRGeneral Settings awakening...
+I/Unity   ( 5357): UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+I/Unity   ( 5357): UnityEngine.XR.Management.XRGeneralSettings:Awake()
+I/Unity   ( 5357): 
+I/Unity   ( 5357): Loading OpenXR loader library at path: openxr_loader
+I/Unity   ( 5357): UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+I/Unity   ( 5357): UnityEngine.XR.OpenXR.OpenXRLoaderBase:LoadOpenXRSymbols()
+I/Unity   ( 5357): UnityEngine.XR.OpenXR.OpenXRLoaderBase:InitializeInternal()
+I/Unity   ( 5357): UnityEngine.XR.OpenXR.OpenXRLoaderBase:Initialize()
+I/Unity   ( 5357): UnityEngine.XR.Management.XRManagerSettings:InitializeLoaderSync()
+I/Unity   ( 5357): 
+W/Unity   ( 5357): [XR] XR_META_performance_metrics: Attempted to stop before session ready
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.045][Info   ] Available Layers: (0)
+W/Unity   ( 5357): Orientation Listener cannot detect orientation.
+I/Unity   ( 5357):     HasWindow = 1, HasFocus = 0
+I/Unity   ( 5357): Handle cmd APP_CMD_WINDOW_RESIZED(3)
+I/Unity   ( 5357): Handle cmd APP_CMD_WINDOW_REDRAW_NEEDED(4)
+I/Unity   ( 5357): Handle cmd APP_CMD_GAINED_FOCUS(7)
+I/Unity   ( 5357): Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+I/Unity   ( 5357): Handle cmd APP_CMD_WINDOW_INSETS_CHANGED(17)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.432][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_UNKNOWN->XR_SESSION_STATE_IDLE session=144115188075855877 time=35193222017
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.433][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_IDLE->XR_SESSION_STATE_READY session=144115188075855877 time=35193474517
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: Active providers:
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/app/gpu_frametime
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/app/gpu_frametime
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/gpu_frametime
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/gpu_frametime
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/device/gpu_utilization
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/device/cpu_utilization_average
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/device/cpu_utilization_worst
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/dropped_frame_count
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/compositor/dropped_frame_count
+I/Unity   ( 5357): [XR] XR_META_performance_metrics: /perfmetrics_meta/app/motion_to_photon_latency
+I/Unity   ( 5357): Shader 'Hidden/Universal Render Pipeline/GaussianDepthOfField' is not supported or has been stripped from the build (in 'DepthOfFieldGaussianPostProcessPass'). PostProcessing render passes will not execute.
+I/Unity   ( 5357): UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcessUtils:LoadShader(Shader, String, LogType)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.DepthOfFieldGaussianPostProcessPass:.ctor(Shader)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcess:.ctor(PostProcessData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderer:.ctor(UniversalRendererData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRendererData:Create()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreateRenderers()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineAsset:InternalCreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:TryPrepareRenderPipeline(RenderPipelineAsset)
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal(RenderPipelineAsset, IntPtr, Object)
+I/Unity   ( 5357): 
+I/Unity   ( 5357): Shader 'Hidden/Universal Render Pipeline/GaussianDepthOfField' is not supported or has been stripped from the build (in 'DepthOfFieldGaussianPostProcessPass'). PostProcessing render passes will not execute.
+I/Unity   ( 5357): UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcessUtils:LoadShader(Shader, String, LogType)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.DepthOfFieldGaussianPostProcessPass:.ctor(Shader)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcess:.ctor(PostProcessData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderer:.ctor(UniversalRendererData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRendererData:Create()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreateRenderers()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineAsset:InternalCreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:TryPrepareRenderPipeline(RenderPipelineAsset)
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal(RenderPipelineAsset, IntPtr, Object)
+I/Unity   ( 5357): 
+I/Unity   ( 5357): Shader 'Hidden/Universal Render Pipeline/BokehDepthOfField' is not supported or has been stripped from the build (in 'DepthOfFieldBokehPostProcessPass'). PostProcessing render passes will not execute.
+I/Unity   ( 5357): UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcessUtils:LoadShader(Shader, String, LogType)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.DepthOfFieldBokehPostProcessPass:.ctor(Shader)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcess:.ctor(PostProcessData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderer:.ctor(UniversalRendererData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRendererData:Create()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreateRenderers()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineAsset:InternalCreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:TryPrepareRenderPipeline(RenderPipelineAsset)
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal(RenderPipelineAsset, IntPtr, Object)
+I/Unity   ( 5357): 
+I/Unity   ( 5357): Shader 'Hidden/Universal Render Pipeline/PaniniProjection' is not supported or has been stripped from the build (in 'PaniniProjectionPostProcessPass'). PostProcessing render passes will not execute.
+I/Unity   ( 5357): UnityEngine.DebugLogHandler:Internal_Log(LogType, LogOption, String, Object)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcessUtils:LoadShader(Shader, String, LogType)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PaniniProjectionPostProcessPass:.ctor(Shader)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.PostProcess:.ctor(PostProcessData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderer:.ctor(UniversalRendererData)
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRendererData:Create()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreateRenderers()
+I/Unity   ( 5357): UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset:CreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineAsset:InternalCreatePipeline()
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:TryPrepareRenderPipeline(RenderPipelineAsset)
+I/Unity   ( 5357): UnityEngine.Rendering.RenderPipelineManager:DoRenderLoop_Internal(RenderPipelineAsset, IntPtr, Object)
+I/Unity   ( 5357): 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.576][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_READY->XR_SESSION_STATE_SYNCHRONIZED session=144115188075855877 time=35336705090
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_SYNCHRONIZED->XR_SESSION_STATE_VISIBLE session=144115188075855877 time=35336967955
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] OpenXRSession::HandleSessionStateChangedEvent: state XR_SESSION_STATE_VISIBLE->XR_SESSION_STATE_FOCUSED session=144115188075855877 time=35337630507
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] 
+I/Unity   ( 5357): 
+I/Unity   ( 5357): ==== Start Unity OpenXR Diagnostic Report ====
+I/Unity   ( 5357): 
+I/Unity   ( 5357): 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] ==== Report Reason: System Startup Completed ====
+I/Unity   ( 5357): 
+I/Unity   ( 5357): 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] ==== OpenXR Settings ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Symmetric Projection: False
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Stereo Rendering Mode: SinglePassInstanced
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Latency Optimization: PrioritizeRendering
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Color Submission Modes: kRenderTextureFormatGroup8888
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Depth Submission Mode: None
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Space Warp Motion Vector Texture Format: RGBA16f
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Optimize Buffer Discards: True
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.577][Info   ] Multiview Render Regions Optimization Mode: None
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] Use OpenXR Predicted Time: True
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] Foveated Rendering API: SRPFoveation
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] ==== OpenXR Provider Info ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] Provider Version: ecb5f4e-dirty
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] App: evokebeta #1521753221
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] Engine: 6000.6.4f1 #90194945
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] ==== Vulkan ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] Depth Support Available: Yes
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] Enable: XR_KHR_vulkan_enable2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] ==== OpenXR Runtime Info ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ] Available Runtime Extensions: (59)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_android_create_instance: Version=3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_android_surface_swapchain: Version=4
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_android_thread_settings: Version=6
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_FB_android_surface_swapchain_create: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_opengl_es_enable: Version=8
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_vulkan_enable: Version=8
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_vulkan_enable2: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_composition_layer_cube: Version=8
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_composition_layer_cylinder: Version=4
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.578][Info   ]   XR_KHR_composition_layer_equirect2: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_KHR_composition_layer_color_scale_bias: Version=5
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_KHR_composition_layer_depth: Version=6
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_color_space: Version=3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_performance_settings: Version=4
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_hand_tracking: Version=4
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_debug_utils: Version=5
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_display_refresh_rate: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_swapchain_update_state: Version=3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_swapchain_update_state_opengl_es: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_swapchain_update_state_vulkan: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_swapchain_update_state_android_surface: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_OCULUS_common_reference_spaces: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_composition_layer_image_layout: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_composition_layer_alpha_blend: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_common_events: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_hand_tracking_mesh: Version=3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_hand_tracking_aim: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_hand_tracking_capsules: Version=3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_foveation: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_foveation_configuration: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_foveation_vulkan: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_composition_layer_secure_content: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_KHR_convert_timespec_time: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_passthrough_preferences: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_touch_controller_proximity: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_touch_controller_pro: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_touch_controller_plus: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_haptic_amplitude_envelope: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_haptic_pcm: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_spatial_entity_user: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_space_warp: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_spatial_entity_mesh: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_vulkan_swapchain_create_info: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_composition_layer_settings: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_feature_fidelity: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_composition_layer_depth_test: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_hand_joints_motion_range: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_hand_tracking_data_source: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_performance_metrics: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_virtual_keyboard: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_detached_controllers: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_MSFT_hand_interaction: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_headset_id: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_recommended_layer_resolution: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_active_action_set_priority: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_automatic_layer_filter: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_simultaneous_hands_and_controllers: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_local_floor: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_user_presence: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] Available Layers: (0)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] Runtime Name: Oculus
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] Runtime Version: 64.514.0
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] Form factor: XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ] Runtime extensions enabled: (13)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_local_floor: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_EXT_user_presence: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_touch_controller_pro: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_KHR_android_create_instance: Version=3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_KHR_composition_layer_depth: Version=6
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_KHR_vulkan_enable2: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_touch_controller_plus: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_composition_layer_secure_content: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_META_performance_metrics: Version=2
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_foveation: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.579][Info   ]   XR_FB_foveation_configuration: Version=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_FB_swapchain_update_state: Version=3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_KHR_android_thread_settings: Version=6
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Available Reference Spaces: (4)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_REFERENCE_SPACE_TYPE_LOCAL
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_REFERENCE_SPACE_TYPE_LOCAL_FLOOR
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_REFERENCE_SPACE_TYPE_VIEW
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_REFERENCE_SPACE_TYPE_STAGE
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Instance Id  : 0x3
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] System Id    : 0xcccc0001
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Session Id   : 0x5
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Available View Configuration Types: (1)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO (Selected): FovMutable=True
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]     [0]: Recommended: Width=1440, Height=1584, SampleCount=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]     [0]:     Maximum: Width=8192, Height=8192, SampleCount=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]     [1]: Recommended: Width=1440, Height=1584, SampleCount=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]     [1]:     Maximum: Width=8192, Height=8192, SampleCount=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Skip Present To Main Screen: Yes
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Available Environment Blend Modes: (1)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_ENVIRONMENT_BLEND_MODE_OPAQUE (Selected)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Features requested to be enabled: (4)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   Meta Quest Support: Version=1.0.0, Company="Unity", Extensions="XR_OCULUS_android_initialize_loader"
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   Meta Quest Touch Plus Controller Profile: Version=0.0.1, Company="Unity", Extensions="XR_META_touch_controller_plus"
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   Meta Quest Touch Pro Controller Profile: Version=0.0.1, Company="Unity", Extensions="XR_FB_touch_controller_pro"
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   Oculus Touch Controller Profile: Version=0.0.1, Company="Unity"
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Requested feature extensions not supported by runtime: (1)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   XR_OCULUS_android_initialize_loader: Feature="Meta Quest Support": Version=1.0.0, Company="Unity"
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] System Properties: Name="Oculus Quest2", VendorId=10291
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] System Graphics Properties: MaxWidth=8192, MaxHeight=8192, MaxLayers=32
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] System Tracking Properties: OrientationTracking=True, PositionTracking=True
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] ==== OpenXR API Spec Version ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] XrInstance Created with OpenXR API Version: 1.0.34
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] ==== OpenXR Input ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Action Sets (3): 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   questtouchpluscontroller: ActionCount=22
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   questprotouchcontroller: ActionCount=25
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ]   oculustouchcontroller: ActionCount=17
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] ==== OpenXR Swapchain Details ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Render Mode: Single Pass Instanced
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Latency Optimization: Prioritize Rendering
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Color Submission Mode: RGBA, 8 bits per channel (LDR)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] Depth Submission Mode: None
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.580][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ] Swapchain Format Preferences: 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    kRenderTextureFormatGroup8888
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ] Swapchain Formats: 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8G8_SRGB
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8G8B8_SRGB
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ] [c:VK_FORMAT_R8G8B8A8_SRGB]
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8_UNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8G8_UNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8G8B8A8_UNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8_SNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8G8_SNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8G8B8A8_SNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R8_SRGB
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16_UNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16_UNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16B16A16_UNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16_SNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16_SNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16B16A16_SNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16_UINT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16_UINT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16B16A16_UINT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16_SINT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16_SINT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16B16A16_SINT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16_SFLOAT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16_SFLOAT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R16G16B16A16_SFLOAT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R32_SFLOAT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_R4G4B4A4_UNORM_PACK16
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_A1R5G5B5_UNORM_PACK16
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ETC2_R8G8B8_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ETC2_R8G8B8A1_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ETC2_R8G8B8A8_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_EAC_R11_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_EAC_R11G11_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_EAC_R11_SNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_EAC_R11G11_SNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_4x4_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_5x4_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_5x5_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_6x5_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_6x6_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_8x5_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_8x6_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_8x8_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x5_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x6_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x8_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x10_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_12x10_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_12x12_UNORM_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_4x4_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_5x4_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_5x5_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_6x5_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_6x6_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_8x5_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_8x6_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_8x8_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x5_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x6_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x8_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_10x10_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_12x10_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_ASTC_12x12_SRGB_BLOCK
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_D16_UNORM
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_X8_D24_UNORM_PACK32
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_D32_SFLOAT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]    VK_FORMAT_D24_UNORM_S8_UINT
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ] Swapchain Views: (2)
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ]   [0]: Width=1440, Height=1584, SampleCount=1
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ] 
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ] ==== Last 20 Events ====
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.581][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_UNKNOWN->XR_SESSION_STATE_IDLE
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.582][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_IDLE->XR_SESSION_STATE_READY
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.582][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_READY->XR_SESSION_STATE_SYNCHRONIZED
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.582][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_SYNCHRONIZED->XR_SESSION_STATE_VISIBLE
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.582][Info   ] XrEventDataSessionStateChanged: XR_SESSION_STATE_VISIBLE->XR_SESSION_STATE_FOCUSED
+I/Unity   ( 5357): [XR] [510377732464] [13:31:48.582][Info   ] 
+I/Unity   ( 5357): 
+I/Unity   ( 5357): ==== End Unity OpenXR Diagnostic Report ====
+I/Unity   ( 5357): 
+I/Unity   ( 5357): 

@@ -56,3 +56,17 @@ mtime_ms = 1792519751430
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/91adca8f-d17b-471e-b734-258777b52ce6/8290046f-671b-451a-99c0-7e9f481b155d"
 storage_version_token = "1792519758284477"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "x89_NgdEbSiFqyKx6p3L5"
+uri = "file://exports/evoke-quest2-startup-ui-fix.zip"
+type = "unspecified"
+title = "Quest 2 — missing sign-in screen fix"
+description = "Contains the corrected EvokeQuestPanoramaClient.cs. Uses Android’s actual headset model instead of Unity’s generic device name, and renders compatibility messages in VR. Replace only this script in your existing Unity project, then rebuild the APK."
+logical_id = "84a13441-1504-48aa-8e77-5bbcbf837be0"
+content_hash = "sha256:d19f5af23c5248fec4710ff3b2126d57607fae90581366bee9ed8ecd48b6f238"
+size = 2712
+mtime_ms = 1792521266992
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/84a13441-1504-48aa-8e77-5bbcbf837be0/c39e6f60-a5b5-4d52-850f-de8a84cd496d"
+storage_version_token = "1792521273702748"
+content_type = "application/octet-stream"

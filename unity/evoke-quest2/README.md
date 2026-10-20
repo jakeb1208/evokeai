@@ -38,8 +38,11 @@ the APK in Unity on a computer with a Quest 2.
    Mode** over USB. You can also build an APK, then install it with
    `adb install -r path/to/EvokeQuest2.apk`. The headset needs internet access.
 
-The Quest 2 runtime check blocks other reported Android device models; the
-Unity Editor is allowed for development. A device-model check is **not**
+The Quest 2 runtime check uses Android's `Build.MODEL` because Unity may report
+the generic `Oculus Quest` name on a Quest 2. It blocks other reported Android
+device models; the Unity Editor is allowed for development. Compatibility
+messages use a head-relative world-space canvas so they are visible in VR.
+A device-model check is **not**
 cryptographic device authorization: it does not restrict access to the
 underlying Evoke website or database from other devices.
 
