@@ -17,6 +17,6 @@ Unity's device model can be generic even when Android identifies a Quest 2 corre
 
 In VR interaction checks, a button changing color does not prove its click action was delivered.
 
-**Why:** The user's controller rays and buttons reacted visually, but the email keyboard never appeared: the custom pointer handling lost click eligibility between trigger press and release.
+**Why:** The user's controller rays and buttons reacted visually, but the email keyboard never appeared: the custom pointer handling lost click eligibility between trigger press and release. The user confirmed that interaction worked on the physical headset after preserving that state.
 
 **How to apply:** Verify trigger-down, held frames, and release together, including release off the target and controller tracking loss. Preserve press-event state for each hand independently until release or cancellation.
