@@ -112,3 +112,17 @@ mtime_ms = 1792682167293
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/50a8ebf8-140f-4533-a6fc-6fde87822ec6/8f679968-708e-43e3-81c6-0b41dd46c3af"
 storage_version_token = "1792682186859181"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "3q-OazBqiJ3lAU-z-_Yn2"
+uri = "file://exports/evoke-quest2-walk-mode.zip"
+type = "unspecified"
+title = "Evoke Quest 2 — Walk Mode source package"
+description = "Seven Unity scripts plus the setup guide. Keeps the 360° panorama and adds an opt-in experimental Walk · Test mode. Extract into your Unity project Assets folder; read README.md before enabling the Android build settings."
+logical_id = "6fef80dc-2136-44db-b0a6-d0a7dab81fee"
+content_hash = "sha256:4f1eaa74240c948434b70e00f4a33b2370f7d27c00f7bd0fe82396aa850e1ca5"
+size = 34707
+mtime_ms = 1792684619871
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/6fef80dc-2136-44db-b0a6-d0a7dab81fee/8a86a4e4-d163-4f0f-a2d7-767c9a58ce66"
+storage_version_token = "1792684669702440"
+content_type = "application/octet-stream"

@@ -28,7 +28,7 @@ namespace EvokeQuest
         [SerializeField, Range(0.1f, 0.5f)] private float walkableStepHeight = 0.32f;
         [SerializeField] private float snapTurnDegrees = 45f;
 
-        private const int MaxWalkSplatBytes = 96 * 1024 * 1024;
+        private const int MaxWalkAssetBytes = 96 * 1024 * 1024;
         private const int MaxColliderTriangles = 400000;
         private const int MaxColliderVertices = 800000;
         private readonly List<NavMeshBuildSource> walkSources = new List<NavMeshBuildSource>();
@@ -49,6 +49,13 @@ namespace EvokeQuest
 
         private void Reset()
         {
+            AssignWalkModeRendererAssets();
+        }
+
+        [ContextMenu("Assign Walk Mode Renderer Assets")]
+        private void AssignWalkModeRendererAssets()
+        {
+#if UNITY_EDITOR
             const string shaderRoot = "Packages/com.worldlabs.gaussian-splatting/Shaders/";
             walkSplatShader = AssetDatabase.LoadAssetAtPath<Shader>(shaderRoot + "RenderGaussianSplats.shader");
             walkCompositeShader = AssetDatabase.LoadAssetAtPath<Shader>(shaderRoot + "GaussianComposite.shader");
@@ -56,6 +63,12 @@ namespace EvokeQuest
             walkDebugBoxesShader = AssetDatabase.LoadAssetAtPath<Shader>(shaderRoot + "GaussianDebugRenderBoxes.shader");
             walkDeviceRadixSort = AssetDatabase.LoadAssetAtPath<ComputeShader>(shaderRoot + "SplatUtilities_DeviceRadixSort.compute");
             walkFidelityFxSort = AssetDatabase.LoadAssetAtPath<ComputeShader>(shaderRoot + "SplatUtilities_FidelityFX.compute");
+            EditorUtility.SetDirty(this);
+            if (!WalkRendererConfigured())
+                Debug.LogWarning("Evoke Quest: one or more walk-mode renderer assets were not found. Make sure the Gaussian splatting package installed correctly.", this);
+            else
+                Debug.Log("Evoke Quest: walk-mode renderer assets assigned.", this);
+#endif
         }
 
         private void OpenWalkableWorld(string id, string displayName)
@@ -154,7 +167,10 @@ namespace EvokeQuest
 
             viewerStatus.text = "Reading world collision surfaces…";
             walkWorldRoot = new GameObject("EvokeWalkableWorld");
-            walkWorldRoot.transform.SetParent(transform, false);
+            // Keep the world and its baked NavMesh fixed in scene space while the
+            // XR Origin moves. Parenting the environment to the player would make
+            // the collider and allowed-walk area follow the player.
+            walkWorldRoot.transform.SetPositionAndRotation(transform.position, transform.rotation);
             walkColliderRoot = new GameObject("WalkableCollisionMesh");
             walkColliderRoot.transform.SetParent(walkWorldRoot.transform, false);
             walkColliderRoot.transform.localRotation = Quaternion.Euler(-180f, 0f, 0f);
@@ -301,7 +317,7 @@ namespace EvokeQuest
                     yield break;
                 }
                 byte[] bytes = request.downloadHandler.data;
-                if (bytes == null || bytes.Length == 0 || bytes.Length > MaxWalkSplatBytes)
+                if (bytes == null || bytes.Length == 0 || bytes.Length > MaxWalkAssetBytes)
                 {
                     failure("This world asset is empty or exceeds the 96 MB Quest 2 safety limit.");
                     yield break;
@@ -325,7 +341,8 @@ namespace EvokeQuest
                 if (filter == null || filter.sharedMesh == null) continue;
                 Mesh mesh = filter.sharedMesh;
                 vertices += mesh.vertexCount;
-                triangles += (int)(mesh.GetIndexCount(0) / 3);
+                for (int subMesh = 0; subMesh < mesh.subMeshCount; subMesh++)
+                    triangles += (int)(mesh.GetIndexCount(subMesh) / 3);
                 if (vertices > MaxColliderVertices || triangles > MaxColliderTriangles)
                 {
                     error = "The collision mesh is too detailed for the Quest 2 walk-mode limit.";
