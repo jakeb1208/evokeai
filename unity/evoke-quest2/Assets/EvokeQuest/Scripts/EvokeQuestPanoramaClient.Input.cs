@@ -85,6 +85,9 @@ namespace EvokeQuest
 
             PollController(XRNode.LeftHand);
             PollController(XRNode.RightHand);
+#if EVOKE_WALKABLE_WORLDS
+            UpdateWalkableLocomotion();
+#endif
             UpdateMusicUi();
 #if UNITY_EDITOR
             PollEditorMouse();

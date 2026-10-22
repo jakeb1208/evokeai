@@ -67,7 +67,7 @@ namespace EvokeQuest
         private void BuildWorlds()
         {
             worldsPanel = NewPanel("WorldsPanel");
-            CreateText(worldsPanel.transform, "WorldsTitle", "Ready panoramas", 34, TextAnchor.MiddleLeft, new Vector2(-415f, 190f), new Vector2(600f, 55f));
+            CreateText(worldsPanel.transform, "WorldsTitle", "Your saved worlds", 34, TextAnchor.MiddleLeft, new Vector2(-415f, 190f), new Vector2(600f, 55f));
             CreateButton(worldsPanel.transform, "RefreshWorlds", "REFRESH", new Vector2(300f, 190f), new Vector2(180f, 60f), LoadWorlds);
             worldsStatus = CreateText(worldsPanel.transform, "WorldsStatus", "Your saved panoramas appear here.", 18, TextAnchor.MiddleLeft, new Vector2(-410f, 135f), new Vector2(780f, 40f));
 

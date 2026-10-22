@@ -113,12 +113,34 @@ namespace EvokeQuest
                     readyCount++;
                 }
             }
-            worldsStatus.text = readyCount == 0 ? "No ready worlds yet. Create and save one on the Evoke website." : readyCount + " ready panorama" + (readyCount == 1 ? "" : "s") + ".";
+            worldsStatus.text = readyCount == 0 ? "No ready worlds yet. Create and save one on the Evoke website." : readyCount + " ready world" + (readyCount == 1 ? "" : "s") + ".";
             busy = false;
         }
 
         private void AddWorldRow(World world)
         {
+#if EVOKE_WALKABLE_WORLDS
+            GameObject row = new GameObject("World_" + world.id);
+            row.transform.SetParent(worldListContent, false);
+            RectTransform rowRect = row.AddComponent<RectTransform>();
+            rowRect.sizeDelta = new Vector2(0f, 72f);
+            LayoutElement rowLayout = row.AddComponent<LayoutElement>();
+            rowLayout.preferredHeight = 72f;
+            rowLayout.minHeight = 72f;
+            HorizontalLayoutGroup horizontal = row.AddComponent<HorizontalLayoutGroup>();
+            horizontal.spacing = 12f;
+            horizontal.childControlWidth = true;
+            horizontal.childControlHeight = true;
+            horizontal.childForceExpandWidth = true;
+            horizontal.childForceExpandHeight = true;
+
+            Button panoramaButton = CreateButton(row.transform, "Panorama", "360° VIEW",
+                Vector2.zero, new Vector2(390f, 72f), () => OpenWorld(world.id, world.display_name));
+            panoramaButton.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
+            Button walkButton = CreateButton(row.transform, "Walk", "WALK · TEST",
+                Vector2.zero, new Vector2(390f, 72f), () => OpenWalkableWorld(world.id, world.display_name));
+            walkButton.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
+#else
             Button button = CreateButton(worldListContent, "World_" + world.id, world.display_name ?? "Untitled panorama",
                 Vector2.zero, new Vector2(800f, 72f), () => OpenWorld(world.id, world.display_name));
             RectTransform rect = button.GetComponent<RectTransform>();
@@ -129,6 +151,7 @@ namespace EvokeQuest
             LayoutElement layout = button.gameObject.AddComponent<LayoutElement>();
             layout.preferredHeight = 72f;
             layout.minHeight = 72f;
+#endif
         }
 
         private void ClearWorldRows()
@@ -140,6 +163,9 @@ namespace EvokeQuest
         private void OpenWorld(string id, string displayName)
         {
             if (busy) return;
+#if EVOKE_WALKABLE_WORLDS
+            StopWalkableWorld();
+#endif
             panelBackground.enabled = false;
             brandText.gameObject.SetActive(false);
             statusText.gameObject.SetActive(false);

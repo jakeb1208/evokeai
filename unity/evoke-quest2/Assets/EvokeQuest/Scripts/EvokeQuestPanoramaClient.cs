@@ -78,6 +78,7 @@ namespace EvokeQuest
         {
             public string kind;
             public string format;
+            public string quality;
             public string signed_url;
         }
         [Serializable] private sealed class ErrorPayload
@@ -273,6 +274,9 @@ namespace EvokeQuest
             }
             busy = false;
             RemovePanorama();
+#if EVOKE_WALKABLE_WORLDS
+            StopWalkableWorld();
+#endif
             panelBackground.enabled = true;
             brandText.gameObject.SetActive(true);
             statusText.gameObject.SetActive(false);
@@ -298,6 +302,9 @@ namespace EvokeQuest
             refreshToken = null;
             tokenExpiresAt = 0f;
             RemovePanorama();
+#if EVOKE_WALKABLE_WORLDS
+            StopWalkableWorld();
+#endif
             StopAndClearMusic();
             ClearWorldRows();
             if (clearPassword && passwordField != null)
@@ -323,6 +330,9 @@ namespace EvokeQuest
             AdvanceAuthSessionGeneration();
             StopAllCoroutines();
             RemovePanorama();
+#if EVOKE_WALKABLE_WORLDS
+            StopWalkableWorld();
+#endif
             StopAndClearMusic();
             foreach (LineRenderer line in controllerRays.Values)
             {
