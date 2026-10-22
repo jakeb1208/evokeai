@@ -20,6 +20,7 @@ namespace EvokeQuest
             public GameObject pressed;
             public GameObject dragged;
             public Vector2 lastPosition;
+            public PointerEventData eventData;
         }
         private readonly Dictionary<XRNode, PointerInteraction> controllerPointers = new Dictionary<XRNode, PointerInteraction>();
         private readonly PointerInteraction editorPointer = new PointerInteraction();
@@ -138,7 +139,14 @@ namespace EvokeQuest
                 line.SetPosition(1, endPoint);
             }
 
-            PointerEventData eventData = new PointerEventData(eventSystem) { position = Vector2.zero };
+            PointerInteraction pointer;
+            if (!controllerPointers.TryGetValue(node, out pointer))
+            {
+                pointer = new PointerInteraction();
+                controllerPointers[node] = pointer;
+            }
+            PointerEventData eventData = PreparePointerEvent(pointer,
+                node == XRNode.LeftHand ? -1 : -2, pointer.lastPosition);
             List<RaycastResult> results = new List<RaycastResult>();
             GameObject target = null;
             if (intersects)
@@ -154,13 +162,6 @@ namespace EvokeQuest
             }
             bool wasPressed;
             previousTrigger.TryGetValue(node, out wasPressed);
-            PointerInteraction pointer;
-            if (!controllerPointers.TryGetValue(node, out pointer))
-            {
-                pointer = new PointerInteraction();
-                controllerPointers[node] = pointer;
-            }
-            eventData.pointerId = node == XRNode.LeftHand ? -1 : -2;
             ProcessPointer(pointer, eventData, target, trigger, trigger && !wasPressed, !trigger && wasPressed);
             previousTrigger[node] = trigger;
         }
@@ -173,14 +174,24 @@ namespace EvokeQuest
             PointerInteraction pointer;
             if (controllerPointers.TryGetValue(node, out pointer))
             {
-                PointerEventData eventData = new PointerEventData(eventSystem)
-                {
-                    pointerId = node == XRNode.LeftHand ? -1 : -2,
-                    position = pointer.lastPosition,
-                };
+                PointerEventData eventData = PreparePointerEvent(pointer,
+                    node == XRNode.LeftHand ? -1 : -2, pointer.lastPosition);
                 ProcessPointer(pointer, eventData, null, false, false, true);
             }
             previousTrigger[node] = false;
+        }
+
+        private PointerEventData PreparePointerEvent(PointerInteraction pointer, int pointerId, Vector2 position)
+        {
+            // Preserve the press state until release; a new event every frame loses
+            // eligibleForClick, so buttons highlight without invoking their action.
+            if (pointer.eventData == null)
+                pointer.eventData = new PointerEventData(eventSystem);
+            PointerEventData eventData = pointer.eventData;
+            eventData.pointerId = pointerId;
+            eventData.position = position;
+            eventData.pointerCurrentRaycast = default(RaycastResult);
+            return eventData;
         }
 
         private void ProcessPointer(PointerInteraction pointer, PointerEventData eventData, GameObject target,
@@ -236,6 +247,9 @@ namespace EvokeQuest
                     ExecuteEvents.Execute(pointer.pressed, eventData, ExecuteEvents.pointerClickHandler);
                 if (pointer.dragged != null)
                     ExecuteEvents.Execute(pointer.dragged, eventData, ExecuteEvents.endDragHandler);
+                eventData.eligibleForClick = false;
+                eventData.pointerPress = null;
+                eventData.pointerDrag = null;
                 pointer.pressed = null;
                 pointer.dragged = null;
             }
@@ -296,7 +310,7 @@ namespace EvokeQuest
             up |= Input.GetMouseButtonUp(0);
 #endif
             if (!available) return;
-            PointerEventData eventData = new PointerEventData(eventSystem) { position = position, pointerId = 0 };
+            PointerEventData eventData = PreparePointerEvent(editorPointer, 0, position);
             List<RaycastResult> results = new List<RaycastResult>();
             graphicRaycaster.Raycast(eventData, results);
             GameObject target = null;

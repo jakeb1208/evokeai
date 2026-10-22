@@ -98,3 +98,17 @@ mtime_ms = 1792681138950
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/fe239152-e20e-4b53-951e-caa898eb3580/ac849323-fc9b-4145-8290-af7abf5b337f"
 storage_version_token = "1792681161217992"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "yMWmW4jDxGiK_ZpDgkFXn"
+uri = "file://exports/evoke-quest2-controller-click-fix.zip"
+type = "unspecified"
+title = "Quest controller button-click fix"
+description = "Contains EvokeQuestPanoramaClient.Input.cs. Preserves each controller’s button-press state until trigger release so button actions can run. Replace only this Input.cs file in Assets/EvokeQuest/Scripts, then Build And Run. Leave the main script, camera assignment, configuration and plugins unchanged."
+logical_id = "50a8ebf8-140f-4533-a6fc-6fde87822ec6"
+content_hash = "sha256:2c74c7f09074523beae93f59f4651dc879b023588bd854b6ac8efccb9cdf32b1"
+size = 3198
+mtime_ms = 1792682167293
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/50a8ebf8-140f-4533-a6fc-6fde87822ec6/8f679968-708e-43e3-81c6-0b41dd46c3af"
+storage_version_token = "1792682186859181"
+content_type = "application/octet-stream"
