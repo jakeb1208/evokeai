@@ -84,3 +84,17 @@ mtime_ms = 1792680728104
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/6215eb52-3451-431f-bfa7-225870b20b92/bc4340c4-db3a-4bb4-a82c-b66e5167fcee"
 storage_version_token = "1792680772509441"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "hFH9wqSozF54tRskV580Y"
+uri = "file://exports/evoke-quest2-restore-scripts.zip"
+type = "unspecified"
+title = "Restore Evoke Quest scripts"
+description = "Contains the complete Scripts folder with all six C# files and the latest Quest 2 device-detection fix. Does not include or replace your Resources settings or Android plugins."
+logical_id = "fe239152-e20e-4b53-951e-caa898eb3580"
+content_hash = "sha256:745a7c1b2b4014983e1d33f029ac2ac9a6657c21aa24a85dcd640e5063e3304d"
+size = 23457
+mtime_ms = 1792681138950
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/fe239152-e20e-4b53-951e-caa898eb3580/ac849323-fc9b-4145-8290-af7abf5b337f"
+storage_version_token = "1792681161217992"
+content_type = "application/octet-stream"
