@@ -19,6 +19,7 @@ namespace EvokeQuest
         [SerializeField] private Camera headCamera;
         [SerializeField] private float interfaceDistance = 1.35f;
 
+        private string runtimeDeviceDetails = string.Empty;
         private EvokeQuestConfig config;
         private string accessToken;
         private string refreshToken;
@@ -129,11 +130,11 @@ namespace EvokeQuest
         {
 #if UNITY_EDITOR
             return true;
-#else
-            if (Application.platform != RuntimePlatform.Android)
-                return false;
+#elif UNITY_ANDROID
             string model = SystemInfo.deviceModel ?? string.Empty;
             string androidModel = string.Empty;
+            string propertyModel = string.Empty;
+            string lookupNotes = string.Empty;
             try
             {
                 // Unity may report the generic "Oculus Quest" even on a Quest 2.
@@ -142,18 +143,79 @@ namespace EvokeQuest
             }
             catch (Exception exception)
             {
+                lookupNotes += "\nAndroid model lookup: " + exception.GetType().Name;
                 Debug.LogWarning("Evoke Quest: Android model lookup failed: " + exception.Message);
             }
-            bool supported = IsQuest2Model(string.IsNullOrWhiteSpace(androidModel) ? model : androidModel);
+            try
+            {
+                // Read the same public property as `adb shell getprop ro.product.model`.
+                // Build.MODEL can also contain the generic name on headset firmware.
+                propertyModel = ReadAndroidProductModel();
+            }
+            catch (Exception exception)
+            {
+                lookupNotes += "\nAndroid property lookup: " + exception.GetType().Name;
+                Debug.LogWarning("Evoke Quest: Android product-model lookup failed: " + exception.Message);
+            }
+            string detectedModel = !string.IsNullOrWhiteSpace(propertyModel) ? propertyModel :
+                (!string.IsNullOrWhiteSpace(androidModel) ? androidModel : model);
+            bool supported = IsQuest2Model(detectedModel);
+            runtimeDeviceDetails = "Unity model: " + model + "\nAndroid model: " + androidModel +
+                "\nAndroid property: " + propertyModel + lookupNotes;
             Debug.Log("Evoke Quest: Unity model='" + model + "', Android model='" + androidModel +
+                "', Android property='" + propertyModel +
                 "', supported=" + supported + ".");
             return supported;
+#else
+            runtimeDeviceDetails = "Platform: " + Application.platform;
+            return false;
 #endif
         }
 
+#if UNITY_ANDROID && !UNITY_EDITOR
+        private static string ReadAndroidProductModel()
+        {
+            using (AndroidJavaClass runtimeClass = new AndroidJavaClass("java.lang.Runtime"))
+            using (AndroidJavaObject runtime = runtimeClass.CallStatic<AndroidJavaObject>("getRuntime"))
+            using (AndroidJavaObject process = runtime.Call<AndroidJavaObject>("exec",
+                "/system/bin/getprop ro.product.model"))
+            {
+                try
+                {
+                    // Bound startup work if the system command unexpectedly stalls.
+                    using (AndroidJavaClass timeUnit = new AndroidJavaClass("java.util.concurrent.TimeUnit"))
+                    using (AndroidJavaObject seconds = timeUnit.GetStatic<AndroidJavaObject>("SECONDS"))
+                    {
+                        if (!process.Call<bool>("waitFor", 2L, seconds))
+                            throw new TimeoutException("Android product-model lookup timed out.");
+                    }
+                    if (process.Call<int>("exitValue") != 0)
+                        throw new InvalidOperationException("Android product-model lookup failed.");
+                    using (AndroidJavaObject stream = process.Call<AndroidJavaObject>("getInputStream"))
+                    using (AndroidJavaObject reader = new AndroidJavaObject("java.io.InputStreamReader", stream))
+                    using (AndroidJavaObject lines = new AndroidJavaObject("java.io.BufferedReader", reader))
+                    {
+                        try
+                        {
+                            return (lines.Call<string>("readLine") ?? string.Empty).Trim();
+                        }
+                        finally
+                        {
+                            lines.Call("close");
+                        }
+                    }
+                }
+                finally
+                {
+                    process.Call("destroy");
+                }
+            }
+        }
+#endif
+
         private static bool IsQuest2Model(string model)
         {
-            string normalized = (model ?? string.Empty).Replace(" ", string.Empty)
+            string normalized = (model ?? string.Empty).Trim().Replace(" ", string.Empty)
                 .Replace("-", string.Empty).Replace("_", string.Empty);
             return normalized.EndsWith("Quest2", StringComparison.OrdinalIgnoreCase);
         }
@@ -176,7 +238,10 @@ namespace EvokeQuest
             Image background = CreateImage(root.transform, "RuntimeGuardBackground",
                 new Color(0.035f, 0.075f, 0.065f, 0.96f));
             Stretch(background.rectTransform, 0f, 0f, 0f, 0f);
-            Text message = CreateText(root.transform, "RuntimeGuardMessage", "Evoke panorama client\nQuest 2 Android runtime only.", 32, TextAnchor.MiddleCenter);
+            Text message = CreateText(root.transform, "RuntimeGuardMessage",
+                "Evoke panorama client\nQuest 2 device check\n\n" + runtimeDeviceDetails +
+                "\n\nThis app requires a Quest 2 Android headset.\nIf this is your Quest 2, share this screen's model details.",
+                26, TextAnchor.MiddleCenter);
             RectTransform rect = message.rectTransform;
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;

@@ -70,3 +70,17 @@ mtime_ms = 1792521266992
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/84a13441-1504-48aa-8e77-5bbcbf837be0/c39e6f60-a5b5-4d52-850f-de8a84cd496d"
 storage_version_token = "1792521273702748"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "JrEZ7Si5MBdBQfDe9f1On"
+uri = "file://exports/evoke-quest2-model-property-fix.zip"
+type = "unspecified"
+title = "Quest 2 — Android model property fix"
+description = "New replacement EvokeQuestPanoramaClient.cs. Reads the same Android model property used by ADB and displays detected models in the headset if compatibility is still blocked. Replace only this script, then Build And Run. This is source code for your Unity project, not an APK."
+logical_id = "6215eb52-3451-431f-bfa7-225870b20b92"
+content_hash = "sha256:7bcaf389d5eefc13141f6ac9045c54b5ac1d0c35f1c0716cd4d0f655a1115acc"
+size = 3463
+mtime_ms = 1792680728104
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/6215eb52-3451-431f-bfa7-225870b20b92/bc4340c4-db3a-4bb4-a82c-b66e5167fcee"
+storage_version_token = "1792680772509441"
+content_type = "application/octet-stream"
