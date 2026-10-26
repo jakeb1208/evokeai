@@ -15,6 +15,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { supabase } from '@/lib/supabase';
+import { prepareRoomPhotos } from '@/lib/prepare-room-photos';
 import { MusicProvider } from '@/components/music-context';
 import { MusicLibrary, MusicPlayer } from '@/components/music-ui';
 import NotFound from '@/pages/not-found';
@@ -777,10 +778,28 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
       setErrorMessage('Add a description or at least one image.');
       return;
     }
+    if (files.length > 4 && photoRelationship !== 'same-room') {
+      setErrorMessage('Marble accepts up to four reference photos, or eight in same-room reconstruction. Only choose “same room” if these really show one room.');
+      return;
+    }
 
     setIsSubmitting(true);
     setOperationState('starting');
     try {
+      const submissionFiles = photoRelationship === 'same-room'
+        ? await prepareRoomPhotos(files)
+        : files;
+      const requestBody = JSON.stringify({
+        mode,
+        prompt: prompt.trim(),
+        worldId: worldId.trim() || undefined,
+        displayName: displayName.trim() || undefined,
+        photoRelationship,
+        files: submissionFiles.map(({ name, type, dataBase64, note }) => ({ name, type, dataBase64, note })),
+      });
+      if (new Blob([requestBody]).size > 31_000_000) {
+        throw new Error('These photos exceed the upload limit together. Use fewer photos or smaller copies; no generation has been started.');
+      }
       const response = await fetch('/api/marble/worlds', {
         method: 'POST',
         headers: {
@@ -789,14 +808,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
             ? { Authorization: `Bearer ${session.access_token}` }
             : {}),
         },
-        body: JSON.stringify({
-          mode,
-          prompt: prompt.trim(),
-          worldId: worldId.trim() || undefined,
-          displayName: displayName.trim() || undefined,
-          photoRelationship,
-          files: files.map(({ name, type, dataBase64, note }) => ({ name, type, dataBase64, note })),
-        }),
+        body: requestBody,
       });
       const data = (await response.json()) as Record<string, unknown>;
       if (!response.ok) throw new Error(getApiError(data, 'Marble could not start generation.'));
@@ -826,7 +838,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
           <h1>{isSubmitting ? 'Preparing your world.' : 'Your world is being created.'}</h1>
           <p>
             {isSubmitting
-              ? 'Connecting to Marble and starting your generation…'
+              ? 'Preparing your photos and connecting to Marble…'
               : 'Marble is shaping the scene. Evoke will save it to your account and open it when it is ready.'}
           </p>
           <button className="viewer-back-button" type="button" onClick={() => setLocation('/home')}>
@@ -980,10 +992,10 @@ function RoomPhotoGuide({
   onRelationshipChange: (relationship: PhotoRelationship) => void;
 }) {
   const relationshipHint = relationship === 'same-room'
-    ? 'When photos share a wall, window, or object, Marble is asked to align the views and include the shared feature only once.'
+    ? 'Uses Marble’s reconstruction mode for one shared space (up to 8 photos). Submitted copies get matching dimensions, with padding instead of cropping. Overlap helps; opposite-corner views and unseen areas can still be inaccurate.'
     : relationship === 'same-home'
-      ? 'Clearly overlapping features are aligned; photos from separate rooms are not treated as one continuous wall.'
-      : 'Marble is asked to merge a feature only when the photos visibly show the same place; otherwise it uses shared style and your notes.';
+      ? 'Uses creative reference mode (up to 4 photos), not a reconstruction of multiple rooms. The prompt asks for one room rather than joining distinct layouts.'
+      : 'Uses creative reference mode (up to 4 photos). It does not assume these are views of one room; choose “same room” only when you know that is true.';
 
   return (
     <aside className="room-photo-guide">

@@ -114,6 +114,9 @@ function buildWorldPrompt(
       : "",
     "Preserve the visible house's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Do not modernize or invent a date. Preserve fine texture only where visible.",
     "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Do not present guessed details as known facts.",
+    photoRelationship === "same-room" && files.length > 1
+      ? "Reconstruct exactly one shared room, not one room per photograph. Different camera positions, including opposite corners, are viewpoints within that room, not neighboring rooms to connect with a doorway or corridor. Plain gray image borders are preprocessing padding, not scene geometry."
+      : "",
     "Only change a visible feature when the user's written request explicitly asks for that specific change; preserve all other observed details.",
     rememberedPhotoNotes.length > 0
       ? `Photo-specific remembered context:\n${rememberedPhotoNotes.join("\n")}`
@@ -130,6 +133,7 @@ function buildWorldPrompt(
   }
   return {
     type: "multi-image",
+    reconstruct_images: photoRelationship === "same-room",
     multi_image_prompt: files.map((file) => ({ content: fileToContent(file) })),
     text_prompt: textPrompt,
   };
@@ -374,6 +378,11 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
       return res.status(400).json({ error: "worldId is required when editing a world." });
     }
     if (files.length > 8) return res.status(400).json({ error: "Attach no more than eight images." });
+    if (files.length > 4 && photoRelationship !== "same-room") {
+      return res.status(400).json({
+        error: "Marble accepts up to four reference images, or eight when all photos show the same room and reconstruction mode is enabled.",
+      });
+    }
 
     // Check both persistent destinations before starting a chargeable Marble operation.
     await assertWorldStorageReady();
