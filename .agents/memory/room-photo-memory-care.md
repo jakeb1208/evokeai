@@ -26,3 +26,11 @@ Confirmed same-room photos need Marble's reconstruction mode, not creative multi
 **How to apply:** Verify the current API contract when changing this integration. Reconstruction supports up to eight matching-dimension flat images; creative references support four. Preserve whole photos with proportional resizing/padding instead of cropping away evidence, and retain originals when already compatible. Reconstruction works best with overlapping views near one vantage point; do not promise exact geometry from arbitrary archival photos.
 
 Sources: https://docs.worldlabs.ai/api/reference/worlds/generate and https://docs.worldlabs.ai/marble/create/prompt-guides/multi-image-prompt
+
+## Requested angular coverage
+
+Treat the user's 180–360° choice as a generation preference, not a web-only camera restriction. Do not claim the output is trimmed to that angle.
+
+**Why:** The user wants the resulting world itself to carry the requested coverage into VR, rather than relying on web viewer behavior. Marble's documented generation contract does not expose an exact angular geometry constraint.
+
+**How to apply:** Be explicit that prompt-based coverage may not be followed, does not guarantee less hallucination, and must be checked in the actual output. Do not imply Unity changes or guaranteed geometry clipping when only generation instructions have changed.

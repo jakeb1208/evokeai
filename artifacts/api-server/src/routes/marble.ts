@@ -8,6 +8,7 @@ import {
   worldStorageErrorMessage,
 } from "../lib/supabase";
 import { logger } from "../lib/logger";
+import { parseWorldCoverage, worldCoverageInstructions } from "../lib/world-coverage";
 
 const router: IRouter = Router();
 const MARBLE_API_BASE_URL = "https://api.worldlabs.ai";
@@ -29,6 +30,7 @@ type MarbleWorldRequest = {
   worldId?: unknown;
   files?: unknown;
   photoRelationship?: unknown;
+  coverageDegrees?: unknown;
 };
 
 type PhotoRelationship = "same-room" | "same-home" | "uncertain";
@@ -383,11 +385,21 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
         error: "Marble accepts up to four reference images, or eight when all photos show the same room and reconstruction mode is enabled.",
       });
     }
+    const coverageDegrees = parseWorldCoverage(input.coverageDegrees);
+    if (mode === "create" && coverageDegrees === null) {
+      return res.status(400).json({ error: "coverageDegrees must be a whole number from 180 to 360." });
+    }
 
     // Check both persistent destinations before starting a chargeable Marble operation.
     await assertWorldStorageReady();
 
     let worldPrompt = buildWorldPrompt(prompt ?? "", files, photoRelationship);
+    if (mode === "create") {
+      worldPrompt.text_prompt = [
+        asNonEmptyString(worldPrompt.text_prompt),
+        worldCoverageInstructions(coverageDegrees!),
+      ].filter(Boolean).join("\n\n");
+    }
     if (mode === "edit" && worldId) {
       const ownedWorld = await getSupabaseAdmin()
         .from("evoke_worlds")

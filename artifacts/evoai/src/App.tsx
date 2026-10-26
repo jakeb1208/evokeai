@@ -624,6 +624,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
   const [displayName, setDisplayName] = useState('');
   const [files, setFiles] = useState<MarbleFile[]>([]);
   const [photoRelationship, setPhotoRelationship] = useState<PhotoRelationship>('uncertain');
+  const [coverageDegrees, setCoverageDegrees] = useState(360);
   const photoPreviewUrls = useRef<string[]>([]);
   const photoSelectionGeneration = useRef(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -795,6 +796,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
         worldId: worldId.trim() || undefined,
         displayName: displayName.trim() || undefined,
         photoRelationship,
+        ...(mode === 'create' ? { coverageDegrees } : {}),
         files: submissionFiles.map(({ name, type, dataBase64, note }) => ({ name, type, dataBase64, note })),
       });
       if (new Blob([requestBody]).size > 31_000_000) {
@@ -948,6 +950,30 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
                 <small>Reference images · {files.length ? `${files.length} selected` : content.studio.filesHint}</small>
               </label>
               <input id="create-files" type="file" accept="image/*" multiple onChange={handleFileChange} />
+              <aside className="room-photo-guide">
+                <label className="room-photo-relationship" htmlFor="create-coverage">
+                  <strong>Preferred world coverage: {coverageDegrees}°</strong>
+                  <input
+                    id="create-coverage"
+                    type="range"
+                    min={180}
+                    max={360}
+                    step={1}
+                    value={coverageDegrees}
+                    disabled={isSubmitting}
+                    onChange={(event) => setCoverageDegrees(Number(event.target.value))}
+                    aria-describedby="create-coverage-hint"
+                    aria-valuetext={`${coverageDegrees} degrees horizontal coverage`}
+                    style={{ width: '100%', accentColor: 'var(--evoke-green, #86b98c)' }}
+                  />
+                  <span>180° half surroundings · 270° three-quarter · 360° full surroundings</span>
+                  <small id="create-coverage-hint">
+                    Requests this horizontal coverage in the generated 3D scene, centered on the first photo
+                    when provided—not a viewer crop. Marble may still generate outside the requested angle;
+                    exact boundaries and reduced hallucination are not guaranteed. VR uses the resulting model as-is.
+                  </small>
+                </label>
+              </aside>
               <RoomPhotoGuide
                 count={files.length}
                 relationship={photoRelationship}
