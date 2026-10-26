@@ -622,12 +622,19 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
   const [worldId, setWorldId] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [files, setFiles] = useState<MarbleFile[]>([]);
+  const photoPreviewUrls = useRef<string[]>([]);
+  const photoSelectionGeneration = useRef(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [operationId, setOperationId] = useState<string | null>(null);
   const [operationState, setOperationState] = useState('ready');
   const [resultMessage, setResultMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const content = readContent();
+
+  useEffect(() => () => {
+    photoSelectionGeneration.current += 1;
+    photoPreviewUrls.current.forEach((url) => URL.revokeObjectURL(url));
+  }, []);
 
   useEffect(() => {
     if (!operationId || !session?.access_token) return;
@@ -669,8 +676,27 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
     };
   }, [operationId, session?.access_token, setLocation]);
 
+  const setReferenceFiles = (nextFiles: MarbleFile[]) => {
+    const keepUrls = new Set(nextFiles.map((file) => file.previewUrl));
+    photoPreviewUrls.current.forEach((url) => {
+      if (!keepUrls.has(url)) URL.revokeObjectURL(url);
+    });
+    photoPreviewUrls.current = nextFiles.map((file) => file.previewUrl);
+    setFiles(nextFiles);
+  };
+
+  const moveReferencePhoto = (index: number, direction: -1 | 1) => {
+    const nextFiles = [...files];
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= nextFiles.length) return;
+    [nextFiles[index], nextFiles[targetIndex]] = [nextFiles[targetIndex], nextFiles[index]];
+    setReferenceFiles(nextFiles);
+  };
+
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files ?? []);
+    event.target.value = '';
+    const selectionGeneration = ++photoSelectionGeneration.current;
     if (selectedFiles.length > 8) {
       setErrorMessage('Choose no more than eight images.');
       return;
@@ -678,10 +704,16 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
 
     try {
       const encodedFiles = await Promise.all(selectedFiles.map(readMarbleFile));
-      setFiles(encodedFiles);
+      if (selectionGeneration !== photoSelectionGeneration.current) return;
+      const nextFiles = encodedFiles.map((file, index) => ({
+        ...file,
+        previewUrl: URL.createObjectURL(selectedFiles[index]),
+      }));
+      setReferenceFiles(nextFiles);
       setErrorMessage('');
     } catch (error) {
-      setFiles([]);
+      if (selectionGeneration !== photoSelectionGeneration.current) return;
+      setReferenceFiles([]);
       setErrorMessage(error instanceof Error ? error.message : 'Could not read the selected images.');
     }
   };
@@ -716,7 +748,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
           prompt: prompt.trim(),
           worldId: worldId.trim() || undefined,
           displayName: displayName.trim() || undefined,
-          files,
+          files: files.map(({ name, type, dataBase64 }) => ({ name, type, dataBase64 })),
         }),
       });
       const data = (await response.json()) as Record<string, unknown>;
@@ -809,6 +841,8 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
                 <small>Reference images · {files.length ? `${files.length} selected` : content.studio.filesHint}</small>
               </label>
               <input id="edit-files" type="file" accept="image/*" multiple onChange={handleFileChange} />
+              <RoomPhotoGuide count={files.length} />
+              <ReferencePhotoReview files={files} onMove={moveReferencePhoto} />
             </div>
           </div>
         ) : (
@@ -847,6 +881,8 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
                 <small>Reference images · {files.length ? `${files.length} selected` : content.studio.filesHint}</small>
               </label>
               <input id="create-files" type="file" accept="image/*" multiple onChange={handleFileChange} />
+              <RoomPhotoGuide count={files.length} />
+              <ReferencePhotoReview files={files} onMove={moveReferencePhoto} />
             </div>
           </div>
         )}
@@ -865,11 +901,64 @@ type MarbleFile = {
   name: string;
   type: string;
   dataBase64: string;
+  previewUrl: string;
 };
+
+function RoomPhotoGuide({ count }: { count: number }) {
+  return (
+    <aside className="room-photo-guide">
+      <strong>{count > 1 ? 'Keep every photo in the same room' : 'For the most coherent room'}</strong>
+      <p>
+        {count > 1
+          ? 'These are sent in the order shown. Arrange them along one path through the same room, using clear overlapping views from a similar height. Do not mix rooms.'
+          : 'For multiple views, take 4–8 overlapping photos of one room in a consistent path. With one photo, the model cannot see what is outside the frame.'}
+      </p>
+    </aside>
+  );
+}
+
+function ReferencePhotoReview({
+  files,
+  onMove,
+}: {
+  files: MarbleFile[];
+  onMove: (index: number, direction: -1 | 1) => void;
+}) {
+  if (files.length === 0) return null;
+  return (
+    <ol className="room-photo-list" aria-label="Reference photos in room order">
+      {files.map((file, index) => (
+        <li className="room-photo-item" key={file.previewUrl}>
+          <img src={file.previewUrl} alt={`Photo ${index + 1}: ${file.name}`} />
+          <span className="room-photo-number">Photo {index + 1}</span>
+          <span className="room-photo-name" title={file.name}>{file.name}</span>
+          <div className="room-photo-controls">
+            <button
+              type="button"
+              aria-label={`Move photo ${index + 1} earlier`}
+              disabled={index === 0}
+              onClick={() => onMove(index, -1)}
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              aria-label={`Move photo ${index + 1} later`}
+              disabled={index === files.length - 1}
+              onClick={() => onMove(index, 1)}
+            >
+              ↓
+            </button>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 const MAX_MARBLE_FILE_BYTES = 7_500_000;
 
-function readMarbleFile(file: File): Promise<MarbleFile> {
+function readMarbleFile(file: File): Promise<Omit<MarbleFile, 'previewUrl'>> {
   if (!file.type.startsWith('image/')) {
     return Promise.reject(new Error(`${file.name} is not an image. Choose image files for Marble.`));
   }

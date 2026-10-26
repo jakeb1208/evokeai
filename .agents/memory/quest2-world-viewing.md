@@ -3,9 +3,9 @@ name: Quest 2 world viewing
 description: Current Quest 2 prototype priorities and device validation decisions
 ---
 
-The user has deprioritized walk-around mode because Evoke is a prototype; focus on making room generation and image-to-world results clearer first. The earlier Walk mode work is experimental and opt-in, not a current product requirement. A device-model check is a compatibility gate for native UI, not proof of device identity or an access-control boundary.
+The user has deprioritized walk-around mode because Evoke is a prototype; prioritize ultra-accurate, coherent rooms from single or multiple photos, with as little invented geometry as possible. The earlier Walk mode work is experimental and opt-in, not a current product requirement. A device-model check is a compatibility gate for native UI, not proof of device identity or an access-control boundary.
 
-**Why:** The user said the app is a prototype and prioritized making rooms generate well over adding locomotion.
+**Why:** The user said the app is a prototype, deprioritized locomotion, and explicitly prioritized ultra-accurate room generation from photo references over adding features.
 
 **How to apply:** Do not ask the user to install the walk renderer or enable its Android define while this scope holds. Keep existing panorama behavior safe. If walking becomes a priority again, it depends on signed world SPZ/GLB assets and needs Quest 2 hardware validation. Continue using the owner-checked Railway API; never put server-only keys in the headset build.
 

@@ -3,10 +3,8 @@
 This is a **separate Unity client** for Meta Quest 2. It uses the same Supabase
 email/password accounts and the same saved worlds as the Evoke website, but has
 its own headset UI. After sign-in it has three screens: Immerse (your saved
-worlds and their 360° and optional walk modes), How It Works, and Music. Walk
-mode is an experimental, opt-in Quest 2 prototype: it renders the generated
-SPZ scene, builds walkable surfaces from the world's GLB collider, and uses
-the left stick to walk and the right stick to snap-turn. World creation and
+worlds and 360° panorama viewer), How It Works, and Music. Walk mode is
+deferred while the prototype focuses on room generation. World creation and
 editing remain on the website.
 
 Unity and the Android/Quest toolchain are not available in this Replit
@@ -103,14 +101,9 @@ ready worlds will appear in the Quest library when you refresh it.
   no compile-time UnityPlayer JAR dependency; its Android library build targets
   compile SDK 35. Unity 6 Android Gradle/manifest merging and SDK availability
   must still be checked in a generated build on the target Unity installation.
-- Normal panorama builds retain the 360° viewer. Optional Walk mode uses the
-  owner's signed 100k SPZ asset and GLB collider. It does not send user
-  credentials or the Marble API key to the rendering packages.
-- **The generated collider defines where you may walk.** Unity builds a
-  bounded NavMesh from its triangles. Stairs are walkable only if the GLB
-  contains stair surfaces that fit the configured height and slope; neither
-  missing stairs nor gaps are invented from the Gaussian scene. Test each
-  world on Quest 2 and keep **360° View** as a fallback.
+- Walk mode is deferred for the prototype. Do not install its community
+  rendering packages or define `EVOKE_WALKABLE_WORLDS`; use the existing
+  panorama client while room-generation quality is the priority.
 - Before sharing the APK, validate on a **physical Quest 2**: controller
   selection and keyboard input, sign-in, opening and returning from a panorama,
   session refresh after token expiry, native MP3 picking/upload/playback,
@@ -118,61 +111,3 @@ ready worlds will appear in the Quest library when you refresh it.
   non-Quest-2 Android device. No Unity/Android toolchain or attached physical
   Quest is available here, so a Unity build and device validation remain
   necessary, especially for the experimental walk mode.
-
-## Experimental Walk Mode setup
-
-Walk mode is optional and leaves the existing 360° viewer, sign-in, music,
-configuration, and saved-world API in place. It uses two additional Unity
-packages and requires Android graphics settings. Save a checkpoint of the
-working panorama build before installing or changing those settings.
-
-### 1. Install the packages
-
-In Unity, open **Window → Package Manager**. Use **+ → Add package from Git
-URL…** to add these separately:
-
-```text
-https://github.com/nigelhartm/worldlabs_unity.git#207cd3f136d588fe21426519bd0cde7df7f18b0a
-https://github.com/Unity-Technologies/com.unity.cloud.gltfast.git#v5.1.0
-```
-
-The first supplies the SPZ renderer; the second imports runtime GLB collision
-meshes. Their documented renderer tests do not match your exact Unity 6.6
-release, so confirm it compiles locally before relying on Walk mode. Allow Unity
-to install the packages' declared dependencies. Never add Marble or World Labs
-API credentials to the Unity project.
-
-### 2. Set up the URP renderer
-
-In the active URP Renderer Data asset, choose **Add Renderer Feature** and
-select **GaussianSplatURPFeature**. In the active URP asset, enable
-**Compatibility Mode (Render Graph disabled)** as required by this renderer.
-If the feature is unavailable, stop: the SPZ renderer is not installed or
-compiled correctly.
-
-### 3. Enable the Quest renderer
-
-- In **Project Settings → XR Plug-in Management → OpenXR → Android**, select
-  **Multi Pass** as the render mode.
-- In **Project Settings → Player → Android → Other Settings → Graphics APIs**,
-  turn off **Auto Graphics API** and ensure **Vulkan** is listed.
-- In **Project Settings → Player → Android → Other Settings → Scripting
-  Define Symbols**, add `EVOKE_WALKABLE_WORLDS`. Keep every symbol already
-  there.
-
-These settings affect Android builds. If they make your panorama APK fail to
-build or run, remove the new scripting define and restore the saved render
-settings; that retains the original mode.
-
-### 4. Assign the renderer and build
-
-After packages finish importing and Unity compiles, select **XR Origin (VR)**.
-On **Evoke Quest Panorama Client**, open the component menu and choose **Assign
-Walk Mode Renderer Assets**. Check that Unity confirms the renderer assets are
-assigned, then save the scene.
-
-Build And Run on the headset. The Immerse list will offer **360° View** and
-**Walk · Test**. Walk mode picks the 100k SPZ first for Quest 2 and requires a
-GLB collider. The NavMesh keeps the player on generated walkable surfaces; if
-the collider has no connected floor near the spawn point, return to the working
-panorama mode.

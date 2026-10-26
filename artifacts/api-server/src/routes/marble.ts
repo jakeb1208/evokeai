@@ -85,17 +85,28 @@ function fileToContent(file: MarbleFileInput) {
 
 function buildWorldPrompt(prompt: string, files: MarbleFileInput[]): MarblePrompt {
   if (files.length === 0) return { type: "text", text_prompt: prompt };
+  const roomAccuracyInstructions = [
+    "Automatic room-accuracy instructions: Treat the attached photo or photos as visual evidence of ONE physical room, not as a collage, mood board, or different rooms.",
+    files.length > 1
+      ? "Use the photos in the order provided as views of that same room. Match repeated corners, doors, windows, fixtures, and furniture across views. Do not duplicate objects or join unrelated spaces."
+      : "Use this single photo as the evidence for the room. Preserve its visible layout; do not pretend the photo reveals hidden walls or spaces.",
+    "Prioritize the visible room's actual geometry, proportions, openings, object count, relative placement, colors, and materials over creative interpretation. Preserve fine textures only where the images resolve them. Do not add rooms, hallways, doors, windows, or large furniture that the photo evidence and written request do not support.",
+    "Where the photos do not reveal a surface or detail, keep it simple and neutral instead of inventing distinctive architecture or decor. Keep the result one coherent room.",
+    "Only change a visible feature when the user's written request explicitly asks for that specific change; preserve all other observed details.",
+  ].join(" ");
+  const textPrompt = [roomAccuracyInstructions, prompt.trim()].filter(Boolean).join("\n\n");
+
   if (files.length === 1) {
     return {
       type: "image",
       image_prompt: fileToContent(files[0]),
-      ...(prompt ? { text_prompt: prompt } : {}),
+      text_prompt: textPrompt,
     };
   }
   return {
     type: "multi-image",
     multi_image_prompt: files.map((file) => ({ content: fileToContent(file) })),
-    ...(prompt ? { text_prompt: prompt } : {}),
+    text_prompt: textPrompt,
   };
 }
 
@@ -367,7 +378,14 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
           } : {}),
         };
       } else if (prompt) {
-        worldPrompt = { ...worldPrompt, text_prompt: `Revision of Marble world ${worldId}: ${prompt}` };
+        const roomInstructions = asNonEmptyString(worldPrompt.text_prompt);
+        worldPrompt = {
+          ...worldPrompt,
+          text_prompt: [
+            roomInstructions,
+            `Revision of Marble world ${worldId}: ${prompt}`,
+          ].filter(Boolean).join("\n\n"),
+        };
       }
     }
 
