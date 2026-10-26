@@ -1366,9 +1366,30 @@
   line-height: 1.45;
 }
 
+.room-photo-relationship {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+  color: #24573a;
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-align: left;
+}
+
+.room-photo-relationship select {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(36, 103, 69, 0.24);
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.75);
+  color: #193d2a;
+  font: inherit;
+}
+
 .room-photo-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   gap: 0.55rem;
   width: 100%;
   max-height: 300px;
@@ -1381,7 +1402,7 @@
 .room-photo-item {
   display: grid;
   grid-template-columns: 3.6rem minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto auto auto;
   align-items: center;
   gap: 0.25rem 0.55rem;
   min-width: 0;
@@ -1393,7 +1414,7 @@
 }
 
 .room-photo-item img {
-  grid-row: 1 / span 2;
+  grid-row: 1 / span 4;
   width: 3.6rem;
   height: 3.6rem;
   border-radius: 0.45rem;
@@ -1416,8 +1437,28 @@
   white-space: nowrap;
 }
 
+.room-photo-note {
+  grid-column: 2;
+  grid-row: 3;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.2rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(36, 103, 69, 0.2);
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.78);
+  color: #193d2a;
+  font: inherit;
+  font-size: 0.72rem;
+}
+
+.room-photo-note::placeholder {
+  color: #779079;
+}
+
 .room-photo-controls {
   grid-column: 2;
+  grid-row: 4;
   display: flex;
   gap: 0.25rem;
   justify-self: start;

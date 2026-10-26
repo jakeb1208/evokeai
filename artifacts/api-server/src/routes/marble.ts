@@ -18,6 +18,7 @@ type MarbleFileInput = {
   name?: unknown;
   type?: unknown;
   dataBase64?: unknown;
+  note?: unknown;
 };
 
 type MarbleWorldRequest = {
@@ -27,8 +28,10 @@ type MarbleWorldRequest = {
   model?: unknown;
   worldId?: unknown;
   files?: unknown;
+  photoRelationship?: unknown;
 };
 
+type PhotoRelationship = "same-room" | "same-home" | "uncertain";
 type MarblePrompt = Record<string, unknown>;
 type AssetCandidate = {
   kind: string;
@@ -83,16 +86,32 @@ function fileToContent(file: MarbleFileInput) {
   };
 }
 
-function buildWorldPrompt(prompt: string, files: MarbleFileInput[]): MarblePrompt {
+function buildWorldPrompt(
+  prompt: string,
+  files: MarbleFileInput[],
+  photoRelationship: PhotoRelationship,
+): MarblePrompt {
   if (files.length === 0) return { type: "text", text_prompt: prompt };
+  const rememberedPhotoNotes = files.flatMap((file, index) => {
+    const note = asNonEmptyString(file.note)?.slice(0, 240);
+    return note ? [`Photo ${index + 1}: ${note}`] : [];
+  });
+  const relationshipInstructions: Record<PhotoRelationship, string> = {
+    "same-room": "The user says these photos show the same physical room. Create one coherent room from them as views or moments of that room. Match genuinely repeated landmarks, but do not force details that conflict or duplicate objects.",
+    "same-home": "The user says these photos are from the same home, but they may show different rooms or times. Create one coherent room using the requested room and relevant shared house character; if no target room is named, choose one plausible room without blending distinct layouts. Do not treat the photos as consecutive camera views or merge separate rooms' walls and openings.",
+    uncertain: "These may be incomplete archival photos and are not guaranteed to show the same room, angle, or time. Create one coherent room using only clear shared period and style cues. Do not claim the images are views of the same room, force a camera path, or combine conflicting room layouts; keep uncertain geometry simple.",
+  };
   const roomAccuracyInstructions = [
-    "Automatic room-accuracy instructions: Treat the attached photo or photos as visual evidence of ONE physical room, not as a collage, mood board, or different rooms.",
+    "Automatic memory-photo accuracy instructions: These are the photos the user has available; do not ask for or assume new matching views.",
     files.length > 1
-      ? "Use the photos in the order provided as views of that same room. Match repeated corners, doors, windows, fixtures, and furniture across views. Do not duplicate objects or join unrelated spaces."
-      : "Use this single photo as the evidence for the room. Preserve its visible layout; do not pretend the photo reveals hidden walls or spaces.",
-    "Prioritize the visible room's actual geometry, proportions, openings, object count, relative placement, colors, and materials over creative interpretation. Preserve fine textures only where the images resolve them. Do not add rooms, hallways, doors, windows, or large furniture that the photo evidence and written request do not support.",
-    "Where the photos do not reveal a surface or detail, keep it simple and neutral instead of inventing distinctive architecture or decor. Keep the result one coherent room.",
+      ? relationshipInstructions[photoRelationship]
+      : "Use this single archival photo as evidence. Preserve visible room details; a photo cannot reveal unseen walls, objects, or layout.",
+    "Preserve the visible house's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Do not modernize or invent a date. Preserve fine texture only where visible.",
+    "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Do not present guessed details as known facts.",
     "Only change a visible feature when the user's written request explicitly asks for that specific change; preserve all other observed details.",
+    rememberedPhotoNotes.length > 0
+      ? `Photo-specific remembered context:\n${rememberedPhotoNotes.join("\n")}`
+      : "",
   ].join(" ");
   const textPrompt = [roomAccuracyInstructions, prompt.trim()].filter(Boolean).join("\n\n");
 
@@ -332,6 +351,11 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
     const displayName = asNonEmptyString(input.displayName) ?? "Evoke world";
     const model = asNonEmptyString(input.model) ?? "marble-1.1";
     const worldId = asNonEmptyString(input.worldId);
+    const photoRelationship: PhotoRelationship = input.photoRelationship === "same-room"
+      ? "same-room"
+      : input.photoRelationship === "same-home"
+        ? "same-home"
+        : "uncertain";
     const files = Array.isArray(input.files)
       ? input.files.filter(isRecord) as MarbleFileInput[]
       : [];
@@ -348,7 +372,7 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
     // Check both persistent destinations before starting a chargeable Marble operation.
     await assertWorldStorageReady();
 
-    let worldPrompt = buildWorldPrompt(prompt ?? "", files);
+    let worldPrompt = buildWorldPrompt(prompt ?? "", files, photoRelationship);
     if (mode === "edit" && worldId) {
       const ownedWorld = await getSupabaseAdmin()
         .from("evoke_worlds")

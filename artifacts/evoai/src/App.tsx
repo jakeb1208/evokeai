@@ -622,6 +622,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
   const [worldId, setWorldId] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [files, setFiles] = useState<MarbleFile[]>([]);
+  const [photoRelationship, setPhotoRelationship] = useState<PhotoRelationship>('uncertain');
   const photoPreviewUrls = useRef<string[]>([]);
   const photoSelectionGeneration = useRef(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -693,6 +694,12 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
     setReferenceFiles(nextFiles);
   };
 
+  const updateReferenceNote = (index: number, note: string) => {
+    setFiles((currentFiles) => currentFiles.map((file, fileIndex) => (
+      fileIndex === index ? { ...file, note } : file
+    )));
+  };
+
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files ?? []);
     event.target.value = '';
@@ -707,6 +714,7 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
       if (selectionGeneration !== photoSelectionGeneration.current) return;
       const nextFiles = encodedFiles.map((file, index) => ({
         ...file,
+        note: '',
         previewUrl: URL.createObjectURL(selectedFiles[index]),
       }));
       setReferenceFiles(nextFiles);
@@ -748,7 +756,8 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
           prompt: prompt.trim(),
           worldId: worldId.trim() || undefined,
           displayName: displayName.trim() || undefined,
-          files: files.map(({ name, type, dataBase64 }) => ({ name, type, dataBase64 })),
+          photoRelationship,
+          files: files.map(({ name, type, dataBase64, note }) => ({ name, type, dataBase64, note })),
         }),
       });
       const data = (await response.json()) as Record<string, unknown>;
@@ -841,8 +850,16 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
                 <small>Reference images · {files.length ? `${files.length} selected` : content.studio.filesHint}</small>
               </label>
               <input id="edit-files" type="file" accept="image/*" multiple onChange={handleFileChange} />
-              <RoomPhotoGuide count={files.length} />
-              <ReferencePhotoReview files={files} onMove={moveReferencePhoto} />
+              <RoomPhotoGuide
+                count={files.length}
+                relationship={photoRelationship}
+                onRelationshipChange={setPhotoRelationship}
+              />
+              <ReferencePhotoReview
+                files={files}
+                onMove={moveReferencePhoto}
+                onUpdateNote={updateReferenceNote}
+              />
             </div>
           </div>
         ) : (
@@ -881,8 +898,16 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
                 <small>Reference images · {files.length ? `${files.length} selected` : content.studio.filesHint}</small>
               </label>
               <input id="create-files" type="file" accept="image/*" multiple onChange={handleFileChange} />
-              <RoomPhotoGuide count={files.length} />
-              <ReferencePhotoReview files={files} onMove={moveReferencePhoto} />
+              <RoomPhotoGuide
+                count={files.length}
+                relationship={photoRelationship}
+                onRelationshipChange={setPhotoRelationship}
+              />
+              <ReferencePhotoReview
+                files={files}
+                onMove={moveReferencePhoto}
+                onUpdateNote={updateReferenceNote}
+              />
             </div>
           </div>
         )}
@@ -901,18 +926,40 @@ type MarbleFile = {
   name: string;
   type: string;
   dataBase64: string;
+  note: string;
   previewUrl: string;
 };
 
-function RoomPhotoGuide({ count }: { count: number }) {
+type PhotoRelationship = 'same-room' | 'same-home' | 'uncertain';
+
+function RoomPhotoGuide({
+  count,
+  relationship,
+  onRelationshipChange,
+}: {
+  count: number;
+  relationship: PhotoRelationship;
+  onRelationshipChange: (relationship: PhotoRelationship) => void;
+}) {
   return (
     <aside className="room-photo-guide">
-      <strong>{count > 1 ? 'Keep every photo in the same room' : 'For the most coherent room'}</strong>
+      <strong>Use the photos you already have</strong>
       <p>
-        {count > 1
-          ? 'These are sent in the order shown. Arrange them along one path through the same room, using clear overlapping views from a similar height. Do not mix rooms.'
-          : 'For multiple views, take 4–8 overlapping photos of one room in a consistent path. With one photo, the model cannot see what is outside the frame.'}
+        No need to retake photos or find missing angles. Optional notes are sent to Marble with the photos, so keep them to room details you want preserved. Unseen details may be uncertain.
       </p>
+      {count > 1 ? (
+        <label className="room-photo-relationship">
+          <span>How do these photos relate?</span>
+          <select
+            value={relationship}
+            onChange={(event) => onRelationshipChange(event.target.value as PhotoRelationship)}
+          >
+            <option value="uncertain">I’m not sure — use them as references</option>
+            <option value="same-room">They show the same room</option>
+            <option value="same-home">They’re from the same home, possibly different rooms</option>
+          </select>
+        </label>
+      ) : null}
     </aside>
   );
 }
@@ -920,22 +967,33 @@ function RoomPhotoGuide({ count }: { count: number }) {
 function ReferencePhotoReview({
   files,
   onMove,
+  onUpdateNote,
 }: {
   files: MarbleFile[];
   onMove: (index: number, direction: -1 | 1) => void;
+  onUpdateNote: (index: number, note: string) => void;
 }) {
   if (files.length === 0) return null;
   return (
-    <ol className="room-photo-list" aria-label="Reference photos in room order">
+    <ol className="room-photo-list" aria-label="Selected reference photos">
       {files.map((file, index) => (
         <li className="room-photo-item" key={file.previewUrl}>
           <img src={file.previewUrl} alt={`Photo ${index + 1}: ${file.name}`} />
           <span className="room-photo-number">Photo {index + 1}</span>
           <span className="room-photo-name" title={file.name}>{file.name}</span>
+          <input
+            className="room-photo-note"
+            type="text"
+            maxLength={200}
+            value={file.note}
+            aria-label={`Memory note for photo ${index + 1}`}
+            placeholder="Optional: room detail to preserve"
+            onChange={(event) => onUpdateNote(index, event.target.value)}
+          />
           <div className="room-photo-controls">
             <button
               type="button"
-              aria-label={`Move photo ${index + 1} earlier`}
+              aria-label={`Move photo ${index + 1} earlier in the list`}
               disabled={index === 0}
               onClick={() => onMove(index, -1)}
             >
@@ -943,7 +1001,7 @@ function ReferencePhotoReview({
             </button>
             <button
               type="button"
-              aria-label={`Move photo ${index + 1} later`}
+              aria-label={`Move photo ${index + 1} later in the list`}
               disabled={index === files.length - 1}
               onClick={() => onMove(index, 1)}
             >
@@ -958,7 +1016,7 @@ function ReferencePhotoReview({
 
 const MAX_MARBLE_FILE_BYTES = 7_500_000;
 
-function readMarbleFile(file: File): Promise<Omit<MarbleFile, 'previewUrl'>> {
+function readMarbleFile(file: File): Promise<Omit<MarbleFile, 'previewUrl' | 'note'>> {
   if (!file.type.startsWith('image/')) {
     return Promise.reject(new Error(`${file.name} is not an image. Choose image files for Marble.`));
   }
