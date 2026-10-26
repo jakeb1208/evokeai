@@ -4,4 +4,5 @@
 - [Quest 2 world viewing](quest2-world-viewing.md) — start with 360° panoramas; runtime SPZ splats need a proven Quest 2 renderer and performance budget.
 - [Memory-care archival photos](room-photo-memory-care.md) — work with the old photos users have; capture known context and uncertainty rather than requiring new angles.
 - [Private music playback](private-music-playback.md) — keep account music in Supabase and preserve shuffle-cycle state across failures, uploads, and navigation.
+- [World status query payloads](world-status-query-payloads.md) — poll lightweight status fields; fetch the large Marble world payload only after completion.
 - [Unity build diagnostics](unity-build-diagnostics.md) — Unity 6.6 may redirect Windows Editor logs into the project; follow the startup log’s destination.

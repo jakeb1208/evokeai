@@ -641,39 +641,77 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
     if (!operationId || !session?.access_token) return;
 
     let cancelled = false;
+    let requestInFlight = false;
+    let retryCount = 0;
+    let timerId: number | undefined;
     const checkOperation = async () => {
+      if (cancelled || requestInFlight) return;
+      requestInFlight = true;
+      let retryDelay = 4_000;
+      let keepChecking = true;
+
       try {
         const response = await fetch(`/api/worlds/operations/${encodeURIComponent(operationId)}`, {
           headers: { Authorization: `Bearer ${session.access_token}` },
         });
         const data = (await response.json()) as Record<string, unknown>;
-        if (!response.ok) throw new Error(getApiError(data, 'Could not check this generation.'));
+        if (!response.ok) {
+          const message = getApiError(data, 'Could not check this generation.');
+          if (response.status === 429 || response.status === 503) throw new Error(message);
+          setOperationId(null);
+          setOperationState('error');
+          setErrorMessage(message);
+          keepChecking = false;
+          return;
+        }
         if (cancelled) return;
 
+        retryCount = 0;
         const state = typeof data.status === 'string' ? data.status : 'generating';
-        setOperationState(state);
-        if (state === 'ready' && data.world && typeof data.world === 'object') {
+        if (state === 'ready') {
+          if (!data.world || typeof data.world !== 'object') {
+            throw new Error('The world is ready, but its saved details are not available yet.');
+          }
           const savedWorld = data.world as { id?: unknown };
+          if (typeof savedWorld.id !== 'string') {
+            throw new Error('The world is ready, but its saved ID is not available yet.');
+          }
+          keepChecking = false;
+          setOperationState('ready');
           setOperationId(null);
-          if (typeof savedWorld.id === 'string') setLocation(`/worlds/${savedWorld.id}`);
+          setLocation(`/worlds/${savedWorld.id}`);
         } else if (state === 'failed') {
+          keepChecking = false;
           setOperationId(null);
           setErrorMessage(getApiError(data, 'World generation failed.'));
+          setResultMessage('');
+          setOperationState('failed');
+        } else {
+          setOperationState('generating');
+          setErrorMessage('');
+          setResultMessage('Your world is being created. You can stay here while we prepare it.');
         }
       } catch (error) {
         if (!cancelled) {
-          setOperationId(null);
-          setOperationState('error');
-          setErrorMessage(error instanceof Error ? error.message : 'Could not check world generation.');
+          retryCount += 1;
+          retryDelay = Math.min(4_000 * 2 ** Math.min(retryCount, 3), 30_000);
+          setOperationState('generating');
+          setErrorMessage('');
+          setResultMessage('The status check is temporarily unavailable. Evoke will retry automatically; this will not start another generation.');
         }
+      } finally {
+        requestInFlight = false;
+      }
+
+      if (!cancelled && keepChecking) {
+        timerId = window.setTimeout(() => void checkOperation(), retryDelay);
       }
     };
 
     void checkOperation();
-    const intervalId = window.setInterval(() => void checkOperation(), 4000);
     return () => {
       cancelled = true;
-      window.clearInterval(intervalId);
+      if (timerId !== undefined) window.clearTimeout(timerId);
     };
   }, [operationId, session?.access_token, setLocation]);
 

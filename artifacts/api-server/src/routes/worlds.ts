@@ -108,21 +108,33 @@ router.get("/worlds/operations/:operationId", requireAuth, async (req, res) => {
   try {
     const result = await getSupabaseAdmin()
       .from("evoke_worlds")
-      .select("*")
+      .select("id,status,error_message")
       .eq("owner_id", req.evokeUser!.id)
       .eq("operation_id", req.params.operationId)
       .maybeSingle();
     if (result.error) throw result.error;
     if (!result.data) return res.status(404).json({ error: "Generation not found." });
 
-    const world = result.data as StoredWorld;
-    if (world.status === "ready") return res.json({ status: "ready", world: await toWorldResponse(world) });
+    if (result.data.status === "ready") {
+      const worlds = await selectWorlds(req.evokeUser!.id, result.data.id);
+      if (worlds.length === 0) return res.status(404).json({ error: "Generation not found." });
+      return res.json({ status: "ready", world: await toWorldResponse(worlds[0]) });
+    }
     return res.json({
-      status: world.status,
-      worldId: world.id,
-      error: world.error_message,
+      status: result.data.status,
+      worldId: result.data.id,
+      error: result.data.error_message,
     });
   } catch (error) {
+    const errorCode = isRecord(error) && typeof error.code === "string" ? error.code : undefined;
+    if (errorCode === "57014") {
+      req.log.warn({ err: error }, "Supabase timed out while checking Evoke world generation");
+      res.setHeader("Retry-After", "5");
+      return res.status(503).json({
+        error: "Supabase timed out while checking this generation. Evoke will retry; this does not start or cancel a generation.",
+      });
+    }
+
     req.log.error({ err: error }, "Could not check Evoke world generation");
     const status = supabaseConfigurationError(error) ? 503 : 500;
     return res.status(status).json({
