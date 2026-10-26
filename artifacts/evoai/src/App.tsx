@@ -941,6 +941,12 @@ function RoomPhotoGuide({
   relationship: PhotoRelationship;
   onRelationshipChange: (relationship: PhotoRelationship) => void;
 }) {
+  const relationshipHint = relationship === 'same-room'
+    ? 'When photos share a wall, window, or object, Marble is asked to align the views and include the shared feature only once.'
+    : relationship === 'same-home'
+      ? 'Clearly overlapping features are aligned; photos from separate rooms are not treated as one continuous wall.'
+      : 'Marble is asked to merge a feature only when the photos visibly show the same place; otherwise it uses shared style and your notes.';
+
   return (
     <aside className="room-photo-guide">
       <strong>Use the photos you already have</strong>
@@ -958,6 +964,7 @@ function RoomPhotoGuide({
             <option value="same-room">They show the same room</option>
             <option value="same-home">They’re from the same home, possibly different rooms</option>
           </select>
+          <small aria-live="polite">{relationshipHint}</small>
         </label>
       ) : null}
     </aside>

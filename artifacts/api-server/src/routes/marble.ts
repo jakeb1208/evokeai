@@ -106,6 +106,12 @@ function buildWorldPrompt(
     files.length > 1
       ? relationshipInstructions[photoRelationship]
       : "Use this single archival photo as evidence. Preserve visible room details; a photo cannot reveal unseen walls, objects, or layout.",
+    files.length > 1
+      ? "Before generating, reconcile the photos spatially: identify corners, wall edges, windows, doors, fixed features, furniture, and repeated patterns that appear in more than one photo. When the same physical feature is visibly shared, align both views to it and represent that wall, opening, or object once in the 3D room—not once per photo. Do not paste each photo onto a separate wall or duplicate an object just because it appears in overlapping images. Treat similar-looking objects as the same only when their surrounding positions or details support a match."
+      : "",
+    files.length > 1
+      ? "Keep room proportions, connected walls, openings, and object positions spatially consistent. If overlap or position cannot be established from the images and notes, do not claim the views align; use the simplest plausible layout and leave unsupported geometry plain."
+      : "",
     "Preserve the visible house's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Do not modernize or invent a date. Preserve fine texture only where visible.",
     "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Do not present guessed details as known facts.",
     "Only change a visible feature when the user's written request explicitly asks for that specific change; preserve all other observed details.",
