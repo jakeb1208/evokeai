@@ -18,6 +18,7 @@ import { supabase } from '@/lib/supabase';
 import { prepareRoomPhotos } from '@/lib/prepare-room-photos';
 import { MusicProvider } from '@/components/music-context';
 import { MusicLibrary, MusicPlayer } from '@/components/music-ui';
+import { WorldFeedbackDialog, type WorldFeedbackValue } from '@/components/world-feedback';
 import NotFound from '@/pages/not-found';
 import { Redirect, Route, Switch, Router as WouterRouter, Link, useLocation } from 'wouter';
 
@@ -1399,7 +1400,15 @@ type SavedWorldSummary = {
   assets: Array<{ kind: string; signed_url?: string }>;
   created_at: string;
   error_message?: string | null;
+  feedback: WorldFeedbackValue | null;
 };
+
+function sortWorldsByFeedback(worlds: SavedWorldSummary[]) {
+  return [...worlds].sort((left, right) =>
+    (right.feedback?.average ?? -1) - (left.feedback?.average ?? -1)
+    || Date.parse(right.created_at) - Date.parse(left.created_at),
+  );
+}
 
 function Immerse() {
   const [, setLocation] = useLocation();
@@ -1408,6 +1417,10 @@ function Immerse() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshError, setRefreshError] = useState('');
+  const [feedbackUnavailable, setFeedbackUnavailable] = useState(false);
+  const [feedbackWorldId, setFeedbackWorldId] = useState<string | null>(null);
+  const worldListRevision = useRef(0);
+  const activeFeedbackWorld = worlds.find((world) => world.id === feedbackWorldId);
   const pendingOperationIds = worlds
     .filter((world) => world.status === 'generating' && world.operation_id)
     .map((world) => world.operation_id as string);
@@ -1415,15 +1428,20 @@ function Immerse() {
 
   useEffect(() => {
     if (!session?.access_token) {
+      worldListRevision.current += 1;
       setWorlds([]);
+      setFeedbackWorldId(null);
+      setFeedbackUnavailable(false);
       setLoading(false);
       return;
     }
 
     let cancelled = false;
+    const loadRevision = ++worldListRevision.current;
     setLoading(true);
     setError('');
     setRefreshError('');
+    setFeedbackUnavailable(false);
     setWorlds([]);
     void fetch('/api/worlds', {
       headers: { Authorization: `Bearer ${session.access_token}` },
@@ -1431,13 +1449,17 @@ function Immerse() {
       .then(async (response) => {
         const data = (await response.json()) as {
           worlds?: SavedWorldSummary[];
+          feedbackUnavailable?: boolean;
           error?: string;
         };
         if (!response.ok) throw new Error(getApiError(data, 'Could not load your worlds.'));
-        if (!cancelled) setWorlds(data.worlds ?? []);
+        if (!cancelled && loadRevision === worldListRevision.current) {
+          setFeedbackUnavailable(data.feedbackUnavailable === true);
+          setWorlds(data.worlds ?? []);
+        }
       })
       .catch((requestError) => {
-        if (!cancelled) setError(requestError instanceof Error ? requestError.message : 'Could not load your worlds.');
+        if (!cancelled && loadRevision === worldListRevision.current) setError(requestError instanceof Error ? requestError.message : 'Could not load your worlds.');
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -1543,33 +1565,63 @@ function Immerse() {
               {refreshError} We’ll try again automatically.
             </p>
           ) : null}
+          {feedbackUnavailable ? (
+            <p className="world-refresh-message" role="status">
+              Feedback is not set up yet. Your worlds still work; run docs/supabase-world-feedback.sql
+              in your Supabase SQL editor to enable ratings.
+            </p>
+          ) : null}
           <section className="world-list" aria-label="Saved worlds">
-            {worlds.map((world) => {
+            {sortWorldsByFeedback(worlds).map((world) => {
               const thumbnail = world.assets.find((asset) => asset.kind === 'thumbnail')?.signed_url;
               return (
-                <button
-                  className="world-card"
-                  type="button"
-                  key={world.id}
-                  onClick={() => world.status === 'ready' && setLocation(`/worlds/${world.id}`)}
-                  disabled={world.status !== 'ready'}
-                >
-                  {thumbnail ? <img src={thumbnail} alt="" /> : <span className="world-card-placeholder" />}
-                  <span className="world-card-copy">
-                    <strong>{world.display_name}</strong>
-                    <small>
-                      {world.status === 'ready'
-                        ? 'Open saved world'
-                        : world.status === 'generating'
-                          ? 'Still creating…'
-                          : world.error_message || 'Generation failed'}
-                    </small>
-                  </span>
-                  <span aria-hidden="true">→</span>
-                </button>
+                <div className="world-card-row" key={world.id}>
+                  <button
+                    className="world-card"
+                    type="button"
+                    onClick={() => world.status === 'ready' && setLocation(`/worlds/${world.id}`)}
+                    disabled={world.status !== 'ready'}
+                  >
+                    {thumbnail ? <img src={thumbnail} alt="" /> : <span className="world-card-placeholder" />}
+                    <span className="world-card-copy">
+                      <strong>{world.display_name}</strong>
+                      <small>
+                        {world.status === 'ready'
+                          ? 'Open saved world'
+                          : world.status === 'generating'
+                            ? 'Still creating…'
+                            : world.error_message || 'Generation failed'}
+                      </small>
+                    </span>
+                    <span aria-hidden="true">→</span>
+                  </button>
+                  {world.status === 'ready' && !feedbackUnavailable ? (
+                    <div className="world-card-feedback">
+                      <span>{world.feedback ? `★ ${world.feedback.average.toFixed(1)} / 3` : 'Not rated'}</span>
+                      <button type="button" onClick={() => setFeedbackWorldId(world.id)}>
+                        {world.feedback ? 'Edit feedback' : 'Feedback'}
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
               );
             })}
           </section>
+          {activeFeedbackWorld && session?.access_token ? (
+            <WorldFeedbackDialog
+              key={`${activeFeedbackWorld.id}-${session.access_token}`}
+              worldId={activeFeedbackWorld.id}
+              worldName={activeFeedbackWorld.display_name}
+              initial={activeFeedbackWorld.feedback}
+              accessToken={session.access_token}
+              onClose={() => setFeedbackWorldId(null)}
+              onSaved={(feedback) => {
+                worldListRevision.current += 1;
+                setWorlds((current) => current.map((world) =>
+                  world.id === activeFeedbackWorld.id ? { ...world, feedback } : world));
+              }}
+            />
+          ) : null}
         </>
       )}
       <div className="world-list-actions">

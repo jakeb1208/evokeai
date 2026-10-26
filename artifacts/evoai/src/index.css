@@ -599,6 +599,68 @@
   margin-top: 2rem;
 }
 
+.world-card-row {
+  display: flex;
+  gap: .75rem;
+  align-items: stretch;
+  min-width: 0;
+}
+.world-card-row .world-card { min-width: 0; flex: 1; }
+.world-card-feedback {
+  display: flex;
+  flex: 0 0 8.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: .45rem;
+  color: #24573a;
+  font-size: .8rem;
+  text-align: center;
+}
+.world-card-feedback button,
+.world-feedback-actions button {
+  border: 1px solid #47865e;
+  border-radius: .8rem;
+  padding: .7rem .8rem;
+  background: #e5f3d4;
+  color: #19462d;
+  font: inherit;
+  cursor: pointer;
+}
+.world-card-feedback button:hover,
+.world-card-feedback button:focus-visible,
+.world-feedback-actions button:hover,
+.world-feedback-actions button:focus-visible { outline: 2px solid #47865e; outline-offset: 2px; }
+.world-feedback-dialog {
+  border: 1px solid #c4e2b9;
+  border-radius: 1.2rem;
+  background: #f8fbe8;
+  color: #19462d;
+}
+.world-feedback-dialog form { display: grid; gap: 1rem; }
+.world-feedback-question { border: 0; padding: 0; margin: 0; }
+.world-feedback-question legend { font-weight: 600; line-height: 1.4; margin-bottom: .4rem; }
+.world-feedback-stars { display: flex; gap: .5rem; flex-wrap: wrap; }
+.world-feedback-stars label { position: relative; cursor: pointer; }
+.world-feedback-stars input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.world-feedback-stars label span:first-of-type {
+  display: inline-block;
+  border: 1px solid #8da98e;
+  border-radius: .6rem;
+  padding: .38rem .6rem;
+  color: #55725a;
+  font-size: 1.15rem;
+  letter-spacing: .08em;
+}
+.world-feedback-stars input:checked + span { background: #c9e99d; border-color: #276449; color: #1b5637; }
+.world-feedback-stars input:focus-visible + span { outline: 2px solid #24573a; outline-offset: 2px; }
+.world-feedback-actions { display: flex; justify-content: flex-end; gap: .6rem; }
+.world-feedback-actions button:disabled { opacity: .55; cursor: not-allowed; }
+@media (max-width: 620px) {
+  .world-card-row { flex-direction: column; }
+  .world-card-feedback { flex: auto; flex-direction: row; align-items: center; justify-content: flex-end; }
+}
+
 .world-refresh-message {
   margin: 1.5rem 0 -0.75rem;
   color: #9a5a28;

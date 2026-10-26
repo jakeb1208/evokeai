@@ -2,6 +2,8 @@
 
 The web app uses Supabase Auth and keeps completed Marble worlds in Supabase as the permanent source of truth. The SQL migration in `docs/supabase-worlds.sql` creates the world table, ownership policies, and private storage bucket used by Railway.
 
+For private, editable world feedback in the website and desktop shell, also run `docs/supabase-world-feedback.sql` in the same Supabase project's SQL Editor. This additive migration creates a ratings table; it does not change existing worlds. Until it is installed, the website still lists and opens worlds but shows a setup notice instead of feedback controls. Feedback is not part of the Unity/Quest interface.
+
 ## 1. Create the Supabase project
 
 1. Create a Supabase project and choose a strong database password.

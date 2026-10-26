@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { requireAuth } from "../middlewares/auth";
 import { getSupabaseAdmin, getWorldAssetsBucket, supabaseConfigurationError, worldStorageErrorMessage } from "../lib/supabase";
+import { SaveWorldFeedbackBody, SaveWorldFeedbackParams } from "@workspace/api-zod";
 
 const router: IRouter = Router();
 
@@ -31,6 +32,24 @@ type StoredAsset = {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+const ratingKeys = ["happiness", "good_memories", "visual_memories", "music_memories", "return_interest"] as const;
+type Ratings = Record<(typeof ratingKeys)[number], number>;
+
+function toFeedback(record: Ratings) {
+  return {
+    ...Object.fromEntries(ratingKeys.map((key) => [key, record[key]])),
+    average: ratingKeys.reduce((total, key) => total + record[key], 0) / ratingKeys.length,
+  };
+}
+
+function feedbackStorageError(error: unknown, fallback: string) {
+  const code = isRecord(error) ? error.code : undefined;
+  if (code === "PGRST205" || code === "42P01") {
+    return "World feedback is not installed yet. Run docs/supabase-world-feedback.sql in your Supabase SQL editor.";
+  }
+  return worldStorageErrorMessage(error, fallback);
 }
 
 async function toWorldResponse(world: StoredWorld) {
@@ -79,12 +98,69 @@ async function selectWorlds(ownerId: string, worldId?: string) {
 router.get("/worlds", requireAuth, async (req, res) => {
   try {
     const worlds = await selectWorlds(req.evokeUser!.id);
-    return res.json({ worlds: await Promise.all(worlds.map(toWorldResponse)) });
+    const feedbackResult = worlds.length
+      ? await getSupabaseAdmin()
+        .from("evoke_world_feedback")
+        .select("world_id,happiness,good_memories,visual_memories,music_memories,return_interest")
+        .eq("owner_id", req.evokeUser!.id)
+        .in("world_id", worlds.map((world) => world.id))
+      : { data: [], error: null };
+    const feedbackUnavailable = feedbackResult.error !== null
+      && isRecord(feedbackResult.error)
+      && (feedbackResult.error.code === "PGRST205" || feedbackResult.error.code === "42P01");
+    if (feedbackResult.error && !feedbackUnavailable) throw feedbackResult.error;
+    const feedbackByWorld = new Map(
+      (feedbackResult.data ?? []).map((entry) => [entry.world_id, toFeedback(entry as Ratings)]),
+    );
+    return res.json({
+      feedbackUnavailable,
+      worlds: await Promise.all(worlds.map(async (world) => ({
+        ...await toWorldResponse(world),
+        feedback: feedbackByWorld.get(world.id) ?? null,
+      }))),
+    });
   } catch (error) {
     req.log.error({ err: error }, "Could not list Evoke worlds");
     const status = supabaseConfigurationError(error) ? 503 : 500;
     return res.status(status).json({
-      error: worldStorageErrorMessage(error, "Could not load your worlds."),
+      error: feedbackStorageError(error, "Could not load your worlds."),
+    });
+  }
+});
+
+router.put("/worlds/:id/feedback", requireAuth, async (req, res) => {
+  const params = SaveWorldFeedbackParams.safeParse({ id: req.params.id });
+  const parsed = SaveWorldFeedbackBody.safeParse(req.body);
+  if (!params.success || !parsed.success ||
+      !isRecord(req.body) || Object.keys(req.body).some((key) => !ratingKeys.includes(key as typeof ratingKeys[number]))) {
+    return res.status(400).json({ error: "Rate every question from 1 to 3 stars." });
+  }
+  try {
+    const owned = await getSupabaseAdmin()
+      .from("evoke_worlds")
+      .select("id")
+      .eq("id", params.data.id)
+      .eq("owner_id", req.evokeUser!.id)
+      .eq("status", "ready")
+      .maybeSingle();
+    if (owned.error) throw owned.error;
+    if (!owned.data) return res.status(404).json({ error: "Ready world not found." });
+    const result = await getSupabaseAdmin()
+      .from("evoke_world_feedback")
+      .upsert({
+        owner_id: req.evokeUser!.id,
+        world_id: owned.data.id,
+        ...parsed.data,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: "owner_id,world_id" })
+      .select("happiness,good_memories,visual_memories,music_memories,return_interest")
+      .single();
+    if (result.error || !result.data) throw result.error ?? new Error("Could not save feedback.");
+    return res.json({ feedback: toFeedback(result.data as Ratings) });
+  } catch (error) {
+    req.log.error({ err: error }, "Could not save Evoke world feedback");
+    return res.status(supabaseConfigurationError(error) ? 503 : 500).json({
+      error: feedbackStorageError(error, "Could not save feedback."),
     });
   }
 });

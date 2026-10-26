@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: worlds
+    description: Saved Evoke worlds
 paths:
   /healthz:
     get:
@@ -24,8 +26,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /worlds/{id}/feedback:
+    put:
+      operationId: saveWorldFeedback
+      tags: [worlds]
+      summary: Save or update the signed-in user's ratings for a ready world
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorldFeedbackRatings"
+      responses:
+        "200":
+          description: Saved ratings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorldFeedbackResponse"
+        "400": { description: Invalid ratings }
+        "404": { description: World not found or not ready }
+        "503": { description: Database unavailable }
 components:
   schemas:
+    WorldFeedbackRatings:
+      type: object
+      additionalProperties: false
+      properties:
+        happiness: { type: integer, minimum: 1, maximum: 3 }
+        good_memories: { type: integer, minimum: 1, maximum: 3 }
+        visual_memories: { type: integer, minimum: 1, maximum: 3 }
+        music_memories: { type: integer, minimum: 1, maximum: 3 }
+        return_interest: { type: integer, minimum: 1, maximum: 3 }
+      required: [happiness, good_memories, visual_memories, music_memories, return_interest]
+    WorldFeedback:
+      allOf:
+        - $ref: "#/components/schemas/WorldFeedbackRatings"
+        - type: object
+          properties:
+            average: { type: number, minimum: 1, maximum: 3 }
+          required: [average]
+    WorldFeedbackResponse:
+      type: object
+      properties:
+        feedback:
+          $ref: "#/components/schemas/WorldFeedback"
+      required: [feedback]
     HealthStatus:
       type: object
       properties:
