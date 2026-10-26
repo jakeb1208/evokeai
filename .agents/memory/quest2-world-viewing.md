@@ -1,13 +1,13 @@
 ---
 name: Quest 2 world viewing
-description: Quest 2 panorama fallback, experimental walk-mode, and device validation decisions
+description: Current Quest 2 prototype priorities and device validation decisions
 ---
 
-The Quest 2 Unity client keeps owner-scoped panorama viewing as a fallback and adds walk-around mode only as a separate, experimental choice. A device-model check is a compatibility gate for its native UI, not proof of device identity or an access-control boundary.
+The user has deprioritized walk-around mode because Evoke is a prototype; focus on making room generation and image-to-world results clearer first. The earlier Walk mode work is experimental and opt-in, not a current product requirement. A device-model check is a compatibility gate for native UI, not proof of device identity or an access-control boundary.
 
-**Why:** The user asked to move freely through generated worlds with joystick controls, collisions, stairs, and a boundary, then chose separate Walk mode while retaining the 360° panorama. Quest 2 performance is a constraint; this new renderer has not yet been built on their Unity 6.6 setup or tested on their headset.
+**Why:** The user said the app is a prototype and prioritized making rooms generate well over adding locomotion.
 
-**How to apply:** Do not remove the panorama fallback. Walking depends on the world's signed 100k SPZ and GLB collider, and stairs are walkable only when represented by connected collider surfaces within the character's step and slope limits. Test performance and boundaries on a physical Quest 2 before calling the feature complete. Continue using the owner-checked Railway API; never put server-only keys in the headset build.
+**How to apply:** Do not ask the user to install the walk renderer or enable its Android define while this scope holds. Keep existing panorama behavior safe. If walking becomes a priority again, it depends on signed world SPZ/GLB assets and needs Quest 2 hardware validation. Continue using the owner-checked Railway API; never put server-only keys in the headset build.
 
 Unity's device model can be generic even when Android identifies a Quest 2 correctly. Do not reject the headset solely because Unity reports “Oculus Quest,” or accept that generic name as proof of Quest 2.
 
