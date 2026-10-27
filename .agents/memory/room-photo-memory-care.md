@@ -13,6 +13,8 @@ People using this memory-care experience may only have old photographs of a home
 
 For unseen corners, the user wants conservative completion from immediate surroundings to reduce stretching during viewpoint changes. Continue supported surfaces and materials, not distinctive personal details; this remains inferred rather than recovered evidence.
 
+The generation prompt should explicitly reject warped or stretched wall art, books, shelves, screens and fixtures, duplicate/floating/fused objects, and invented personal or architectural details. Plain connected surfaces are preferred over decorative guesses; never add rooms or hallways.
+
 **Why:** The user requested local gap filling while seeking less distortion, within the existing no-extra-AI-step constraint.
 
 **How to apply:** Preserve photo evidence first and do not promise that generation instructions eliminate rendering artifacts or make panoramas support positional movement.

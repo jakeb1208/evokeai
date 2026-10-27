@@ -97,7 +97,7 @@ function buildWorldPrompt(
   if (files.length === 0) {
     return {
       type: "text",
-      text_prompt: [worldGeometryInstructions, prompt.trim()].filter(Boolean).join("\n\n"),
+      text_prompt: [prompt.trim(), worldGeometryInstructions].filter(Boolean).join("\n\n"),
     };
   }
   const rememberedPhotoNotes = files.flatMap((file, index) => {
@@ -122,7 +122,6 @@ function buildWorldPrompt(
       : "",
     "Preserve the visible house's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Do not modernize or invent a date. Preserve fine texture only where visible.",
     "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Conservative continuation of adjacent materials and geometry is allowed, but do not present guessed details as known facts.",
-    worldGeometryInstructions,
     photoRelationship === "same-room" && files.length > 1
       ? "Reconstruct exactly one shared room, not one room per photograph. Different camera positions, including opposite corners, are viewpoints within that room, not neighboring rooms to connect with a doorway or corridor. Plain gray image borders are preprocessing padding, not scene geometry."
       : "",
@@ -131,7 +130,9 @@ function buildWorldPrompt(
       ? `Photo-specific remembered context:\n${rememberedPhotoNotes.join("\n")}`
       : "",
   ].join(" ");
-  const textPrompt = [roomAccuracyInstructions, prompt.trim()].filter(Boolean).join("\n\n");
+  const textPrompt = [roomAccuracyInstructions, prompt.trim(), worldGeometryInstructions]
+    .filter(Boolean)
+    .join("\n\n");
 
   if (files.length === 1) {
     return {
