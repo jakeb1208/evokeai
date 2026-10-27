@@ -638,6 +638,18 @@
   color: #19462d;
 }
 .world-feedback-dialog form { display: grid; gap: 1rem; }
+.active-recall { margin-bottom: 1.5rem; }
+.active-recall-dialog { max-height: 85dvh; overflow-y: auto; }
+.active-recall-questions {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin: .25rem 0;
+  display: grid;
+  gap: 1rem;
+  line-height: 1.6;
+}
+.active-recall-questions li { padding-left: .25rem; }
+.active-recall-note { font-size: .85rem; line-height: 1.5; color: #45624b; }
 .world-feedback-question { border: 0; padding: 0; margin: 0; }
 .world-feedback-question legend { font-weight: 600; line-height: 1.4; margin-bottom: .4rem; }
 .world-feedback-stars { display: flex; gap: .5rem; flex-wrap: wrap; }

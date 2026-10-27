@@ -19,6 +19,7 @@ import { prepareRoomPhotos } from '@/lib/prepare-room-photos';
 import { MusicProvider } from '@/components/music-context';
 import { MusicLibrary, MusicPlayer } from '@/components/music-ui';
 import { WorldFeedbackDialog, type WorldFeedbackValue } from '@/components/world-feedback';
+import { ActiveRecallQuestions } from '@/components/active-recall-questions';
 import NotFound from '@/pages/not-found';
 import { Redirect, Route, Switch, Router as WouterRouter, Link, useLocation } from 'wouter';
 
@@ -1539,6 +1540,7 @@ function Immerse() {
       title="Choose a world."
       description="Every world here is saved to your Evoke account. Opening one never starts a new generation."
     >
+      <ActiveRecallQuestions />
       {loading ? (
         <div className="world-list-state">
           <div className="world-loader" aria-hidden="true" />
