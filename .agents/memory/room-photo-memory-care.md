@@ -9,6 +9,14 @@ People using this memory-care experience may only have old photographs of a home
 
 **How to apply:** Make uncertainty explicit in prompts and controls. Distinguish known same-room views from same-home/different-room photos and uncertain sets. Keep unseen architecture conservative instead of inventing details that could be mistaken for a remembered fact.
 
+## Conservative local completion
+
+For unseen corners, the user wants conservative completion from immediate surroundings to reduce stretching during viewpoint changes. Continue supported surfaces and materials, not distinctive personal details; this remains inferred rather than recovered evidence.
+
+**Why:** The user requested local gap filling while seeking less distortion, within the existing no-extra-AI-step constraint.
+
+**How to apply:** Preserve photo evidence first and do not promise that generation instructions eliminate rendering artifacts or make panoramas support positional movement.
+
 ## No separate AI analysis pass
 
 Do not add a separate AI photo-analysis step for room reconstruction. Use the existing Marble generation request and deterministic image preparation.

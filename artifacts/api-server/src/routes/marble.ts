@@ -9,6 +9,7 @@ import {
 } from "../lib/supabase";
 import { logger } from "../lib/logger";
 import { parseWorldCoverage, worldCoverageInstructions } from "../lib/world-coverage";
+import { worldGeometryInstructions } from "../lib/world-geometry";
 
 const router: IRouter = Router();
 const MARBLE_API_BASE_URL = "https://api.worldlabs.ai";
@@ -93,7 +94,12 @@ function buildWorldPrompt(
   files: MarbleFileInput[],
   photoRelationship: PhotoRelationship,
 ): MarblePrompt {
-  if (files.length === 0) return { type: "text", text_prompt: prompt };
+  if (files.length === 0) {
+    return {
+      type: "text",
+      text_prompt: [worldGeometryInstructions, prompt.trim()].filter(Boolean).join("\n\n"),
+    };
+  }
   const rememberedPhotoNotes = files.flatMap((file, index) => {
     const note = asNonEmptyString(file.note)?.slice(0, 240);
     return note ? [`Photo ${index + 1}: ${note}`] : [];
@@ -115,7 +121,8 @@ function buildWorldPrompt(
       ? "Keep room proportions, connected walls, openings, and object positions spatially consistent. If overlap or position cannot be established from the images and notes, do not claim the views align; use the simplest plausible layout and leave unsupported geometry plain."
       : "",
     "Preserve the visible house's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Do not modernize or invent a date. Preserve fine texture only where visible.",
-    "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Do not present guessed details as known facts.",
+    "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Conservative continuation of adjacent materials and geometry is allowed, but do not present guessed details as known facts.",
+    worldGeometryInstructions,
     photoRelationship === "same-room" && files.length > 1
       ? "Reconstruct exactly one shared room, not one room per photograph. Different camera positions, including opposite corners, are viewpoints within that room, not neighboring rooms to connect with a doorway or corridor. Plain gray image borders are preprocessing padding, not scene geometry."
       : "",
