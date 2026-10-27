@@ -20,7 +20,7 @@ export function ActiveRecallQuestions() {
       <Dialog>
         <DialogTrigger asChild>
           <button className="evoke-button evoke-button-small" type="button">
-            Active recall questions
+            Questions for conversation
           </button>
         </DialogTrigger>
         <DialogContent className="world-feedback-dialog active-recall-dialog">
