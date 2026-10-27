@@ -2290,3 +2290,30 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+/* Simple, readable presentation (no decorative imagery) */
+.evoke-glow, .hero-art, .after-visual, .login-art { display: none !important; }
+.evoke-home, .evoke-page, .world-generation-screen { background: #0b2622; }
+.evoke-login { display: grid; grid-template-columns: 1fr; place-items: center; }
+.login-panel { background: #e6f3dc; }
+.login-card { transform: none; width: min(100% - 2rem, 480px); }
+.login-heading h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1.15; letter-spacing: -.03em; }
+.evoke-page-title { letter-spacing: -.03em; line-height: 1.1; }
+.how-guide { background: #e6f3dc; }
+.how-guide-step h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); letter-spacing: -.02em; }
+.how-guide-step p { font-size: 1.05rem; }
+.simple-home { width: min(100% - 2rem, 860px); margin: 0 auto; padding: 3rem 0 5rem; display: grid; gap: 2.5rem; }
+.simple-home-intro h1 { margin: .5rem 0 1rem; color: var(--mist); font: 600 clamp(2rem, 5vw, 3rem)/1.15 'Syne', sans-serif; letter-spacing: -.03em; }
+.simple-home-intro > p:not(.evoke-eyebrow) { max-width: 38rem; color: #c9dccf; font-size: 1.15rem; line-height: 1.6; margin: 0 0 1.5rem; }
+.simple-primary { display: inline-flex; align-items: center; min-height: 3.25rem; padding: .8rem 1.5rem; border: 0; border-radius: .7rem; background: var(--blue); color: #041d20; font: 700 1.05rem 'Space Grotesk', sans-serif; text-decoration: none; cursor: pointer; }
+.simple-primary:hover { background: #76ccff; }
+.simple-home-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.simple-action { display: grid; gap: .4rem; text-align: left; padding: 1.25rem; border: 1px solid rgba(179, 231, 189, .25); border-radius: 1rem; background: #12352f; color: var(--mist); cursor: pointer; }
+.simple-action strong { font: 600 1.15rem 'Space Grotesk', sans-serif; }
+.simple-action span { color: #b8cdbf; font-size: 1rem; line-height: 1.5; }
+.simple-action:hover { border-color: var(--lime); }
+.simple-home-steps { padding: 1.5rem; border-radius: 1rem; background: #e6f3dc; color: #0a302b; }
+.simple-home-steps h2 { margin: 0 0 1rem; font: 600 1.5rem 'Syne', sans-serif; }
+.simple-home-steps ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .8rem; font-size: 1.05rem; line-height: 1.5; }
+.simple-home-steps li strong { display: block; }
+.simple-home-steps li span { color: #31544a; }
+.simple-link { margin-top: 1rem; border: 0; background: transparent; padding: .4rem 0; color: #07567b; font: 700 1rem 'Space Grotesk', sans-serif; text-decoration: underline; cursor: pointer; }

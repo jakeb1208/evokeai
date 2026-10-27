@@ -267,8 +267,6 @@ function PageFrame({
 }) {
   return (
     <main className="evoke-page">
-      <div className="evoke-glow evoke-glow-green" />
-      <div className="evoke-glow evoke-glow-blue" />
       <StudioNav />
       <div className="evoke-page-inner">
         <BackHome />
@@ -360,8 +358,6 @@ function Login() {
 
   return (
     <main className="evoke-home evoke-login">
-      <div className="evoke-glow evoke-glow-green" />
-      <div className="evoke-glow evoke-glow-blue" />
 
       <section className="login-card" aria-label="Log in to Evoke AI">
         <div className="login-panel">
@@ -545,7 +541,6 @@ function Login() {
           </button>
         ) : null}
       </section>
-      <aside className="login-art" aria-hidden="true"><span>Your mind, made explorable</span><div className="login-art-caption"><span>01 / 03</span><strong>Every memory<br />has a world inside.</strong></div></aside>
     </main>
   );
 }
@@ -556,49 +551,27 @@ function Home() {
 
   return (
     <main className="evoke-home home-experience">
-      <div className="evoke-glow evoke-glow-green" />
-      <div className="evoke-glow evoke-glow-blue" />
       <StudioNav />
-      <section className="home-hero" aria-label="Evoke AI home">
-        <div className="hero-art" aria-hidden="true" />
-        <div className="hero-copy">
-          <p className="hero-kicker"><span className="live-pulse" /> Your private creative universe <span className="kicker-line" /> 001 / ∞</p>
-          <h1>Memories,<br /> <em>Reimagined</em></h1>
-          <button className="hero-create" type="button" onClick={() => setLocation('/create')} data-testid="button-create-world">
-            Create world <span aria-hidden="true">↗</span>
-          </button>
-          <p className="hero-description">Your thoughts. Your images. A world you can actually step into. Give a memory dimension, then let your music follow you there.</p>
-        </div>
-        <div className="hero-bottom"><span>Imagine / Generate / Enter</span><a href="#the-process">Explore the process <span aria-hidden="true">↓</span></a></div>
-      </section>
-      <section className="home-process" id="the-process" aria-labelledby="process-title">
-        <div className="home-process-inner">
-          <div className="section-intro">
-            <p className="evoke-eyebrow">01 / The process</p>
-            <h2 id="process-title">A thought is<br /><em>a place in waiting.</em></h2>
-            <p>There is no right way to begin. Start with a sentence, an image, or the feeling you can't quite name.</p>
-          </div>
-          <div className="process-steps">
-            {steps.map((step, index) => (
-              <article className="process-step" key={index}>
-                <span className="process-index">0{index + 1} <span aria-hidden="true">↗</span></span>
-                <div><h3>{step.title}</h3><p>{step.description}</p></div>
-              </article>
-            ))}
-            <button className="process-more" type="button" onClick={() => setLocation('/how-it-works')}>See how it works <span aria-hidden="true">↗</span></button>
-          </div>
-        </div>
-      </section>
-      <section className="home-after" aria-label="Explore Evoke">
-        <div className="home-after-inner">
-          <div className="after-visual"><div className="after-visual-label"><span>Evoke / World space</span><span>Your perspective, expanded</span></div></div>
-          <div className="after-copy"><p className="evoke-eyebrow">02 / Go further</p><h2>Not just remembered.<br /><em>Relived.</em></h2><p>Return to the places you've made. Walk through them at your own pace. Add the sounds that make them yours.</p>
-            <div className="after-actions"><button type="button" onClick={() => setLocation('/immerse')}>Enter your worlds <span aria-hidden="true">↗</span></button><button type="button" onClick={() => setLocation('/music')}>Open music library <span aria-hidden="true">↗</span></button></div>
-          </div>
-        </div>
-      </section>
-      <section className="home-closing"><p>The next world starts with you</p><h2>Make a place<br />of your own.</h2><button className="hero-create" type="button" onClick={() => setLocation('/create')}>Create world <span aria-hidden="true">↗</span></button></section>
-      <footer className="home-footer"><span>evokeai</span><span>A private studio for what you imagine.</span><span>© {new Date().getFullYear()} Evoke AI</span></footer>
+      <div className="simple-home">
+        <section className="simple-home-intro" aria-labelledby="home-title">
+          <p className="evoke-eyebrow">Evoke</p>
+          <h1 id="home-title">Familiar places from old house photos.</h1>
+          <p>Use family photos to create a place to look around together, then add personal music and talk about the memories it brings back.</p>
+          <button className="simple-primary" type="button" onClick={() => setLocation('/create')} data-testid="button-create-world">Create a place</button>
+        </section>
+        <section className="simple-home-actions" aria-label="What you can do">
+          <button type="button" className="simple-action" onClick={() => setLocation('/immerse')} data-testid="button-home-immerse"><strong>View saved places</strong><span>Open a place you already made.</span></button>
+          <button type="button" className="simple-action" onClick={() => setLocation('/edit')} data-testid="button-home-edit"><strong>Edit a place</strong><span>Add photos or notes to an existing place.</span></button>
+          <button type="button" className="simple-action" onClick={() => setLocation('/music')} data-testid="button-home-music"><strong>Music</strong><span>Upload and play personal songs.</span></button>
+        </section>
+        <section className="simple-home-steps" aria-labelledby="steps-title">
+          <h2 id="steps-title">How it works</h2>
+          <ol>
+            {steps.map((step, index) => <li key={index}><strong>{step.title}</strong><span>{step.description}</span></li>)}
+          </ol>
+          <button className="simple-link" type="button" onClick={() => setLocation('/how-it-works')} data-testid="button-how-it-works">Read the full guide</button>
+        </section>
+      </div>
     </main>
   );
 }
@@ -613,7 +586,7 @@ function HowItWorks() {
       <div className="how-guide">
         {content.how.steps.map((step, index) => <article className="how-guide-step" key={index}><span>0{index + 1} / 03</span><div><h2>{step.title}</h2><p>{step.description}</p></div></article>)}
       </div>
-      <div className="how-guide-end"><p>It only takes a thought to begin.</p><Link href="/create" className="hero-create">Create world <span aria-hidden="true">↗</span></Link></div>
+      <div className="how-guide-end"><p>Ready when you are.</p><Link href="/create" className="simple-primary">Create a place</Link></div>
     </PageFrame>
   );
 }
@@ -833,8 +806,6 @@ function EditCreate({ mode }: { mode: 'edit' | 'create' }) {
   if (isSubmitting || (operationId && operationState === 'generating')) {
     return (
       <main className="world-generation-screen">
-        <div className="evoke-glow evoke-glow-green" />
-        <div className="evoke-glow evoke-glow-blue" />
         <StudioNav />
         <section className="generation-card" aria-live="polite">
           <div className="world-loader" aria-hidden="true" />
