@@ -97,7 +97,7 @@ function buildWorldPrompt(
   if (files.length === 0) {
     return {
       type: "text",
-      text_prompt: [prompt.trim(), worldGeometryInstructions].filter(Boolean).join("\n\n"),
+      text_prompt: prompt.trim(),
     };
   }
   const rememberedPhotoNotes = files.flatMap((file, index) => {
@@ -130,7 +130,7 @@ function buildWorldPrompt(
       ? `Photo-specific remembered context:\n${rememberedPhotoNotes.join("\n")}`
       : "",
   ].join(" ");
-  const textPrompt = [roomAccuracyInstructions, prompt.trim(), worldGeometryInstructions]
+  const textPrompt = [roomAccuracyInstructions, prompt.trim()]
     .filter(Boolean)
     .join("\n\n");
 
@@ -146,6 +146,28 @@ function buildWorldPrompt(
     reconstruct_images: photoRelationship === "same-room",
     multi_image_prompt: files.map((file) => ({ content: fileToContent(file) })),
     text_prompt: textPrompt,
+  };
+}
+
+function appendFinalWorldGeometryInstructions(worldPrompt: MarblePrompt): MarblePrompt {
+  const existingText = asNonEmptyString(worldPrompt.text_prompt) ?? "";
+  const legacyGeometryStart = "FINAL memory-photo fidelity and negative instructions:";
+  const legacyGeometryIndex = existingText.indexOf(legacyGeometryStart);
+  const promptWithoutLegacyGeometry = (
+    legacyGeometryIndex >= 0
+      ? existingText.slice(0, legacyGeometryIndex)
+      : existingText
+  ).trim();
+  const promptWithoutCurrentGeometry = promptWithoutLegacyGeometry
+    .split(worldGeometryInstructions)
+    .join("\n")
+    .trim();
+
+  return {
+    ...worldPrompt,
+    text_prompt: [promptWithoutCurrentGeometry, worldGeometryInstructions]
+      .filter(Boolean)
+      .join("\n\n"),
   };
 }
 
@@ -447,6 +469,10 @@ router.post("/marble/worlds", requireAuth, async (req, res) => {
         };
       }
     }
+
+    // Apply these authoritative rules after all create/edit prompt handling so every
+    // request that reaches Marble's world-generation endpoint receives the latest version.
+    worldPrompt = appendFinalWorldGeometryInstructions(worldPrompt);
 
     const generated = await marbleFetch("/marble/v1/worlds:generate", {
       method: "POST",

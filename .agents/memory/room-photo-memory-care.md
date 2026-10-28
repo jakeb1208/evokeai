@@ -25,6 +25,12 @@ For generation instructions in this project, the user wants firm absolute wordin
 
 **How to apply:** Use clear priority rules and explicit MUST/NEVER prohibitions in the existing Marble prompt; do not claim the wording guarantees perfect output.
 
+Append the current high-priority geometry rules at the shared Marble generation boundary so new worlds and revisions both receive them.
+
+**Why:** The user asked whether the exact prompt reaches Marble every time; older saved-world revisions previously reused their stored prompt without the newest rules.
+
+**How to apply:** Keep one canonical instruction block and append it last after create/edit prompt assembly. Do not claim it affects status polling, downloads, already-generated worlds, or that Marble will obey every instruction.
+
 ## Future full-room movement
 
 The product should support full walk-around movement in the future. In the meantime, prioritize reducing visible warping and distortion without replacing the 3D direction with a photo-only experience.
