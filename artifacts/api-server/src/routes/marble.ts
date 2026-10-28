@@ -366,7 +366,6 @@ async function persistCompletedWorld(
         marble_world_id: completed.marbleWorldId,
         display_name: getStringAt(world, "display_name") ?? displayName,
         model: getStringAt(world, "model") ?? model,
-        world_prompt: isRecord(world.world_prompt) ? world.world_prompt : null,
         marble_world: world,
         assets,
         error_message: null,

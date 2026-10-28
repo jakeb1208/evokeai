@@ -606,9 +606,32 @@
   min-width: 0;
 }
 .world-card-row .world-card { min-width: 0; flex: 1; }
+.world-card-actions {
+  display: flex;
+  flex: 0 0 9rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: .5rem;
+}
+.world-card-actions > button,
+.world-prompt-actions button {
+  border: 1px solid #47865e;
+  border-radius: .8rem;
+  padding: .7rem .8rem;
+  background: #e5f3d4;
+  color: #19462d;
+  font: inherit;
+  cursor: pointer;
+}
+.world-card-actions > button:hover,
+.world-card-actions > button:focus-visible,
+.world-prompt-actions button:hover,
+.world-prompt-actions button:focus-visible {
+  outline: 2px solid #47865e;
+  outline-offset: 2px;
+}
 .world-card-feedback {
   display: flex;
-  flex: 0 0 8.5rem;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
@@ -670,8 +693,34 @@
 .world-feedback-actions button:disabled { opacity: .55; cursor: not-allowed; }
 @media (max-width: 620px) {
   .world-card-row { flex-direction: column; }
+  .world-card-actions { flex: auto; flex-direction: row; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
   .world-card-feedback { flex: auto; flex-direction: row; align-items: center; justify-content: flex-end; }
 }
+.world-prompt-dialog {
+  border: 1px solid #c4e2b9;
+  border-radius: 1.2rem;
+  background: #f8fbe8;
+  color: #19462d;
+}
+.world-prompt-type,
+.world-prompt-empty { margin: 0; color: #45624b; font-size: .875rem; }
+.world-prompt-text {
+  max-height: 52dvh;
+  overflow: auto;
+  margin: 0;
+  border: 1px solid #c4e2b9;
+  border-radius: .8rem;
+  padding: 1rem;
+  background: #fffef5;
+  color: #173b2a;
+  font: .875rem/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.world-prompt-actions { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.world-prompt-actions [role="status"] { color: #45624b; font-size: .85rem; }
+.world-prompt-marble-link { color: #1f6547; font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }
+.world-prompt-actions button:disabled { cursor: not-allowed; opacity: .5; }
 
 .world-refresh-message {
   margin: 1.5rem 0 -0.75rem;

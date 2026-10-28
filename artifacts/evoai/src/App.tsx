@@ -19,6 +19,7 @@ import { prepareRoomPhotos } from '@/lib/prepare-room-photos';
 import { MusicProvider } from '@/components/music-context';
 import { MusicLibrary, MusicPlayer } from '@/components/music-ui';
 import { WorldFeedbackDialog, type WorldFeedbackValue } from '@/components/world-feedback';
+import { WorldPromptDialog } from '@/components/world-prompt-dialog';
 import { ActiveRecallQuestions } from '@/components/active-recall-questions';
 import NotFound from '@/pages/not-found';
 import { Redirect, Route, Switch, Router as WouterRouter, Link, useLocation } from 'wouter';
@@ -1368,6 +1369,7 @@ type SavedWorldSummary = {
   operation_id: string | null;
   display_name: string;
   marble_world_id: string | null;
+  world_prompt: unknown;
   status: string;
   assets: Array<{ kind: string; signed_url?: string }>;
   created_at: string;
@@ -1391,8 +1393,10 @@ function Immerse() {
   const [refreshError, setRefreshError] = useState('');
   const [feedbackUnavailable, setFeedbackUnavailable] = useState(false);
   const [feedbackWorldId, setFeedbackWorldId] = useState<string | null>(null);
+  const [promptWorldId, setPromptWorldId] = useState<string | null>(null);
   const worldListRevision = useRef(0);
   const activeFeedbackWorld = worlds.find((world) => world.id === feedbackWorldId);
+  const activePromptWorld = worlds.find((world) => world.id === promptWorldId);
   const pendingOperationIds = worlds
     .filter((world) => world.status === 'generating' && world.operation_id)
     .map((world) => world.operation_id as string);
@@ -1403,6 +1407,7 @@ function Immerse() {
       worldListRevision.current += 1;
       setWorlds([]);
       setFeedbackWorldId(null);
+      setPromptWorldId(null);
       setFeedbackUnavailable(false);
       setLoading(false);
       return;
@@ -1568,12 +1573,19 @@ function Immerse() {
                     </span>
                     <span aria-hidden="true">→</span>
                   </button>
-                  {world.status === 'ready' && !feedbackUnavailable ? (
-                    <div className="world-card-feedback">
-                      <span>{world.feedback ? `★ ${world.feedback.average.toFixed(1)} / 3` : 'Not rated'}</span>
-                      <button type="button" onClick={() => setFeedbackWorldId(world.id)}>
-                        {world.feedback ? 'Edit feedback' : 'Feedback'}
+                  {world.status === 'ready' ? (
+                    <div className="world-card-actions">
+                      <button type="button" onClick={() => setPromptWorldId(world.id)}>
+                        View prompt
                       </button>
+                      {!feedbackUnavailable ? (
+                        <div className="world-card-feedback">
+                          <span>{world.feedback ? `★ ${world.feedback.average.toFixed(1)} / 3` : 'Not rated'}</span>
+                          <button type="button" onClick={() => setFeedbackWorldId(world.id)}>
+                            {world.feedback ? 'Edit feedback' : 'Feedback'}
+                          </button>
+                        </div>
+                      ) : null}
                     </div>
                   ) : null}
                 </div>
@@ -1593,6 +1605,15 @@ function Immerse() {
                 setWorlds((current) => current.map((world) =>
                   world.id === activeFeedbackWorld.id ? { ...world, feedback } : world));
               }}
+            />
+          ) : null}
+          {activePromptWorld ? (
+            <WorldPromptDialog
+              key={activePromptWorld.id}
+              worldName={activePromptWorld.display_name}
+              worldPrompt={activePromptWorld.world_prompt}
+              marbleWorldId={activePromptWorld.marble_world_id}
+              onClose={() => setPromptWorldId(null)}
             />
           ) : null}
         </>
