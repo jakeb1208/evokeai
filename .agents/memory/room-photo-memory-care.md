@@ -19,6 +19,14 @@ The generation prompt should explicitly reject warped or stretched wall art, boo
 
 **How to apply:** Preserve photo evidence first and do not promise that generation instructions eliminate rendering artifacts or make panoramas support positional movement.
 
+## Future full-room movement
+
+The product should support full walk-around movement in the future. In the meantime, prioritize reducing visible warping and distortion without replacing the 3D direction with a photo-only experience.
+
+**Why:** The user wants room-scale exploration eventually, while minimizing distortion is important for memory-care use.
+
+**How to apply:** Keep the 3D path; do not treat photo-only viewing as the intended default. Be explicit that current image-to-3D generation cannot guarantee accurate unseen geometry, and prefer meaningful reconstruction improvements over adding more negative prompt wording.
+
 ## No separate AI analysis pass
 
 Do not add a separate AI photo-analysis step for room reconstruction. Use the existing Marble generation request and deterministic image preparation.
