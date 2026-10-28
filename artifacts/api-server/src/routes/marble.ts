@@ -105,27 +105,27 @@ function buildWorldPrompt(
     return note ? [`Photo ${index + 1}: ${note}`] : [];
   });
   const relationshipInstructions: Record<PhotoRelationship, string> = {
-    "same-room": "CRITICAL: The user confirms these photos show the same physical room. They are multiple views of ONE room, not separate spaces. Reconstruct one coherent room. Match only genuinely shared landmarks; never duplicate an object or force conflicting details into alignment.",
-    "same-home": "The user says these photos are from the same home, but they may show different rooms or times. Create one coherent room using the requested room and relevant shared house character; if no target room is named, choose one plausible room without blending distinct layouts. Do not treat the photos as consecutive camera views or merge separate rooms' walls and openings.",
-    uncertain: "These may be incomplete archival photos and are not guaranteed to show the same room, angle, or time. Create one coherent room using only clear shared period and style cues. Do not claim the images are views of the same room, force a camera path, or combine conflicting room layouts; keep uncertain geometry simple.",
+    "same-room": "The user confirms these photos show the same physical room from multiple viewpoints. Reconstruct one connected room by aligning clearly shared landmarks and representing each physical object once. Keep uncertain relationships simple and evidence-based.",
+    "same-home": "These photos come from the same home and may show different rooms or times. Create the requested room using visible shared house character. When no target room is named, choose one plausible room supported by the photos and keep its layout internally coherent.",
+    uncertain: "These archival photos may show different rooms, views, or times. Create one coherent target room from clear shared period and style cues. Use a simple evidence-based layout where spatial relationships are uncertain.",
   };
   const roomAccuracyInstructions = [
-    "Automatic memory-photo accuracy instructions: These are the photos the user has available; do not ask for or assume new matching views.",
+    "Automatic memory-photo accuracy guidance: Use the old photos the user has available and any notes they provide; work from this existing evidence.",
     files.length > 1
       ? relationshipInstructions[photoRelationship]
-      : "Use this single archival photo as evidence. Preserve visible room details; a photo cannot reveal unseen walls, objects, or layout.",
+      : "Treat this single archival photo as evidence. Preserve its visible room details and use simple local completion for unseen surfaces and layout.",
     files.length > 1
-      ? "RECONCILE THE PHOTOS AS EVIDENCE OF ONE SCENE BEFORE BUILDING GEOMETRY. Compare corners, wall edges, windows, doors, fixed features, furniture, and repeated patterns. When a feature is visibly shared, align both views to that SAME feature and represent it ONCE in the 3D room. NEVER assign one complete room or separate wall to each image. NEVER duplicate an object just because it appears in multiple photos. Treat similar-looking objects as identical only when surrounding positions or details confirm the match."
+      ? "Compare corners, wall edges, windows, doors, fixed features, furniture, and repeated patterns before building geometry. Align clearly shared landmarks and represent each physical feature once in the 3D room. Treat similar-looking items as the same object when their positions or details support the match."
       : "",
     files.length > 1
-      ? "Room proportions, connected walls, openings, and object positions MUST remain spatially consistent across all photos. If overlap or position cannot be established from the images and notes, do NOT claim the views align and do NOT invent a connecting layout; keep unsupported geometry plain."
+      ? "Keep room proportions, connected walls, openings, and object positions spatially consistent across all photos. When overlap or position is uncertain, use a plain, simple layout supported by shared evidence."
       : "",
-    "Preserve the visible house's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Do not modernize or invent a date. Preserve fine texture only where visible.",
-    "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Conservative continuation of adjacent materials and geometry is allowed, but do not present guessed details as known facts.",
+    "Preserve the visible home's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Keep period cues grounded in the photo and preserve fine texture where visible.",
+    "For surfaces without direct photo or memory evidence, continue adjacent materials and geometry in a plain, neutral, low-detail way. Reserve distinctive architecture and decor for features supported by the photos or notes.",
     photoRelationship === "same-room" && files.length > 1
-      ? "Reconstruct exactly one shared room, not one room per photograph. Different camera positions, including opposite corners, are viewpoints within that room, not neighboring rooms to connect with a doorway or corridor. Plain gray image borders are preprocessing padding, not scene geometry."
+      ? "Treat different camera positions, including opposite corners, as viewpoints within the same room. Build one shared set of walls and openings. Treat plain gray image borders as preprocessing padding outside the room."
       : "",
-    "Only change a visible feature when the user's written request explicitly asks for that specific change; preserve all other observed details.",
+    "Honor explicit requests for specific visible changes and preserve the other observed details.",
     rememberedPhotoNotes.length > 0
       ? `Photo-specific remembered context:\n${rememberedPhotoNotes.join("\n")}`
       : "",
@@ -151,21 +151,24 @@ function buildWorldPrompt(
 
 function appendFinalWorldGeometryInstructions(worldPrompt: MarblePrompt): MarblePrompt {
   const existingText = asNonEmptyString(worldPrompt.text_prompt) ?? "";
-  const legacyGeometryStart = "FINAL memory-photo fidelity and negative instructions:";
-  const legacyGeometryIndex = existingText.indexOf(legacyGeometryStart);
-  const promptWithoutLegacyGeometry = (
-    legacyGeometryIndex >= 0
-      ? existingText.slice(0, legacyGeometryIndex)
-      : existingText
+  const priorGeometryMarkers = [
+    "FINAL memory-photo fidelity and negative instructions:",
+    "AUTHORITATIVE FINAL RULES:",
+    "AUTHORITATIVE ROOM-BUILDING PRIORITIES:",
+  ];
+  const priorGeometryIndex = priorGeometryMarkers
+    .map((marker) => existingText.indexOf(marker))
+    .filter((index) => index >= 0)
+    .sort((left, right) => left - right)[0];
+  const promptWithoutPriorGeometry = (
+    priorGeometryIndex === undefined
+      ? existingText
+      : existingText.slice(0, priorGeometryIndex)
   ).trim();
-  const promptWithoutCurrentGeometry = promptWithoutLegacyGeometry
-    .split(worldGeometryInstructions)
-    .join("\n")
-    .trim();
 
   return {
     ...worldPrompt,
-    text_prompt: [promptWithoutCurrentGeometry, worldGeometryInstructions]
+    text_prompt: [promptWithoutPriorGeometry, worldGeometryInstructions]
       .filter(Boolean)
       .join("\n\n"),
   };
