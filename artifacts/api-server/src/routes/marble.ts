@@ -105,7 +105,7 @@ function buildWorldPrompt(
     return note ? [`Photo ${index + 1}: ${note}`] : [];
   });
   const relationshipInstructions: Record<PhotoRelationship, string> = {
-    "same-room": "The user says these photos show the same physical room. Create one coherent room from them as views or moments of that room. Match genuinely repeated landmarks, but do not force details that conflict or duplicate objects.",
+    "same-room": "CRITICAL: The user confirms these photos show the same physical room. They are multiple views of ONE room, not separate spaces. Reconstruct one coherent room. Match only genuinely shared landmarks; never duplicate an object or force conflicting details into alignment.",
     "same-home": "The user says these photos are from the same home, but they may show different rooms or times. Create one coherent room using the requested room and relevant shared house character; if no target room is named, choose one plausible room without blending distinct layouts. Do not treat the photos as consecutive camera views or merge separate rooms' walls and openings.",
     uncertain: "These may be incomplete archival photos and are not guaranteed to show the same room, angle, or time. Create one coherent room using only clear shared period and style cues. Do not claim the images are views of the same room, force a camera path, or combine conflicting room layouts; keep uncertain geometry simple.",
   };
@@ -115,10 +115,10 @@ function buildWorldPrompt(
       ? relationshipInstructions[photoRelationship]
       : "Use this single archival photo as evidence. Preserve visible room details; a photo cannot reveal unseen walls, objects, or layout.",
     files.length > 1
-      ? "Before generating, reconcile the photos spatially: identify corners, wall edges, windows, doors, fixed features, furniture, and repeated patterns that appear in more than one photo. When the same physical feature is visibly shared, align both views to it and represent that wall, opening, or object once in the 3D room—not once per photo. Do not paste each photo onto a separate wall or duplicate an object just because it appears in overlapping images. Treat similar-looking objects as the same only when their surrounding positions or details support a match."
+      ? "RECONCILE THE PHOTOS AS EVIDENCE OF ONE SCENE BEFORE BUILDING GEOMETRY. Compare corners, wall edges, windows, doors, fixed features, furniture, and repeated patterns. When a feature is visibly shared, align both views to that SAME feature and represent it ONCE in the 3D room. NEVER assign one complete room or separate wall to each image. NEVER duplicate an object just because it appears in multiple photos. Treat similar-looking objects as identical only when surrounding positions or details confirm the match."
       : "",
     files.length > 1
-      ? "Keep room proportions, connected walls, openings, and object positions spatially consistent. If overlap or position cannot be established from the images and notes, do not claim the views align; use the simplest plausible layout and leave unsupported geometry plain."
+      ? "Room proportions, connected walls, openings, and object positions MUST remain spatially consistent across all photos. If overlap or position cannot be established from the images and notes, do NOT claim the views align and do NOT invent a connecting layout; keep unsupported geometry plain."
       : "",
     "Preserve the visible house's apparent period, architecture, proportions, openings, object count, relative placement, colors, materials, and signs of age. Do not modernize or invent a date. Preserve fine texture only where visible.",
     "Where no photo or memory note reveals a surface, keep it simple and neutral rather than inventing distinctive architecture or decor. Conservative continuation of adjacent materials and geometry is allowed, but do not present guessed details as known facts.",

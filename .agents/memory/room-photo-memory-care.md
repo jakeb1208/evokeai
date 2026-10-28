@@ -19,6 +19,12 @@ The generation prompt should explicitly reject warped or stretched wall art, boo
 
 **How to apply:** Preserve photo evidence first and do not promise that generation instructions eliminate rendering artifacts or make panoramas support positional movement.
 
+For generation instructions in this project, the user wants firm absolute wording and ALL CAPS emphasis where feasible.
+
+**Why:** The user explicitly requested absolute language and capitalization to strengthen photo-faithful generation instructions.
+
+**How to apply:** Use clear priority rules and explicit MUST/NEVER prohibitions in the existing Marble prompt; do not claim the wording guarantees perfect output.
+
 ## Future full-room movement
 
 The product should support full walk-around movement in the future. In the meantime, prioritize reducing visible warping and distortion without replacing the 3D direction with a photo-only experience.
