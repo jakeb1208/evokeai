@@ -19,11 +19,11 @@ The generation prompt should explicitly reject warped or stretched wall art, boo
 
 **How to apply:** Preserve photo evidence first and do not promise that generation instructions eliminate rendering artifacts or make panoramas support positional movement.
 
-For generation instructions in this project, the user wants firm absolute wording and ALL CAPS emphasis where feasible.
+For unseen room areas, the user prefers concise, affirmative instructions: continue nearby surfaces plainly and keep uncertain areas low-detail, rather than relying on long negative-prompt lists.
 
-**Why:** The user explicitly requested absolute language and capitalization to strengthen photo-faithful generation instructions.
+**Why:** The user observed that Marble's recaption omitted their negative prompt and suggested describing how to complete unseen areas simply.
 
-**How to apply:** Use clear priority rules and explicit MUST/NEVER prohibitions in the existing Marble prompt; do not claim the wording guarantees perfect output.
+**How to apply:** Preserve visible photo evidence and the single-room scope; guide unseen areas toward simple adjacent materials and geometry. Use absolute emphasis only where helpful, and do not claim prompt wording guarantees perfect output.
 
 Append the current high-priority geometry rules at the shared Marble generation boundary so new worlds and revisions both receive them.
 
