@@ -3,11 +3,13 @@ name: Quest 2 world viewing
 description: Current Quest 2 prototype priorities and device validation decisions
 ---
 
-The user has deprioritized walk-around mode because Evoke is a prototype; prioritize ultra-accurate, coherent rooms from single or multiple photos, with as little invented geometry as possible. The earlier Walk mode work is experimental and opt-in, not a current product requirement. A device-model check is a compatibility gate for native UI, not proof of device identity or an access-control boundary.
+The user wants within-world movement on desktop/web first, like Marble's fixed-height flying or gliding rather than walking. Quest movement is a separate follow-on; preserve the photo-faithful room-generation priority.
 
-**Why:** The user said the app is a prototype, deprioritized locomotion, and explicitly prioritized ultra-accurate room generation from photo references over adding features.
+**Why:** The user requested movement inside generated worlds, chose desktop/web first, and said fixed height is fine.
 
-**How to apply:** Do not ask the user to install the walk renderer or enable its Android define while this scope holds. Keep existing panorama behavior safe. If walking becomes a priority again, it depends on signed world SPZ/GLB assets and needs Quest 2 hardware validation. Continue using the owner-checked Railway API; never put server-only keys in the headset build.
+**How to apply:** Use mouse-look and horizontal keyboard glide at a steady eye height for the desktop/web viewer. Marble Gaussian-splat worlds do not provide solid collision walls, so do not claim physical collision or a true room boundary. Keep Quest locomotion separate and validate it on Quest 2 before enabling it.
+
+A device-model check is a compatibility gate for native UI, not proof of device identity or an access-control boundary.
 
 Unity's device model can be generic even when Android identifies a Quest 2 correctly. Do not reject the headset solely because Unity reports “Oculus Quest,” or accept that generic name as proof of Quest 2.
 

@@ -274,7 +274,9 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
           <strong>{world.display_name}</strong>
         </div>
         <div className="viewer-controls">
-          {isLocked ? "WASD to move · mouse to look · Esc to release" : "Click the world to look around"}
+          {isLocked
+            ? "WASD / arrows to glide · mouse to look · Esc to exit"
+            : "Click to explore · WASD glide · mouse look · fixed height"}
         </div>
       </div>
     </main>
