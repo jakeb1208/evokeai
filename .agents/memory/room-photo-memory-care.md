@@ -25,6 +25,14 @@ For unseen room areas, the user prefers concise, affirmative instructions: conti
 
 **How to apply:** Preserve visible photo evidence and the single-room scope; guide unseen areas toward simple adjacent materials and geometry. Use absolute emphasis only where helpful, and do not claim prompt wording guarantees perfect output.
 
+## Preserve supplied Marble text
+
+Marble's image and multi-image prompts can each include `text_prompt` alongside image content. Set `disable_recaption: true` when the submitted wording must be used as-is.
+
+**Why:** The user saw Marble's recaption differ from their submitted memory-photo guidance; the API documents this flag as preventing recaptioning.
+
+**How to apply:** Keep image content and the full text guidance together in the same generation request, with recaption disabled. This preserves the prompt string but does not guarantee the generated geometry will obey every instruction.
+
 Append the current high-priority geometry rules at the shared Marble generation boundary so new worlds and revisions both receive them.
 
 **Why:** The user asked whether the exact prompt reaches Marble every time; older saved-world revisions previously reused their stored prompt without the newest rules.

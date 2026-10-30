@@ -139,6 +139,7 @@ function buildWorldPrompt(
       type: "image",
       image_prompt: fileToContent(files[0]),
       text_prompt: textPrompt,
+      disable_recaption: true,
     };
   }
   return {
@@ -146,6 +147,7 @@ function buildWorldPrompt(
     reconstruct_images: photoRelationship === "same-room",
     multi_image_prompt: files.map((file) => ({ content: fileToContent(file) })),
     text_prompt: textPrompt,
+    disable_recaption: true,
   };
 }
 
