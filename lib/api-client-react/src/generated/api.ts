@@ -21,6 +21,9 @@ import type {
 
 import type {
   HealthStatus,
+  QuestPanoramaInput,
+  QuestPanoramaResult,
+  QuestPanoramaUpload,
   WorldFeedbackRatings,
   WorldFeedbackResponse
 } from './api.schemas';
@@ -51,6 +54,243 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getCreateQuestPanoramaUploadUrl = (id: string,) => {
+
+
+
+
+  return `/api/worlds/${id}/quest-panorama/upload`
+}
+
+/**
+ * @summary Request a private upload URL for an owned ready world's Quest panorama
+ */
+export const createQuestPanoramaUpload = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<QuestPanoramaUpload> => {
+
+  return customFetch<QuestPanoramaUpload>(getCreateQuestPanoramaUploadUrl(id),
+  {
+    ...options,
+    method: 'POST'
+
+
+  }
+);}
+
+
+
+
+
+export const getCreateQuestPanoramaUploadMutationKey = () => ['createQuestPanoramaUpload'] as const;
+
+export const getCreateQuestPanoramaUploadMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuestPanoramaUpload>>, TError,CreateQuestPanoramaUploadMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createQuestPanoramaUpload>>, TError,CreateQuestPanoramaUploadMutationVariables, TContext> => {
+
+const mutationKey = getCreateQuestPanoramaUploadMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createQuestPanoramaUpload>>, CreateQuestPanoramaUploadMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  createQuestPanoramaUpload(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateQuestPanoramaUploadMutationResult = NonNullable<Awaited<ReturnType<typeof createQuestPanoramaUpload>>>
+
+    export type CreateQuestPanoramaUploadMutationError = ErrorType<void>
+    export type CreateQuestPanoramaUploadMutationVariables = {id: string}
+
+    /**
+ * @summary Request a private upload URL for an owned ready world's Quest panorama
+ */
+export const useCreateQuestPanoramaUpload = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createQuestPanoramaUpload>>, TError,CreateQuestPanoramaUploadMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createQuestPanoramaUpload>>,
+        TError,
+        CreateQuestPanoramaUploadMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateQuestPanoramaUploadMutationOptions(options));
+    }
+
+export const getSaveQuestPanoramaUrl = (id: string,) => {
+
+
+
+
+  return `/api/worlds/${id}/quest-panorama`
+}
+
+/**
+ * @summary Validate and save an uploaded panorama without replacing the original
+ */
+export const saveQuestPanorama = async (id: string,
+    questPanoramaInput: QuestPanoramaInput, options?: Parameters<typeof customFetch>[1]): Promise<QuestPanoramaResult> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<QuestPanoramaResult>(getSaveQuestPanoramaUrl(id),
+  {
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(questPanoramaInput)
+  }
+);}
+
+
+
+
+
+export const getSaveQuestPanoramaMutationKey = () => ['saveQuestPanorama'] as const;
+
+export const getSaveQuestPanoramaMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof saveQuestPanorama>>, TError,SaveQuestPanoramaMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof saveQuestPanorama>>, TError,SaveQuestPanoramaMutationVariables, TContext> => {
+
+const mutationKey = getSaveQuestPanoramaMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof saveQuestPanorama>>, SaveQuestPanoramaMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  saveQuestPanorama(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SaveQuestPanoramaMutationResult = NonNullable<Awaited<ReturnType<typeof saveQuestPanorama>>>
+    export type SaveQuestPanoramaMutationBody = BodyType<QuestPanoramaInput>
+    export type SaveQuestPanoramaMutationError = ErrorType<void>
+    export type SaveQuestPanoramaMutationVariables = {id: string;data: BodyType<QuestPanoramaInput>}
+
+    /**
+ * @summary Validate and save an uploaded panorama without replacing the original
+ */
+export const useSaveQuestPanorama = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof saveQuestPanorama>>, TError,SaveQuestPanoramaMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof saveQuestPanorama>>,
+        TError,
+        SaveQuestPanoramaMutationVariables,
+        TContext
+      > => {
+      return useMutation(getSaveQuestPanoramaMutationOptions(options));
+    }
+
+export const getResetQuestPanoramaUrl = (id: string,) => {
+
+
+
+
+  return `/api/worlds/${id}/quest-panorama`
+}
+
+/**
+ * @summary Remove the custom viewpoint and restore the original panorama
+ */
+export const resetQuestPanorama = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<QuestPanoramaResult> => {
+
+  return customFetch<QuestPanoramaResult>(getResetQuestPanoramaUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getResetQuestPanoramaMutationKey = () => ['resetQuestPanorama'] as const;
+
+export const getResetQuestPanoramaMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resetQuestPanorama>>, TError,ResetQuestPanoramaMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof resetQuestPanorama>>, TError,ResetQuestPanoramaMutationVariables, TContext> => {
+
+const mutationKey = getResetQuestPanoramaMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof resetQuestPanorama>>, ResetQuestPanoramaMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  resetQuestPanorama(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ResetQuestPanoramaMutationResult = NonNullable<Awaited<ReturnType<typeof resetQuestPanorama>>>
+
+    export type ResetQuestPanoramaMutationError = ErrorType<void>
+    export type ResetQuestPanoramaMutationVariables = {id: string}
+
+    /**
+ * @summary Remove the custom viewpoint and restore the original panorama
+ */
+export const useResetQuestPanorama = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof resetQuestPanorama>>, TError,ResetQuestPanoramaMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof resetQuestPanorama>>,
+        TError,
+        ResetQuestPanoramaMutationVariables,
+        TContext
+      > => {
+      return useMutation(getResetQuestPanoramaMutationOptions(options));
+    }
 
 export const getHealthCheckUrl = () => {
 
@@ -218,3 +458,4 @@ export const useSaveWorldFeedback = <TError = ErrorType<void>,
       > => {
       return useMutation(getSaveWorldFeedbackMutationOptions(options));
     }
+

@@ -1,7 +1,7 @@
 - [Railway pnpm lockfiles](railway-pnpm-lockfile.md) — regenerate with pnpm 9.15.9; pnpm 10 can produce a lockfile Railway rejects.
 - [Railway filtered starts](railway-filtered-starts.md) — pnpm filter scripts run from the package directory, so production asset paths must not depend on process.cwd().
 - [Desktop packaging](windows-desktop-packaging.md) — keep installer tooling outside the Railway pnpm workspace; the shell uses the hosted Evoke origin.
-- [Quest 2 world viewing](quest2-world-viewing.md) — start with 360° panoramas; runtime SPZ splats need a proven Quest 2 renderer and performance budget.
+- [Quest 2 world viewing](quest2-world-viewing.md) — prioritize manually centered panoramas; native SPZ rendering is blocked by Unity/URP compatibility.
 - [Memory-care archival photos](room-photo-memory-care.md) — work with the old photos users have; capture known context and uncertainty rather than requiring new angles.
 - [World feedback scope](world-feedback-scope.md) — keep editable private star ratings on desktop/web, not in the Unity headset client.
 - [Private music playback](private-music-playback.md) — keep account music in Supabase and preserve shuffle-cycle state across failures, uploads, and navigation.

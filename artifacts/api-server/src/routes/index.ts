@@ -3,6 +3,7 @@ import healthRouter from "./health";
 import marbleRouter from "./marble";
 import musicRouter from "./music";
 import worldsRouter from "./worlds";
+import questPanoramaRouter from "./quest-panorama";
 
 const router: IRouter = Router();
 
@@ -10,5 +11,6 @@ router.use(healthRouter);
 router.use(marbleRouter);
 router.use(musicRouter);
 router.use(worldsRouter);
+router.use(questPanoramaRouter);
 
 export default router;

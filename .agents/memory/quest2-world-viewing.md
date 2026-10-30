@@ -3,11 +3,11 @@ name: Quest 2 world viewing
 description: Current Quest 2 prototype priorities and device validation decisions
 ---
 
-The user wants within-world movement on desktop/web and Quest 2, like Marble's fixed-height flying or gliding rather than walking. Preserve the photo-faithful room-generation priority.
+The current Quest priority is a manually chosen central panorama viewpoint, not native walking/gliding. Within-world movement remains a future goal; preserve the photo-faithful room-generation priority.
 
-**Why:** The user requested desktop/web movement first, accepted fixed height, then explicitly asked to add it on Quest 2.
+**Why:** After requesting fixed-height movement, the user chose centered Quest panoramas when the native renderer failed on their Unity version.
 
-**How to apply:** Keep horizontal navigation at steady rig height with natural head tracking. Quest translation must render an actual 3D scene, not move a camera through a head-centered panorama sphere. Do not claim physical collision or a true room boundary from splats alone. Keep panorama as a fallback and validate stereo rendering, comfort, frame rate and memory use on Quest 2.
+**How to apply:** Let the user choose a suitable position visually on desktop/web and capture a new 360° image from existing geometry; preserve the original panorama. Do not call this automatic center detection, distortion repair, or Quest translation. Moving an XR Origin through a head-centered sphere cannot change its depicted viewpoint. If native 3D movement is revisited, validate stereo rendering, comfort, frame rate and memory on Quest 2; splats alone do not prove physical collision or room boundaries.
 
 The selected third-party splat renderer is not compatible as-is with the user's installed Unity 6.6/URP rendering API.
 

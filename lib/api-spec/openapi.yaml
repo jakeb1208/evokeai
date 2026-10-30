@@ -13,6 +13,74 @@ tags:
   - name: worlds
     description: Saved Evoke worlds
 paths:
+  /worlds/{id}/quest-panorama/upload:
+    post:
+      operationId: createQuestPanoramaUpload
+      tags: [worlds]
+      summary: Request a private upload URL for an owned ready world's Quest panorama
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Upload directly to the returned URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestPanoramaUpload"
+        "401": { description: Authentication required }
+        "404": { description: Owned ready world not found }
+        "503": { description: Storage unavailable }
+  /worlds/{id}/quest-panorama:
+    put:
+      operationId: saveQuestPanorama
+      tags: [worlds]
+      summary: Validate and save an uploaded panorama without replacing the original
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestPanoramaInput"
+      responses:
+        "200":
+          description: Quest panorama saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestPanoramaResult"
+        "400": { description: Invalid JPEG or viewpoint }
+        "401": { description: Authentication required }
+        "404": { description: Owned ready world or upload not found }
+        "409": { description: World changed while saving }
+        "503": { description: Storage unavailable }
+    delete:
+      operationId: resetQuestPanorama
+      tags: [worlds]
+      summary: Remove the custom viewpoint and restore the original panorama
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Original panorama restored
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestPanoramaResult"
+        "401": { description: Authentication required }
+        "404": { description: Owned ready world not found }
+        "409": { description: World changed while resetting }
+        "503": { description: Storage unavailable }
   /healthz:
     get:
       operationId: healthCheck
@@ -54,6 +122,34 @@ paths:
         "503": { description: Database unavailable }
 components:
   schemas:
+    QuestPanoramaUpload:
+      type: object
+      required: [upload_id, upload_url]
+      properties:
+        upload_id: { type: string, format: uuid }
+        upload_url: { type: string, format: uri }
+    QuestPanoramaViewpoint:
+      type: object
+      additionalProperties: false
+      required: [x, y, z, yaw]
+      properties:
+        x: { type: number, minimum: -10000, maximum: 10000 }
+        y: { type: number, minimum: -10000, maximum: 10000 }
+        z: { type: number, minimum: -10000, maximum: 10000 }
+        yaw: { type: number, minimum: -3.142, maximum: 3.142 }
+    QuestPanoramaInput:
+      type: object
+      additionalProperties: false
+      required: [upload_id, viewpoint]
+      properties:
+        upload_id: { type: string, format: uuid }
+        viewpoint:
+          $ref: "#/components/schemas/QuestPanoramaViewpoint"
+    QuestPanoramaResult:
+      type: object
+      required: [saved]
+      properties:
+        saved: { type: boolean }
     WorldFeedbackRatings:
       type: object
       additionalProperties: false

@@ -2,12 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { SparkRenderer, SplatMesh } from "@sparkjsdev/spark";
 import { useMusic } from "./music-context";
+import type { QuestPanoramaViewpoint } from "@workspace/api-client-react";
+import { captureQuestPanorama, type QuestViewpointControls } from "../lib/quest-panorama-capture";
+import { QuestViewpointPanel } from "./quest-viewpoint-panel";
 
 type WorldAsset = {
   kind: string;
   format: string;
   quality?: string;
   signed_url: string;
+  viewpoint?: QuestPanoramaViewpoint;
 };
 
 type SavedWorld = {
@@ -49,6 +53,10 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
   const [loading, setLoading] = useState(true);
   const [splatReady, setSplatReady] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+  const [questOpen, setQuestOpen] = useState(false);
+  const [questBusy, setQuestBusy] = useState(false);
+  const [questViewpoint, setQuestViewpoint] = useState<QuestPanoramaViewpoint>();
+  const viewpointControls = useRef<QuestViewpointControls | null>(null);
   const canvasHostRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,6 +67,9 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
     setSplatReady(false);
     setIsLocked(false);
     setLoading(true);
+    setQuestOpen(false);
+    setQuestBusy(false);
+    setQuestViewpoint(undefined);
     void fetch(`/api/worlds/${encodeURIComponent(worldId)}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
       signal: controller.signal,
@@ -68,7 +79,10 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
         if (!response.ok || !payload.world) {
           throw new Error(getErrorMessage(payload, "Could not load this saved world."));
         }
-        if (!cancelled) setWorld(payload.world);
+        if (!cancelled) {
+          setQuestViewpoint(payload.world.assets.find((asset) => asset.quality === "quest_centered")?.viewpoint);
+          setWorld(payload.world);
+        }
       })
       .catch((requestError) => {
         if (!cancelled) setError(requestError instanceof Error ? requestError.message : "Could not load this world.");
@@ -164,6 +178,42 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
     const keys = new Set<string>();
     const clock = new THREE.Clock();
     let animationFrameId = 0;
+    let capturing = false;
+    let disposeAfterCapture: (() => void) | undefined;
+    const getViewpoint = () => ({
+      x: camera.position.x, y: camera.position.y, z: camera.position.z,
+      yaw: Math.atan2(Math.sin(yaw), Math.cos(yaw)),
+    });
+    viewpointControls.current = {
+      getViewpoint,
+      setViewpoint: (point) => {
+        if (capturing) return;
+        camera.position.set(point.x, point.y, point.z);
+        yaw = point.yaw; pitch = 0;
+      },
+      setHeight: (height) => { if (!capturing && Number.isFinite(height)) camera.position.y = height; },
+      reset: () => {
+        if (capturing) return;
+        camera.position.set(0, 1.65, 0); yaw = 0; pitch = 0; keys.clear();
+      },
+      capture: async () => {
+        if (capturing || disposed) throw new Error("The viewer is busy. Please retry.");
+        capturing = true; keys.clear();
+        if (document.pointerLockElement === renderer.domElement) document.exitPointerLock();
+        const viewpoint = getViewpoint();
+        try {
+          const blob = await captureQuestPanorama(renderer, spark, scene, viewpoint);
+          return { blob, viewpoint };
+        } finally {
+          try {
+            if (!disposed) await spark.update({ scene, camera });
+          } finally {
+            capturing = false;
+            disposeAfterCapture?.();
+          }
+        }
+      },
+    };
 
     const resize = () => {
       const width = host.clientWidth || window.innerWidth;
@@ -173,6 +223,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
       renderer.setSize(width, height, false);
     };
     const onKeyDown = (event: KeyboardEvent) => {
+      if (capturing || document.pointerLockElement !== renderer.domElement) return;
       if (["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.code)) {
         event.preventDefault();
         keys.add(event.code);
@@ -184,10 +235,23 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
       yaw -= event.movementX * 0.0024;
       pitch = THREE.MathUtils.clamp(pitch - event.movementY * 0.0024, -1.35, 1.35);
     };
-    const onPointerLockChange = () => setIsLocked(document.pointerLockElement === renderer.domElement);
-    const onCanvasClick = () => void renderer.domElement.requestPointerLock();
+    const clearKeys = () => keys.clear();
+    const onPointerLockChange = () => {
+      keys.clear();
+      setIsLocked(document.pointerLockElement === renderer.domElement);
+    };
+    const onCanvasClick = () => {
+      if (!capturing) void renderer.domElement.requestPointerLock()?.catch(() => {
+        setIsLocked(false);
+      });
+    };
     const animate = () => {
       if (disposed) return;
+      if (capturing) {
+        clock.getDelta();
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
       const delta = Math.min(clock.getDelta(), 0.05);
       camera.rotation.set(pitch, yaw, 0);
       const forward = new THREE.Vector3(0, 0, -1).applyEuler(camera.rotation);
@@ -205,13 +269,13 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
         direction.normalize().multiplyScalar(delta * 3.5);
         camera.position.add(direction);
       }
-      camera.position.y = Math.max(camera.position.y, 1.65);
       renderer.render(scene, camera);
       animationFrameId = requestAnimationFrame(animate);
     };
 
     resize();
     window.addEventListener("resize", resize);
+    window.addEventListener("blur", clearKeys);
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
     window.addEventListener("mousemove", onMouseMove);
@@ -221,17 +285,25 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
 
     return () => {
       disposed = true;
+      viewpointControls.current = null;
       if (document.pointerLockElement === renderer.domElement) void document.exitPointerLock();
       window.removeEventListener("resize", resize);
+      window.removeEventListener("blur", clearKeys);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
       window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("pointerlockchange", onPointerLockChange);
       renderer.domElement.removeEventListener("click", onCanvasClick);
       cancelAnimationFrame(animationFrameId);
-      splat.dispose();
-      spark.dispose();
-      renderer.dispose();
+      const disposeResources = () => {
+        splat.dispose();
+        spark.dispose();
+        renderer.dispose();
+      };
+      // Logout/navigation can unmount during GPU readback. Finish that work
+      // before disposing the GL context; the unmounted panel drops the result.
+      if (capturing) disposeAfterCapture = disposeResources;
+      else disposeResources();
       renderer.domElement.remove();
     };
   }, [world]);
@@ -268,7 +340,7 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
         </div>
       ) : null}
       <div className={`viewer-hud${soundtrack ? " has-soundtrack" : ""}`}>
-        <button className="viewer-back-button" type="button" onClick={onBack}>← My Worlds</button>
+        <button className="viewer-back-button" type="button" disabled={questBusy} onClick={onBack}>← My Worlds</button>
         <div className="viewer-title">
           <span className="evoke-eyebrow">saved world</span>
           <strong>{world.display_name}</strong>
@@ -279,6 +351,17 @@ export function WorldViewer({ worldId, accessToken, onBack }: WorldViewerProps) 
             : "Click to explore · WASD glide · mouse look · fixed height"}
         </div>
       </div>
+      {splatReady && !questOpen ? <button className="quest-viewpoint-button" type="button"
+        onClick={() => { document.exitPointerLock(); setQuestOpen(true); }}>
+        Set Quest viewpoint
+      </button> : null}
+      {splatReady && questOpen ? <QuestViewpointPanel key={world.id}
+        worldId={world.id} accessToken={accessToken} controls={viewpointControls}
+        initialViewpoint={questViewpoint} onSavedChange={setQuestViewpoint}
+        hasOriginal={world.assets.some((asset) =>
+          (asset.kind.includes("panorama") || asset.kind.includes("equirect")) &&
+          asset.quality !== "quest_centered" && /jpe?g/i.test(asset.format))}
+        onClose={() => setQuestOpen(false)} onBusyChange={setQuestBusy} /> : null}
     </main>
   );
 }

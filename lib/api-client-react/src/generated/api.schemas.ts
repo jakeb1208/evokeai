@@ -5,6 +5,43 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export interface QuestPanoramaUpload {
+  upload_id: string;
+  upload_url: string;
+}
+
+export interface QuestPanoramaViewpoint {
+  /**
+     * @minimum -10000
+     * @maximum 10000
+     */
+  x: number;
+  /**
+     * @minimum -10000
+     * @maximum 10000
+     */
+  y: number;
+  /**
+     * @minimum -10000
+     * @maximum 10000
+     */
+  z: number;
+  /**
+     * @minimum -3.142
+     * @maximum 3.142
+     */
+  yaw: number;
+}
+
+export interface QuestPanoramaInput {
+  upload_id: string;
+  viewpoint: QuestPanoramaViewpoint;
+}
+
+export interface QuestPanoramaResult {
+  saved: boolean;
+}
+
 export interface WorldFeedbackRatings {
   /**
      * @minimum 1
@@ -48,3 +85,4 @@ export interface WorldFeedbackResponse {
 export interface HealthStatus {
   status: string;
 }
+

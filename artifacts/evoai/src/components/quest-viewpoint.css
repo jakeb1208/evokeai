@@ -1,0 +1,32 @@
+.quest-viewpoint-button {
+  position: absolute; right: 1.5rem; bottom: 5rem; z-index: 12;
+  padding: .8rem 1rem; border: 1px solid #accfc0; border-radius: 12px;
+  background: #e9f5e6; color: #153d32; font-weight: 650; cursor: pointer;
+}
+.quest-viewpoint-button:disabled { opacity: .6; cursor: wait; }
+.quest-viewpoint-panel {
+  position: absolute; z-index: 15; top: 11rem; right: 1.5rem;
+  width: min(420px, calc(100vw - 2rem)); max-height: calc(100dvh - 13rem);
+  overflow: auto; padding: 1.2rem; border: 1px solid #accfc0; border-radius: 16px;
+  background: #f5faec; color: #153d32; box-shadow: 0 10px 40px #001a2240;
+  font-size: .9rem; line-height: 1.5;
+}
+.quest-viewpoint-panel header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.quest-viewpoint-panel h2 { margin: 0; font-size: 1.1rem; }
+.quest-viewpoint-panel p { margin: .65rem 0; }
+.quest-viewpoint-panel button { padding: .55rem .8rem; border: 1px solid #aac8ae; border-radius: 8px; background: #e1efd9; color: #153d32; cursor: pointer; }
+.quest-viewpoint-panel button:disabled { opacity: .55; cursor: wait; }
+.quest-viewpoint-panel button:focus-visible, .quest-viewpoint-button:focus-visible, .quest-panorama-preview:focus-visible { outline: 3px solid #26735c; outline-offset: 3px; }
+.quest-viewpoint-panel label { display: grid; gap: .4rem; margin: 1rem 0; }
+.quest-viewpoint-panel input { width: 100%; accent-color: #24654d; }
+.quest-viewpoint-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.quest-viewpoint-actions button:first-child { background: #205a44; color: white; }
+.quest-viewpoint-panel .quest-restore { margin-top: 1rem; background: transparent; }
+.quest-viewpoint-note { font-size: .78rem; color: #4f695b; }
+.quest-viewpoint-error { color: #912a26; }
+.quest-panorama-preview { height: 210px; width: 100%; background: #10251f; border-radius: 8px; overflow: hidden; touch-action: none; cursor: grab; }
+.quest-panorama-preview canvas { display: block; }
+@media (max-width: 600px) {
+  .quest-viewpoint-panel { top: 10rem; right: .75rem; max-height: calc(100dvh - 11rem); }
+  .quest-viewpoint-button { right: .75rem; bottom: 6rem; }
+}

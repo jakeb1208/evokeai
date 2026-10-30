@@ -9,6 +9,67 @@ import * as zod from 'zod';
 
 
 /**
+ * @summary Request a private upload URL for an owned ready world's Quest panorama
+ */
+export const CreateQuestPanoramaUploadParams = zod.object({
+  "id": zod.coerce.string().uuid()
+})
+
+export const CreateQuestPanoramaUploadResponse = zod.object({
+  "upload_id": zod.string().uuid(),
+  "upload_url": zod.string().url()
+})
+
+
+/**
+ * @summary Validate and save an uploaded panorama without replacing the original
+ */
+export const SaveQuestPanoramaParams = zod.object({
+  "id": zod.coerce.string().uuid()
+})
+
+export const saveQuestPanoramaBodyViewpointXMin = -10000;
+export const saveQuestPanoramaBodyViewpointXMax = 10000;
+
+export const saveQuestPanoramaBodyViewpointYMin = -10000;
+export const saveQuestPanoramaBodyViewpointYMax = 10000;
+
+export const saveQuestPanoramaBodyViewpointZMin = -10000;
+export const saveQuestPanoramaBodyViewpointZMax = 10000;
+
+export const saveQuestPanoramaBodyViewpointYawMin = -3.142;
+export const saveQuestPanoramaBodyViewpointYawMax = 3.142;
+
+
+
+export const SaveQuestPanoramaBody = zod.object({
+  "upload_id": zod.string().uuid(),
+  "viewpoint": zod.object({
+  "x": zod.number().min(saveQuestPanoramaBodyViewpointXMin).max(saveQuestPanoramaBodyViewpointXMax),
+  "y": zod.number().min(saveQuestPanoramaBodyViewpointYMin).max(saveQuestPanoramaBodyViewpointYMax),
+  "z": zod.number().min(saveQuestPanoramaBodyViewpointZMin).max(saveQuestPanoramaBodyViewpointZMax),
+  "yaw": zod.number().min(saveQuestPanoramaBodyViewpointYawMin).max(saveQuestPanoramaBodyViewpointYawMax)
+})
+})
+
+export const SaveQuestPanoramaResponse = zod.object({
+  "saved": zod.boolean()
+})
+
+
+/**
+ * @summary Remove the custom viewpoint and restore the original panorama
+ */
+export const ResetQuestPanoramaParams = zod.object({
+  "id": zod.coerce.string().uuid()
+})
+
+export const ResetQuestPanoramaResponse = zod.object({
+  "saved": zod.boolean()
+})
+
+
+/**
  * Returns server health status
  * @summary Health check
  */
@@ -69,3 +130,5 @@ export const SaveWorldFeedbackResponse = zod.object({
   "average": zod.number().min(1).max(saveWorldFeedbackResponseFeedbackTwoAverageMax)
 }))
 })
+
+

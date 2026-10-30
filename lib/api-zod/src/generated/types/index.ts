@@ -7,6 +7,10 @@
  */
 
 export * from './healthStatus';
+export * from './questPanoramaInput';
+export * from './questPanoramaResult';
+export * from './questPanoramaUpload';
+export * from './questPanoramaViewpoint';
 export * from './worldFeedback';
 export * from './worldFeedbackRatings';
 export * from './worldFeedbackResponse';
