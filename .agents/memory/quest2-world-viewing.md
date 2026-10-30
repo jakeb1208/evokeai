@@ -9,6 +9,12 @@ The user wants within-world movement on desktop/web and Quest 2, like Marble's f
 
 **How to apply:** Keep horizontal navigation at steady rig height with natural head tracking. Quest translation must render an actual 3D scene, not move a camera through a head-centered panorama sphere. Do not claim physical collision or a true room boundary from splats alone. Keep panorama as a fallback and validate stereo rendering, comfort, frame rate and memory use on Quest 2.
 
+The selected third-party splat renderer is not compatible as-is with the user's installed Unity 6.6/URP rendering API.
+
+**Why:** After successful package installation, the user received CS0115 for the renderer's legacy `ScriptableRenderPass.Execute` override. The renderer documents Unity 6000.2.10f1 and 6000.3.14f1 as tested; its supplied URP pass has no Render Graph implementation.
+
+**How to apply:** Do not continue offering graphics-setting changes as a fix for this compile failure, remove `override` to suppress it, or edit the disposable PackageCache. Choose either a separate project using a documented compatible editor or a complete, persistent Render Graph renderer port. Never open the sole newer project in an older editor; preserve the working project and require a separate copy or fresh project for migration.
+
 A device-model check is a compatibility gate for native UI, not proof of device identity or an access-control boundary.
 
 Unity's device model can be generic even when Android identifies a Quest 2 correctly. Do not reject the headset solely because Unity reports “Oculus Quest,” or accept that generic name as proof of Quest 2.

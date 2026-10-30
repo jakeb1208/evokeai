@@ -171,8 +171,14 @@ Save a copy of the working Unity project before changing render settings.
 - Stop immediately if joystick motion causes discomfort. Keep 360° View
   available for seated users who prefer looking around without movement.
 
-The pinned renderer lists Unity 6000.2.10f1 and 6000.3.14f1 as tested versions,
-not the user's Unity 6.6 release. Package import, Android compilation, stereo
+The pinned renderer lists Unity 6000.2.10f1 and 6000.3.14f1 as tested versions.
+**Known blocker in the user's Unity 6.6/URP installation:** its legacy
+`GSRenderPass.Execute` override fails with CS0115. Do not proceed with the
+renderer setup above on that installation as if it were supported. Use a
+separate project with a documented compatible editor, or port the renderer
+properly to the installed Render Graph API. Do not downgrade the sole existing
+project, edit PackageCache, or merely remove `override` to hide the error.
+Android compilation, stereo
 rendering/orientation, scene scale, frame rate, memory use, headset removal,
 Back/logout cleanup, music, and controller UI still require physical Quest 2
 validation. Replit has no Unity editor, Android toolchain, or attached headset,
