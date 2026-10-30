@@ -3,11 +3,11 @@ name: Quest 2 world viewing
 description: Current Quest 2 prototype priorities and device validation decisions
 ---
 
-The user wants within-world movement on desktop/web first, like Marble's fixed-height flying or gliding rather than walking. Quest movement is a separate follow-on; preserve the photo-faithful room-generation priority.
+The user wants within-world movement on desktop/web and Quest 2, like Marble's fixed-height flying or gliding rather than walking. Preserve the photo-faithful room-generation priority.
 
-**Why:** The user requested movement inside generated worlds, chose desktop/web first, and said fixed height is fine.
+**Why:** The user requested desktop/web movement first, accepted fixed height, then explicitly asked to add it on Quest 2.
 
-**How to apply:** Use mouse-look and horizontal keyboard glide at a steady eye height for the desktop/web viewer. Marble Gaussian-splat worlds do not provide solid collision walls, so do not claim physical collision or a true room boundary. Keep Quest locomotion separate and validate it on Quest 2 before enabling it.
+**How to apply:** Keep horizontal navigation at steady rig height with natural head tracking. Quest translation must render an actual 3D scene, not move a camera through a head-centered panorama sphere. Do not claim physical collision or a true room boundary from splats alone. Keep panorama as a fallback and validate stereo rendering, comfort, frame rate and memory use on Quest 2.
 
 A device-model check is a compatibility gate for native UI, not proof of device identity or an access-control boundary.
 

@@ -119,7 +119,7 @@ namespace EvokeQuest
 
         private void AddWorldRow(World world)
         {
-#if EVOKE_WALKABLE_WORLDS
+#if EVOKE_WALKABLE_WORLDS || EVOKE_GLIDE_WORLDS
             GameObject row = new GameObject("World_" + world.id);
             row.transform.SetParent(worldListContent, false);
             RectTransform rowRect = row.AddComponent<RectTransform>();
@@ -134,12 +134,19 @@ namespace EvokeQuest
             horizontal.childForceExpandWidth = true;
             horizontal.childForceExpandHeight = true;
 
-            Button panoramaButton = CreateButton(row.transform, "Panorama", "360° VIEW",
+            Button panoramaButton = CreateButton(row.transform, "Panorama",
+                (world.display_name ?? "Untitled world") + "\n360° VIEW",
                 Vector2.zero, new Vector2(390f, 72f), () => OpenWorld(world.id, world.display_name));
             panoramaButton.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
+#if EVOKE_GLIDE_WORLDS
+            Button glideButton = CreateButton(row.transform, "Glide", "GLIDE · TEST",
+                Vector2.zero, new Vector2(390f, 72f), () => OpenGlideWorld(world.id, world.display_name));
+            glideButton.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
+#else
             Button walkButton = CreateButton(row.transform, "Walk", "WALK · TEST",
                 Vector2.zero, new Vector2(390f, 72f), () => OpenWalkableWorld(world.id, world.display_name));
             walkButton.gameObject.AddComponent<LayoutElement>().flexibleWidth = 1f;
+#endif
 #else
             Button button = CreateButton(worldListContent, "World_" + world.id, world.display_name ?? "Untitled panorama",
                 Vector2.zero, new Vector2(800f, 72f), () => OpenWorld(world.id, world.display_name));
@@ -163,6 +170,9 @@ namespace EvokeQuest
         private void OpenWorld(string id, string displayName)
         {
             if (busy) return;
+#if EVOKE_GLIDE_WORLDS
+            StopGlideWorld();
+#endif
 #if EVOKE_WALKABLE_WORLDS
             StopWalkableWorld();
 #endif

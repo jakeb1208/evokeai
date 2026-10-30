@@ -126,3 +126,17 @@ mtime_ms = 1792684619871
 storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/6fef80dc-2136-44db-b0a6-d0a7dab81fee/8a86a4e4-d163-4f0f-a2d7-767c9a58ce66"
 storage_version_token = "1792684669702440"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "_k7F1hAgwSsRqoHXho1Y6"
+uri = "file://generated-artifacts/evoke-quest2-glide-source.zip"
+type = "unspecified"
+title = "Quest 2 Glide — Unity source update"
+description = "Updated Unity client scripts and setup guide for experimental fixed-height joystick glide. Merge into your existing Unity project; preserve your config and .meta files. Source only, not an APK; requires the documented renderer setup and a new headset build."
+logical_id = "d21b3c23-c443-4dfe-9f50-42d30612e409"
+content_hash = "sha256:0ac0bd36ab6300bef01e69934449a3453badad5960508c2d77b7c30af696d5d6"
+size = 37865
+mtime_ms = 1793327539721
+storage_uri = "gcs://replit-rams-assets-riker/rams/assets/repl:a19ffd36-c186-4edc-b402-4855c4dbddba/d21b3c23-c443-4dfe-9f50-42d30612e409/5f378c8f-f93a-41c9-a37e-fdb915bd125d"
+storage_version_token = "1793327570711357"
+content_type = "application/octet-stream"

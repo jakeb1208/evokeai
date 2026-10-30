@@ -3,8 +3,9 @@
 This is a **separate Unity client** for Meta Quest 2. It uses the same Supabase
 email/password accounts and the same saved worlds as the Evoke website, but has
 its own headset UI. After sign-in it has three screens: Immerse (your saved
-worlds and 360° panorama viewer), How It Works, and Music. Walk mode is
-deferred while the prototype focuses on room generation. World creation and
+worlds and 360° panorama viewer), How It Works, and Music. Optional experimental
+Glide mode loads the actual 3D scene for fixed-height joystick exploration.
+Walking/stairs remain separate from Glide. World creation and
 editing remain on the website.
 
 Unity and the Android/Quest toolchain are not available in this Replit
@@ -101,9 +102,9 @@ ready worlds will appear in the Quest library when you refresh it.
   no compile-time UnityPlayer JAR dependency; its Android library build targets
   compile SDK 35. Unity 6 Android Gradle/manifest merging and SDK availability
   must still be checked in a generated build on the target Unity installation.
-- Walk mode is deferred for the prototype. Do not install its community
-  rendering packages or define `EVOKE_WALKABLE_WORLDS`; use the existing
-  panorama client while room-generation quality is the priority.
+- Glide requires the optional SPZ renderer and `EVOKE_GLIDE_WORLDS` define;
+  follow the setup below. Do not enable `EVOKE_WALKABLE_WORLDS` for Glide.
+  Glide does not need GLB collision meshes, glTFast, stairs, or a NavMesh.
 - Before sharing the APK, validate on a **physical Quest 2**: controller
   selection and keyboard input, sign-in, opening and returning from a panorama,
   session refresh after token expiry, native MP3 picking/upload/playback,
@@ -111,3 +112,68 @@ ready worlds will appear in the Quest library when you refresh it.
   non-Quest-2 Android device. No Unity/Android toolchain or attached physical
   Quest is available here, so a Unity build and device validation remain
   necessary, especially for the experimental walk mode.
+
+## Experimental Quest 2 Glide setup
+
+**This is source code, not an installed headset update.** Merge the supplied
+`EvokeQuest/Scripts` into your existing `Assets/EvokeQuest/Scripts` folder.
+Keep your existing `.meta` files, scene, Resources, plugins, and config JSON.
+Save a copy of the working Unity project before changing render settings.
+
+1. Install **Git for Windows** if Unity previously reported no Git executable.
+   Close both Unity and Unity Hub after installation, then reopen them.
+2. In Package Manager, choose **Add package from Git URL**:
+
+   ```text
+   https://github.com/nigelhartm/worldlabs_unity.git#207cd3f136d588fe21426519bd0cde7df7f18b0a
+   ```
+
+   Allow its declared dependencies to install. **Do not use the package's
+   API-connected world browser or supply it with your Marble API key.** Evoke
+   loads only the signed, owner-checked assets from its existing API.
+3. Follow the pinned renderer's requirements:
+   - Active URP Renderer Data: add **GaussianSplatURPFeature**.
+   - Graphics settings: enable **Compatibility Mode (Render Graph disabled)**.
+   - Android Graphics APIs: use **Vulkan**.
+   - Android OpenXR: use **Multi-pass** rendering.
+   - The renderer recommends Depth Texture and HDR on, MSAA off.
+   - If testing its rendering in the Windows Editor, use Vulkan or D3D12,
+     **not D3D11**. This does not mean changing the Android build target.
+4. In **Player → Android → Other Settings → Scripting Define Symbols**, add
+   `EVOKE_GLIDE_WORLDS`, preserving existing symbols. Leave
+   `EVOKE_WALKABLE_WORLDS` off unless deliberately testing the separate older
+   walking implementation with all its additional dependencies.
+5. Select the **XR Origin**, open the Evoke client component's menu, choose
+   **Assign Glide Mode Renderer Assets**, and confirm all six Glide shader /
+   compute fields are populated. Save the scene.
+6. **Build And Run** a new Android APK on Quest 2. The Immerse list now offers
+   **360° VIEW** and **GLIDE · TEST**. Existing installed APKs do not update
+   themselves when files in Replit change.
+
+### Controls and limits
+
+- **Left joystick:** move horizontally relative to the direction you look.
+  The rig's height stays fixed; real head tracking remains enabled.
+- **Right joystick left/right:** 45° snap-turn, once per stick deflection.
+  Return the stick to center before turning again.
+- **Press the left joystick:** reset the rig to its starting position and turn.
+- **Back:** return to the library; the 3D scene unloads and the original rig
+  position/rotation is restored. Logout also unloads the scene.
+- Movement is disabled while loading, on other screens, when the app loses
+  focus, or when the headset reports it is not being worn.
+- Slow default speed: **0.8 units/second**, configurable on the component.
+  Metric scale is applied when supplied by the world metadata.
+- Only 100k or 150k SPZ assets are accepted, with a decoded 150k-splat cap and
+  a 96 MiB download cap. Larger desktop assets are not silently loaded.
+- **No collision, stairs, gravity, or true room boundary.** You can pass through
+  furniture/walls or leave the reconstructed area. Reset brings you back.
+  Glide does not repair distortions or invent missing geometry.
+- Stop immediately if joystick motion causes discomfort. Keep 360° View
+  available for seated users who prefer looking around without movement.
+
+The pinned renderer lists Unity 6000.2.10f1 and 6000.3.14f1 as tested versions,
+not the user's Unity 6.6 release. Package import, Android compilation, stereo
+rendering/orientation, scene scale, frame rate, memory use, headset removal,
+Back/logout cleanup, music, and controller UI still require physical Quest 2
+validation. Replit has no Unity editor, Android toolchain, or attached headset,
+so these source changes have **not** been Unity-compiled or device-tested here.

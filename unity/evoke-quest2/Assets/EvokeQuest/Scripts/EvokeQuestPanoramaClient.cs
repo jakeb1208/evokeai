@@ -73,7 +73,12 @@ namespace EvokeQuest
             public string status;
             public string display_name;
             public Asset[] assets;
+            public MarbleWorld marble_world;
         }
+        [Serializable] private sealed class MarbleWorld { public MarbleWorldAssets assets; }
+        [Serializable] private sealed class MarbleWorldAssets { public MarbleSplats splats; }
+        [Serializable] private sealed class MarbleSplats { public MarbleSemantics semantics_metadata; }
+        [Serializable] private sealed class MarbleSemantics { public float metric_scale_factor; }
         [Serializable] private sealed class Asset
         {
             public string kind;
@@ -314,6 +319,9 @@ namespace EvokeQuest
 
         private void RemovePanorama()
         {
+#if EVOKE_GLIDE_WORLDS
+            StopGlideWorld();
+#endif
             if (panoramaObject != null)
                 Destroy(panoramaObject);
             panoramaObject = null;

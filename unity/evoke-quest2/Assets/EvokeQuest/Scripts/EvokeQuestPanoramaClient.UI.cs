@@ -128,13 +128,17 @@ namespace EvokeQuest
             CreateText(howPanel.transform, "HowStep1", "01  DESCRIBE\nPut the first version of your idea into words.", 27, TextAnchor.MiddleLeft, new Vector2(-390f, 10f), new Vector2(780f, 72f));
             CreateText(howPanel.transform, "HowStep2", "02  SHAPE\nAdd detail, direction, and the pieces that make it yours.", 27, TextAnchor.MiddleLeft, new Vector2(-390f, -80f), new Vector2(780f, 72f));
             CreateText(howPanel.transform, "HowStep3", "03  REINFORCE\nKeep refining until the world feels ready to step into.", 27, TextAnchor.MiddleLeft, new Vector2(-390f, -170f), new Vector2(780f, 72f));
+#if EVOKE_GLIDE_WORLDS
+            CreateText(howPanel.transform, "HowLimit", "360° View: look around. Glide · Test: left stick moves at fixed height; right stick snap-turns. No solid wall collisions. Create/edit worlds on the website.", 21, TextAnchor.MiddleLeft, new Vector2(-410f, -245f), new Vector2(820f, 75f));
+#else
             CreateText(howPanel.transform, "HowLimit", "In VR, choose a ready panorama and look around from a fixed viewpoint. World creation, editing, and positional 3D movement are not available here.", 21, TextAnchor.MiddleLeft, new Vector2(-410f, -245f), new Vector2(820f, 75f));
+#endif
         }
 
         private void BuildViewer()
         {
             viewerPanel = NewPanel("ViewerPanel");
-            viewerStatus = CreateText(viewerPanel.transform, "ViewerStatus", "Preparing panorama…", 17, TextAnchor.MiddleCenter, new Vector2(0f, 310f), new Vector2(700f, 36f));
+            viewerStatus = CreateText(viewerPanel.transform, "ViewerStatus", "Preparing panorama…", 17, TextAnchor.MiddleCenter, new Vector2(0f, 265f), new Vector2(700f, 110f));
             CreateButton(viewerPanel.transform, "Back", "← IMMERSE", new Vector2(-365f, -300f), new Vector2(180f, 56f), BackToWorlds);
             CreateButton(viewerPanel.transform, "ViewerLogout", "LOG OUT", new Vector2(365f, -300f), new Vector2(180f, 56f), Logout);
         }

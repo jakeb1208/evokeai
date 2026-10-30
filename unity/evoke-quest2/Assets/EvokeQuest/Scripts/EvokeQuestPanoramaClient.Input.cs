@@ -88,6 +88,9 @@ namespace EvokeQuest
 #if EVOKE_WALKABLE_WORLDS
             UpdateWalkableLocomotion();
 #endif
+#if EVOKE_GLIDE_WORLDS
+            UpdateGlideLocomotion();
+#endif
             UpdateMusicUi();
 #if UNITY_EDITOR
             PollEditorMouse();
