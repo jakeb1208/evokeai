@@ -6,4 +6,4 @@
 - [World feedback scope](world-feedback-scope.md) — keep editable private star ratings on desktop/web, not in the Unity headset client.
 - [Private music playback](private-music-playback.md) — keep account music in Supabase and preserve shuffle-cycle state across failures, uploads, and navigation.
 - [World status query payloads](world-status-query-payloads.md) — poll lightweight status fields; fetch the large Marble world payload only after completion.
-- [Unity build diagnostics](unity-build-diagnostics.md) — Unity 6.6 may redirect Windows Editor logs into the project; follow the startup log’s destination.
+- [Unity build diagnostics](unity-build-diagnostics.md) — Windows log redirection, Android module SDK mismatches, and Hub/Git PATH inheritance quirks.
